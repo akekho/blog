@@ -4,11 +4,14 @@ package cn.liangjiateng.pojo;
  * Created by Jiateng on 5/28/18.
  */
 public class Article extends AbstractPojo {
+
     private Integer id;
     private String title;
     private String content;
     private String contentMd;
+    private String preface;
     private Integer status;
+    private Integer pv;
 
     public Integer getId() {
         return id;
@@ -24,6 +27,14 @@ public class Article extends AbstractPojo {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getPreface() {
+        return preface;
+    }
+
+    public void setPreface(String preface) {
+        this.preface = preface;
     }
 
     public String getContent() {
@@ -49,4 +60,45 @@ public class Article extends AbstractPojo {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    public Integer getPv() {
+        return pv;
+    }
+
+    public void setPv(Integer pv) {
+        this.pv = pv;
+    }
+
+    private enum Status {
+        OFFLINE(0),
+        ONLINE(1),
+        DELETE(2);
+
+        private int val;
+
+        Status(int val) {
+            this.val = val;
+        }
+
+        public int getVal() {
+            return val;
+        }
+    }
+
+    private enum SortType {
+        TIME_DESC(0),
+        TIME_ASC(1),
+        PV(2);
+
+        private int val;
+
+        SortType(int val) {
+            this.val = val;
+        }
+
+        public int getVal() {
+            return val;
+        }
+    }
+
 }
