@@ -40,7 +40,7 @@ public class ArticleServiceImpl implements ArticleService {
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         Page<Article> page = new Page<>(pageSize);
         page.setPage(1);
-        return articleMapper.listArticlesSortBy(Article.SortType.TIME_DESC.getVal(), Article.Status.ONLINE.getVal(), page);
+        return articleMapper.listArticlesSortBy(Article.SortType.PV.getVal(), Article.Status.ONLINE.getVal(), page);
     }
 
     @Override

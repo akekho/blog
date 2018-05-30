@@ -71,8 +71,6 @@ public class ArticleServiceTest {
     public void listHottestArticles() throws Exception {
         List<Article> articles = articleService.listHottestArticles(config.getMediumPage());
         Assert.assertEquals(config.getMediumPage(), articles.size());
-        System.out.println(articles.get(0).getPv());
-        System.out.println(articles.get(3).getPv());
         Assert.assertTrue(articles.get(0).getPv() >= articles.get(3).getPv());
         Assert.assertTrue(articles.get(0).getCreateTime().getTime() >= articles.get(3).getCreateTime().getTime());
     }
@@ -89,7 +87,7 @@ public class ArticleServiceTest {
 
     @Test
     public void listArticleByNameSortBy() throws Exception {
-        Page<Article> page = articleService.listArticleByNameSortBy(Article.SortType.PV, "爸爸", config.getSmallPage(), 1);
+        Page<Article> page = articleService.listArticleByNameSortBy(Article.SortType.PV, "啊", config.getSmallPage(), 1);
         Assert.assertEquals(90, page.getMaxCount());
         Assert.assertEquals(config.getSmallPage(), page.getData().size());
         Assert.assertTrue(page.getData().get(0).getPv() >= page.getData().get(3).getPv());
