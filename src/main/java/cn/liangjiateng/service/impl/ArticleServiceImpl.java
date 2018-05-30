@@ -20,9 +20,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleMapper articleMapper;
 
+
     @Override
     public Page<Article> listArticlesSortBy(Article.SortType sortType, int pageSize, int page) throws Exception {
-        if (pageSize <= 0)
+        if (pageSize <= 0 || page <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         long count = articleMapper.countArticlesByStatus(Article.Status.ONLINE.getVal());
         Page<Article> pageHolder = new Page<>(pageSize);
@@ -34,48 +35,91 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> listHottestArticles(int pageSize) throws Exception {
-        return null;
+    public List<Article> listHottestArticles(int pageSize) throws Exception {
+        if (pageSize <= 0)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
+        Page<Article> page = new Page<>(pageSize);
+        page.setPage(1);
+        return articleMapper.listArticlesSortBy(Article.SortType.TIME_DESC.getVal(), Article.Status.ONLINE.getVal(), page);
     }
 
     @Override
     public Page<Article> listDrafts(Article.SortType sortType, int pageSize, int page) throws Exception {
-        return null;
+        if (pageSize <= 0 || page <= 0)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
+        long count = articleMapper.countArticlesByStatus(Article.Status.OFFLINE.getVal());
+        Page<Article> pageHolder = new Page<>(pageSize);
+        pageHolder.setMaxCount(count);
+        pageHolder.setPage(page);
+        List<Article> articles = articleMapper.listArticlesSortBy(sortType.getVal(), Article.Status.OFFLINE.getVal(), pageHolder);
+        pageHolder.setData(articles);
+        return pageHolder;
     }
 
     @Override
     public Page<Article> listArticleByNameSortBy(Article.SortType sortType, String name, int pageSize, int page) throws Exception {
-        return null;
+        if (pageSize <= 0 || page <= 0)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
+        long count = articleMapper.countArticlesByStatus(Article.Status.ONLINE.getVal());
+        Page<Article> pageHolder = new Page<>(pageSize);
+        pageHolder.setMaxCount(count);
+        pageHolder.setPage(page);
+        List<Article> articles = articleMapper.listArticlesByNameSortBy(name, sortType.getVal(), Article.Status.ONLINE.getVal(), pageHolder);
+        pageHolder.setData(articles);
+        return pageHolder;
     }
 
 
     @Override
     public Article getArticleById(int id) throws Exception {
-        return null;
+        Article article = articleMapper.getArticleById(id);
+        if (article == null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
+        return article;
     }
 
     @Override
     public void updateArticle(Article article) throws Exception {
-
+        if (article == null)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
+        articleMapper.updateArticle(article);
     }
 
     @Override
     public void postArticleById(int id) throws Exception {
-
+        Article article = articleMapper.getArticleById(id);
+        if (article == null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
+        articleMapper.updateArticleStatusById(id, Article.Status.ONLINE.getVal());
     }
 
     @Override
     public void offlineArticleById(int id) throws Exception {
-
+        Article article = articleMapper.getArticleById(id);
+        if (article == null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
+        articleMapper.updateArticleStatusById(id, Article.Status.OFFLINE.getVal());
     }
 
     @Override
     public void deleteArticleById(int id) throws Exception {
-
+        Article article = articleMapper.getArticleById(id);
+        if (article == null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
+        articleMapper.updateArticleStatusById(id, Article.Status.DELETED.getVal());
     }
 
     @Override
     public void createNewArticle(Article article) throws Exception {
-
+        if (article == null)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
+        if (article.getTitle() == null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "缺少文章标题");
+        if (article.getContent() == null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "缺少富文本内容");
+        if (article.getContentMd() == null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "缺少Markdown内容");
+        article.setStatus(Article.Status.OFFLINE.getVal());
+        articleMapper.insertArticle(article);
     }
 }

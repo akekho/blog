@@ -10,20 +10,25 @@ import java.util.List;
 public interface ArticleMapper {
 
     @Select("select count(*) from article where status = #{status}")
-    long countArticlesByStatus(@Param("status") int status);
+    long countArticlesByStatus(int status);
 
     @Select("select count(*) from article where status = #{status} and category_id = #{categoryId}")
-    long countArticlesByCategoryIdAndStatus(int categoryId, int status);
+    long countArticlesByCategoryIdAndStatus(@Param("categoryId") int categoryId,
+                                            @Param("status") int status);
 
     @Select("select * from article where id = #{id}")
     Article getArticleById(int id);
+
+    @Select("select * from article where title = #{title}")
+    Article getArticleByTitle(String title);
 
     @Select("<script>select * from article where status = #{status} " +
             "order by <if test=\"sortType == 0\">create_time desc</if>" +
             "<if test=\"sortType == 1\">create_time asc</if>" +
             "<if test=\"sortType == 2\">pv desc</if>" +
             " limit #{page.limit}, #{page.pageSize}</script>")
-    List<Article> listArticlesSortBy(@Param("sortType") int sortType, @Param("status") int status, @Param("page") Page page);
+    List<Article> listArticlesSortBy(@Param("sortType") int sortType, @Param("status") int status,
+                                     @Param("page") Page page);
 
     @Select("<script>select * from article where status = #{status} " +
             "and categoryId = #{categoryId} " +
@@ -31,35 +36,40 @@ public interface ArticleMapper {
             "<if test=\"sortType == 1\">create_time asc</if>" +
             "<if test=\"sortType == 2\">pv desc</if>" +
             " limit #{page.limit}, #{page.pageSize}</script>")
-    List<Article> listArticlesByCategoryIdSortBy(int categoryId, int sortType, int status, Page page);
+    List<Article> listArticlesByCategoryIdSortBy(@Param("categoryId") int categoryId, @Param("sortType") int sortType,
+                                                 @Param("status") int status, @Param("page") Page page);
 
     @Select("<script>select * from article where status = #{status} " +
-            "and name like '%${text}%' " +
+            "and title like concat('%',#{title},'%') " +
             "order by <if test=\"sortType == 0\">create_time desc</if>" +
             "<if test=\"sortType == 1\">create_time asc</if>" +
             "<if test=\"sortType == 2\">pv desc</if>" +
             " limit #{page.limit}, #{page.pageSize}</script>")
-    List<Article> listArticlesByNameSortBy(String name, int sortType, int status, Page page);
+    List<Article> listArticlesByNameSortBy(@Param("title") String title, @Param("sortType") int sortType,
+                                           @Param("status") int status, @Param("page") Page page);
 
     @Update("update article set status = #{status}, update_time = now() where id = #{id}")
-    void updateArticleStatusById(int id, int status);
+    void updateArticleStatusById(@Param("id") int id, @Param("status") int status);
 
     @Update("update article set pv = #{pv}, update_time = now() where id = #{id}")
-    void updateArticlePvById(int id, int pv);
+    void updateArticlePvById(@Param("id") int id, @Param("pv") int pv);
 
-    @Update("<script>update article set <if test=\"article.title != null\">title = #{article.title}, </if>" +
-            "<if test=\"article.content != null\">content = #{article.content}, </if>" +
-            "<if test=\"article.contentMd != null\">content_md = #{article.contentMd}, </if>" +
-            "<if test=\"article.preface != null\">preface = #{article.preface}, </if>" +
-            "<if test=\"article.status != null\">status = #{article.status}, </if>" +
-            "<if test=\"article.pv != null\">status = #{article.pv}, </if>" +
+    @Update("<script>update article set <if test=\"title != null\">title = #{title}, </if>" +
+            "<if test=\"content != null\">content = #{content}, </if>" +
+            "<if test=\"contentMd != null\">content_md = #{contentMd}, </if>" +
+            "<if test=\"preface != null\">preface = #{preface}, </if>" +
+            "<if test=\"status != null\">status = #{status}, </if>" +
+            "<if test=\"pv != null\">status = #{pv}, </if>" +
             "update_time = now() " +
             "where id = #{article.id}</script>")
     void updateArticle(Article article);
 
     @Insert("insert into article(title, content, content_md, status, pv, preface, create_time, update_time) " +
-            "values (#{article.title}, #{article.content}, #{article.content_md}, " +
-            "#{article.status}, #{article.pv}, #{article.preface}, now(), now())")
+            "values (#{title}, #{content}, #{contentMd}, " +
+            "#{status}, #{pv}, #{preface}, now(), now())")
     void insertArticle(Article article);
+
+    @Delete("delete from article")
+    void deleteAllArticles();
 
 }
