@@ -69,10 +69,10 @@ public class Article extends AbstractPojo {
         this.pv = pv;
     }
 
-    private enum Status {
+    public enum Status {
         OFFLINE(0),
         ONLINE(1),
-        DELETE(2);
+        DELETED(2);
 
         private int val;
 
@@ -85,7 +85,7 @@ public class Article extends AbstractPojo {
         }
     }
 
-    private enum SortType {
+    public enum SortType {
         TIME_DESC(0),
         TIME_ASC(1),
         PV(2);

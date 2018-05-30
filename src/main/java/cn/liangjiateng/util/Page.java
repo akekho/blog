@@ -8,7 +8,7 @@ public class Page<T> {
 
     private int pageSize;   //每页数据量
 
-    private int maxCount;   // 数据总条数
+    private long maxCount;   // 数据总条数
 
     private List<T> data;
 
@@ -32,21 +32,17 @@ public class Page<T> {
         return pageSize;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getMaxCount() {
+    public long getMaxCount() {
         return maxCount;
     }
 
-    public void setMaxCount(int maxCount) {
+    public void setMaxCount(long maxCount) {
         this.maxCount = maxCount;
     }
 
     public int getMaxPage() {
-        return maxCount % pageSize > 0 ? (maxCount / pageSize) + 1 : maxCount
-                / pageSize < 1 ? 1 : maxCount / pageSize;
+        return (int) (maxCount % pageSize > 0 ? (maxCount / pageSize) + 1 : maxCount
+                        / pageSize < 1 ? 1 : maxCount / pageSize);
     }
 
     public List<T> getData() {

@@ -8,7 +8,7 @@ create table article
   comment '文章内容, html',
   content_md  text                                null
   comment '文章内容，markdown',
-  preface     varchar(256)
+  preface     varchar(256),
   status      int default '0'                     not null
   comment '0=草稿，文章没上线到主站；1=上线；2=删除',
   create_time timestamp default CURRENT_TIMESTAMP not null,

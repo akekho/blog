@@ -29,4 +29,15 @@ public class Config {
         return largePage;
     }
 
+    public void setSmallPage(int smallPage) {
+        this.smallPage = smallPage;
+    }
+
+    public void setMediumPage(int mediumPage) {
+        this.mediumPage = mediumPage;
+    }
+
+    public void setLargePage(int largePage) {
+        this.largePage = largePage;
+    }
 }

@@ -2,15 +2,18 @@ package cn.liangjiateng.mapper;
 
 import cn.liangjiateng.pojo.Article;
 import cn.liangjiateng.util.Page;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
 public interface ArticleMapper {
+
+    @Select("select count(*) from article where status = #{status}")
+    long countArticlesByStatus(@Param("status") int status);
+
+    @Select("select count(*) from article where status = #{status} and category_id = #{categoryId}")
+    long countArticlesByCategoryIdAndStatus(int categoryId, int status);
 
     @Select("select * from article where id = #{id}")
     Article getArticleById(int id);
@@ -20,7 +23,7 @@ public interface ArticleMapper {
             "<if test=\"sortType == 1\">create_time asc</if>" +
             "<if test=\"sortType == 2\">pv desc</if>" +
             " limit #{page.limit}, #{page.pageSize}</script>")
-    List<Article> listArticlesSortBy(int sortType, int status, Page page);
+    List<Article> listArticlesSortBy(@Param("sortType") int sortType, @Param("status") int status, @Param("page") Page page);
 
     @Select("<script>select * from article where status = #{status} " +
             "and categoryId = #{categoryId} " +
@@ -36,7 +39,7 @@ public interface ArticleMapper {
             "<if test=\"sortType == 1\">create_time asc</if>" +
             "<if test=\"sortType == 2\">pv desc</if>" +
             " limit #{page.limit}, #{page.pageSize}</script>")
-    List<Article> listArticlesBySearchNameSortBy(String name, int sortType, int status, Page page);
+    List<Article> listArticlesByNameSortBy(String name, int sortType, int status, Page page);
 
     @Update("update article set status = #{status}, update_time = now() where id = #{id}")
     void updateArticleStatusById(int id, int status);
