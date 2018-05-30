@@ -1,6 +1,6 @@
 package cn.liangjiateng.service;
 
-import cn.liangjiateng.pojo.Article;
+import cn.liangjiateng.pojo.DO.Article;
 import cn.liangjiateng.util.Page;
 
 import java.util.List;

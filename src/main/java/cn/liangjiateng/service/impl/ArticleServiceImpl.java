@@ -3,7 +3,7 @@ package cn.liangjiateng.service.impl;
 import cn.liangjiateng.common.ErrorCode;
 import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.mapper.ArticleMapper;
-import cn.liangjiateng.pojo.Article;
+import cn.liangjiateng.pojo.DO.Article;
 import cn.liangjiateng.service.ArticleService;
 import cn.liangjiateng.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +82,14 @@ public class ArticleServiceImpl implements ArticleService {
     public void updateArticle(Article article) throws Exception {
         if (article == null)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
+        if (article.getTitle().length() > 30)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "文章标题不能超过30个字符");
+        Article check = articleMapper.getArticleById(article.getId());
+        if (check == null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
+        check = articleMapper.getArticleByTitle(article.getTitle());
+        if (check != null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文章标题已存在");
         articleMapper.updateArticle(article);
     }
 
@@ -113,12 +121,11 @@ public class ArticleServiceImpl implements ArticleService {
     public void createNewArticle(Article article) throws Exception {
         if (article == null)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
-        if (article.getTitle() == null)
-            throw new ServiceException(ErrorCode.FAIL.getCode(), "缺少文章标题");
-        if (article.getContent() == null)
-            throw new ServiceException(ErrorCode.FAIL.getCode(), "缺少富文本内容");
-        if (article.getContentMd() == null)
-            throw new ServiceException(ErrorCode.FAIL.getCode(), "缺少Markdown内容");
+        if (article.getTitle().length() > 30)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "文章标题不能超过30个字符");
+        Article check = articleMapper.getArticleByTitle(article.getTitle());
+        if (check != null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文章标题已存在");
         article.setStatus(Article.Status.OFFLINE.getVal());
         articleMapper.insertArticle(article);
     }

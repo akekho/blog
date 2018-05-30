@@ -1,9 +1,9 @@
-package cn.liangjiateng.pojo;
+package cn.liangjiateng.pojo.DO;
 
 /**
  * Created by Jiateng on 5/28/18.
  */
-public class Article extends AbstractPojo {
+public class Article extends AbstractDO {
 
     private Integer id;
     private String title;
@@ -12,6 +12,7 @@ public class Article extends AbstractPojo {
     private String preface;
     private Integer status;
     private Integer pv;
+    private Integer categoryId;
 
     public Integer getId() {
         return id;
@@ -67,6 +68,14 @@ public class Article extends AbstractPojo {
 
     public void setPv(Integer pv) {
         this.pv = pv;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public enum Status {

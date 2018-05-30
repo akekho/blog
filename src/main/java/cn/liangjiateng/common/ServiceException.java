@@ -30,7 +30,7 @@ public class ServiceException extends Exception {
     public String getMessage() {
         return "[Error code]: " + code + "\n" +
                 "[Message]: " + super.getMessage() +
-                "\n [Time]: " + date;
+                "\n[Time]: " + date;
     }
 
     public String getCallStack(){

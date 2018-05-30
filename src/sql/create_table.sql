@@ -8,9 +8,11 @@ create table article
   comment '文章内容, html',
   content_md  text                                null
   comment '文章内容，markdown',
+  category_id int                                 null,
   preface     varchar(256),
-  status      int default '0'                     not null
+  status      int default 0                       not null
   comment '0=草稿，文章没上线到主站；1=上线；2=删除',
+  pv          int default 0                       not null,
   create_time timestamp default CURRENT_TIMESTAMP not null,
   update_time timestamp default CURRENT_TIMESTAMP not null,
   constraint article_title_uindex

@@ -1,4 +1,4 @@
-package cn.liangjiateng.pojo;
+package cn.liangjiateng.pojo.DO;
 
 /**
  * Created by Jiateng on 5/28/18.
