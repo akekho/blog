@@ -69,6 +69,19 @@ public class ArticleServiceImpl implements ArticleService {
         return pageHolder;
     }
 
+    @Override
+    public Page<Article> listArticleByCategorySortBy(Article.SortType sortType, int categoryId, int pageSize, int page) throws Exception {
+        if (pageSize <= 0 || page <= 0)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
+        long count = articleMapper.countArticlesByCategoryIdAndStatus(categoryId, Article.Status.ONLINE.getVal());
+        Page<Article> pageHolder = new Page<>(pageSize);
+        pageHolder.setMaxCount(count);
+        pageHolder.setPage(page);
+        List<Article> articles = articleMapper.listArticlesByCategoryIdSortBy(categoryId, sortType.getVal(), Article.Status.ONLINE.getVal(), pageHolder);
+        pageHolder.setData(articles);
+        return pageHolder;
+    }
+
 
     @Override
     public Article getArticleById(int id) throws Exception {
@@ -110,6 +123,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public void addPvById(int id, int cnt) throws Exception {
+        Article article = articleMapper.getArticleById(id);
+        if (article == null)
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
+        articleMapper.updateArticlePvById(id, article.getPv() + cnt);
+    }
+
+    @Override
     public void deleteArticleById(int id) throws Exception {
         Article article = articleMapper.getArticleById(id);
         if (article == null)
@@ -129,4 +150,6 @@ public class ArticleServiceImpl implements ArticleService {
         article.setStatus(Article.Status.OFFLINE.getVal());
         articleMapper.insertArticle(article);
     }
+
+
 }

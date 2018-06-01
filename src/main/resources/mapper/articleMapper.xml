@@ -13,7 +13,7 @@
 
     <select id="listArticlesByCategoryIdSortBy" resultType="cn.liangjiateng.pojo.DO.Article">
         select * from article where status = #{status}
-        and categoryId = #{categoryId}
+        and category_id = #{categoryId}
         order by
         <if test="sortType == 0">create_time desc</if>
         <if test="sortType == 1">create_time asc</if>

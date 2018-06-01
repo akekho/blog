@@ -54,6 +54,18 @@ public interface ArticleService {
     Page<Article> listArticleByNameSortBy(Article.SortType sortType, String name, int pageSize, int page) throws Exception;
 
     /**
+     * 根据文章分类列出文章, 列出线上的
+     *
+     * @param sortType   排序方式 1.TIME_DESC 2.TIME_ASC 3.PV
+     * @param categoryId 分类Id
+     * @param pageSize   每页数据量大小
+     * @param page       页码
+     * @return
+     * @throws Exception
+     */
+    Page<Article> listArticleByCategorySortBy(Article.SortType sortType, int categoryId, int pageSize, int page) throws Exception;
+
+    /**
      * 获取文章
      *
      * @param id 文章id
@@ -85,6 +97,15 @@ public interface ArticleService {
      * @throws Exception
      */
     void offlineArticleById(int id) throws Exception;
+
+    /**
+     * 给文章增加访问量 Todo: 考虑一下并发场景
+     *
+     * @param id  文章id
+     * @param cnt 增加的访问量
+     * @throws Exception
+     */
+    void addPvById(int id, int cnt) throws Exception;
 
     /**
      * 删除文章

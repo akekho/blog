@@ -42,13 +42,18 @@ public class ArticleServiceTest {
             article.setContentMd("# 我是你爸爸" + i);
             article.setPreface("/cn/liangjiateng/" + (31 * i + 1031 - i * 19) + ".png");
             article.setPv(i * 1972 + i * 21);
+            article.setCategoryId(1);
             article.setTitle("标题啊" + i);
             if (i % 100 == 0)
                 article.setStatus(Article.Status.DELETED.getVal());
             else if (i % 10 == 0)
                 article.setStatus(Article.Status.OFFLINE.getVal());
-            else
+            else {
+                if (i % 3 == 0)
+                    article.setCategoryId(2);
                 article.setStatus(Article.Status.ONLINE.getVal());
+            }
+
             articleMapper.insertArticle(article);
         }
 
@@ -153,5 +158,20 @@ public class ArticleServiceTest {
         Assert.assertEquals("ssss", target.getContent());
         Assert.assertEquals(Article.Status.OFFLINE.getVal(), (int) target.getStatus());
         Assert.assertEquals(0, (int) target.getPv());
+    }
+
+    @Test
+    public void listArticleByCategorySortBy() throws Exception {
+        Page<Article> page = articleService.listArticleByCategorySortBy(Article.SortType.TIME_DESC, 2, config.getSmallPage(), 1);
+        Assert.assertEquals(2, (int) page.getData().get(0).getCategoryId());
+        Assert.assertEquals(config.getSmallPage(),  page.getData().size());
+    }
+
+    @Test
+    public void addPvById() throws Exception {
+        Article article = articleMapper.getArticleByTitle("标题啊1");
+        articleService.addPvById(article.getId(), 10);
+        Article target = articleMapper.getArticleByTitle("标题啊1");
+        Assert.assertEquals(article.getPv() + 10, (long) target.getPv());
     }
 }
