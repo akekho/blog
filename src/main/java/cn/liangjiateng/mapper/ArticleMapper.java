@@ -3,6 +3,7 @@ package cn.liangjiateng.mapper;
 import cn.liangjiateng.pojo.DO.Article;
 import cn.liangjiateng.util.Page;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -27,6 +28,9 @@ public interface ArticleMapper {
 
     List<Article> listArticlesByCategoryIdSortBy(@Param("categoryId") int categoryId, @Param("sortType") int sortType,
                                                  @Param("status") int status, @Param("page") Page page);
+
+    @Select("select * from article where category_id = #{categoryId}")
+    List<Article> listArticlesByCategoryId(int categoryId);
 
     List<Article> listArticlesByNameSortBy(@Param("title") String title, @Param("sortType") int sortType,
                                            @Param("status") int status, @Param("page") Page page);
