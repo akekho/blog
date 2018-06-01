@@ -14,9 +14,12 @@ public class ServiceException extends Exception {
 
     private String date = DateUtil.getCurrentTime(DateUtil.DateFormat.INTACT);
 
+    private String message;
+
     public ServiceException(int errCode, String message) {
         super(message);
         this.code = errCode;
+        this.message = message;
     }
 
     public ServiceException(String message, Throwable cause) {
@@ -27,10 +30,13 @@ public class ServiceException extends Exception {
         return code;
     }
 
-    public String getMessage() {
-        return "[Error code]: " + code + "\n" +
-                "[Message]: " + super.getMessage() +
-                "\n[Time]: " + date;
+    public String getMsg(){
+        return this.message;
+    }
+
+    public String getLogMessage() {
+        return "[Error code]: " + code + "[Message]: " + super.getMessage() +
+                "[Time]: " + date;
     }
 
     public String getCallStack(){

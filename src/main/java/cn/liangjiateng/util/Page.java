@@ -16,6 +16,13 @@ public class Page<T> {
         this.pageSize = pageSize;
     }
 
+    public Page(int page, int pageSize, long maxCount, List<T> data) {
+        this.page = page;
+        this.pageSize = pageSize;
+        this.maxCount = maxCount;
+        this.data = data;
+    }
+
     public int getPage() {
         return page;
     }

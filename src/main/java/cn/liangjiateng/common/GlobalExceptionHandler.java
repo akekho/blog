@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
         JsonResponse resp;
         if (e instanceof ServiceException) {
             ServiceException se = (ServiceException) e;
-            resp = new JsonResponse(se.getErrCode(), se.getMessage());
+            resp = new JsonResponse(se.getErrCode(), se.getMsg());
         } else {
             resp = new JsonResponse(ErrorCode.INTERNAL_ERR.getCode(), ErrorCode.INTERNAL_ERR.getMsg());
         }

@@ -1,5 +1,8 @@
 package cn.liangjiateng.pojo.DO;
 
+import cn.liangjiateng.common.ErrorCode;
+import cn.liangjiateng.common.ServiceException;
+
 /**
  * Created by Jiateng on 5/28/18.
  */
@@ -107,6 +110,31 @@ public class Article extends AbstractDO {
 
         public int getVal() {
             return val;
+        }
+
+    }
+    public static Status getStatus(int status) throws ServiceException {
+        switch (status) {
+            case 0:
+                return Status.OFFLINE;
+            case 1:
+                return Status.ONLINE;
+            case 2:
+                return Status.DELETED;
+            default: throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "status参数错误");
+        }
+    }
+
+
+    public static SortType getSortType(int type) throws ServiceException {
+        switch (type) {
+            case 0:
+                return SortType.TIME_DESC;
+            case 1:
+                return SortType.TIME_ASC;
+            case 2:
+                return SortType.PV;
+            default: throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "sortType参数错误");
         }
     }
 

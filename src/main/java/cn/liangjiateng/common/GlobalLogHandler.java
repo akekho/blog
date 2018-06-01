@@ -46,12 +46,12 @@ public class GlobalLogHandler {
         if (ex instanceof ServiceException) {
             ServiceException e = (ServiceException) ex;
             if (e.getErrCode() >= 400 && e.getErrCode() < 500)
-                logger.warn(e.getMessage());
+                logger.warn(e.getLogMessage());
             else if(e.getErrCode() >= 500){
-                logger.error(e.getMessage());
+                logger.error(e.getLogMessage());
                 logger.error(e.getCallStack());
             }else {
-                logger.info(e.getMessage());
+                logger.info(e.getLogMessage());
             }
         } else if (ex instanceof Exception) {
             logger.error("未知错误");
