@@ -14,7 +14,7 @@ public interface CategoryMapper {
     @Select("select * from category where name = #{name}")
     Category getCategoryByName(String name);
 
-    @Select("select * from category")
+    @Select("select * from category where deleted = 0")
     List<Category> listCategories();
 
     @Update("update category set deleted = 1 where id = #{id}")

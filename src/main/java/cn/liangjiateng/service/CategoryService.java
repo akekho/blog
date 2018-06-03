@@ -19,14 +19,14 @@ public interface CategoryService {
     Category getCategoryById(int id) throws Exception;
 
     /**
-     * 列出所有分类
+     * 列出所有分类，只列出未删除的
      *
      * @return
      */
     List<Category> listCategories();
 
     /**
-     * 获取每个分类下文章数量, 只统计线上
+     * 获取每个分类下文章数量, 只统计线上文章
      *
      * @return key:category -> long: count
      */
