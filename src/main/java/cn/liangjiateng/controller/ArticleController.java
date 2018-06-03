@@ -18,15 +18,13 @@ import java.util.List;
 @RequestMapping(value = "/api/articles", produces = "application/json")
 public class ArticleController {
 
-
-
     @Autowired
     private ArticleService articleService;
     @Autowired
     private CategoryService categoryService;
     @Autowired
     private Config config;
-
+    
     @GetMapping("/{id}")
     public JsonResponse getArticleById(@PathVariable int id) throws Exception {
         Article article = articleService.getArticleById(id);

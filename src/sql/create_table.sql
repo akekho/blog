@@ -35,7 +35,6 @@ CREATE TABLE image
 (
     id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name varchar(256) NOT NULL,
-    article_id int DEFAULT 0  NULL,
     url varchar(256) NOT NULL,
     create_time timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     update_time timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL

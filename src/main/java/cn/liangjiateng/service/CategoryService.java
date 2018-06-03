@@ -5,6 +5,9 @@ import cn.liangjiateng.pojo.DO.Category;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 文章分类服务
+ */
 public interface CategoryService {
 
     /**
