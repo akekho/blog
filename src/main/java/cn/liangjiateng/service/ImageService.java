@@ -1,5 +1,6 @@
 package cn.liangjiateng.service;
 
+import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.pojo.DO.Image;
 import cn.liangjiateng.util.Page;
 
@@ -14,10 +15,10 @@ public interface ImageService {
      * @param id 图片id
      * @return
      */
-    Image getImageById(int id);
+    Image getImageById(int id) throws ServiceException;
 
     /**
-     * 分页查询图片
+     * 分页查询图片 按create_time降序排序
      *
      * @param pageSize 每页数据量
      * @param page     页码
@@ -32,11 +33,7 @@ public interface ImageService {
      */
     void insertImage(Image image);
 
-    /**
-     * 更新图片，只更新图片，不更新各个字段
-     */
 
-    void updateImage();
 
     /**
      * 删除一张图片
