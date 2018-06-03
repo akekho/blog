@@ -17,6 +17,7 @@ public class Config {
 
     private int largePage;
 
+
     public int getSmallPage() {
         return smallPage;
     }
