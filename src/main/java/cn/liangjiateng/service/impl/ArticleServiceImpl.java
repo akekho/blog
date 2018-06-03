@@ -7,6 +7,7 @@ import cn.liangjiateng.pojo.DO.Article;
 import cn.liangjiateng.service.ArticleService;
 import cn.liangjiateng.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
+    @Cacheable(key = "'listArticlesSortBy'+#sortType+#pageSize+#page")
     public Page<Article> listArticlesSortBy(Article.SortType sortType, int pageSize, int page) throws Exception {
         if (pageSize <= 0 || page <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
@@ -84,6 +86,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
+    @Cacheable(key = "'getArticleById'+#id")
     public Article getArticleById(int id) throws Exception {
         Article article = articleMapper.getArticleById(id);
         if (article == null)
