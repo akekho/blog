@@ -37,7 +37,7 @@ public class ArticleController {
         Page<Article> holder = articleService.listArticlesSortBy(Article.getSortType(sortType), config.getSmallPage(), page);
         List<Article> articles = holder.getData();
         List<ArticleVO> articleVOS = batchTransferVO(articles);
-        Page<ArticleVO> res = new Page<>(page, holder.getMaxPage(), holder.getMaxCount(), articleVOS);
+        Page<ArticleVO> res = new Page<>(page, holder.getPageSize(), holder.getMaxCount(), articleVOS);
         return new JsonResponse(res);
     }
 
@@ -53,7 +53,7 @@ public class ArticleController {
         Page<Article> holder = articleService.listDrafts(Article.getSortType(sortType), config.getLargePage(), page);
         List<Article> articles = holder.getData();
         List<ArticleVO> articleVOS = batchTransferVO(articles);
-        Page<ArticleVO> res = new Page<>(page, holder.getMaxPage(), holder.getMaxCount(), articleVOS);
+        Page<ArticleVO> res = new Page<>(page, holder.getPageSize(), holder.getMaxCount(), articleVOS);
         return new JsonResponse(res);
     }
 
@@ -62,7 +62,7 @@ public class ArticleController {
         Page<Article> holder = articleService.listArticleByNameSortBy(Article.getSortType(sortType), name, config.getLargePage(), page);
         List<Article> articles = holder.getData();
         List<ArticleVO> articleVOS = batchTransferVO(articles);
-        Page<ArticleVO> res = new Page<>(page, holder.getMaxPage(), holder.getMaxCount(), articleVOS);
+        Page<ArticleVO> res = new Page<>(page, holder.getPageSize(), holder.getMaxCount(), articleVOS);
         return new JsonResponse(res);
     }
 
@@ -71,7 +71,7 @@ public class ArticleController {
         Page<Article> holder = articleService.listArticleByCategorySortBy(Article.getSortType(sortType), categoryId, config.getLargePage(), page);
         List<Article> articles = holder.getData();
         List<ArticleVO> articleVOS = batchTransferVO(articles);
-        Page<ArticleVO> res = new Page<>(page, holder.getMaxPage(), holder.getMaxCount(), articleVOS);
+        Page<ArticleVO> res = new Page<>(page, holder.getPageSize(), holder.getMaxCount(), articleVOS);
         return new JsonResponse(res);
     }
 
