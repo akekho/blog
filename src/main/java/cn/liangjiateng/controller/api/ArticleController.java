@@ -1,4 +1,4 @@
-package cn.liangjiateng.controller;
+package cn.liangjiateng.controller.api;
 
 import cn.liangjiateng.common.JsonResponse;
 import cn.liangjiateng.config.Config;
@@ -57,7 +57,7 @@ public class ArticleController {
         return new JsonResponse(res);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public JsonResponse listArticleByNameSortBy(@RequestParam int sortType, @RequestParam int page, @PathVariable String name) throws Exception {
         Page<Article> holder = articleService.listArticleByNameSortBy(Article.getSortType(sortType), name, config.getLargePage(), page);
         List<Article> articles = holder.getData();

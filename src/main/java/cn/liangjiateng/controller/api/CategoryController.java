@@ -1,4 +1,4 @@
-package cn.liangjiateng.controller;
+package cn.liangjiateng.controller.api;
 
 import cn.liangjiateng.common.JsonResponse;
 import cn.liangjiateng.pojo.DO.Category;

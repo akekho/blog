@@ -1,0 +1,16 @@
+.list-group a{
+    color: black;
+}
+.list-group :hover{
+    color:gray;
+}
+.list-group i{
+    color: red;
+    margin-left: 10px;
+}
+.list-group h5{
+    font-size: 17px;
+}
+.list-group p{
+    font-size: 13px;
+}

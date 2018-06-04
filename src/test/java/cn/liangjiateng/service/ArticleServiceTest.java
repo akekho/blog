@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -33,9 +32,6 @@ public class ArticleServiceTest {
     private ArticleMapper articleMapper;
 
     private Article article;
-
-    @Autowired
-    StringRedisTemplate srt;
 
     @Before
     public void setUp() throws Exception {
@@ -108,7 +104,6 @@ public class ArticleServiceTest {
         article = articleMapper.getArticleByTitle("标题啊1");
         Article target = articleService.getArticleById(article.getId());
         Assert.assertEquals(article.getTitle(), target.getTitle());
-        Assert.assertNotNull(srt.opsForValue().get("articles::getArticleById" + article.getId()));
     }
 
     @Test(expected = ServiceException.class)

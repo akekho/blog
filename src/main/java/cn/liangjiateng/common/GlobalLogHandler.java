@@ -16,6 +16,7 @@ import java.io.StringWriter;
 import java.util.Arrays;
 
 /**
+ * 访问日志记录
  * Created by Jiateng on 5/30/18.
  */
 @Aspect
@@ -39,26 +40,6 @@ public class GlobalLogHandler {
         logger.info("IP : " + request.getRemoteAddr());
         logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
-    }
-
-    @AfterThrowing(value = "webLog()", throwing = "ex")
-    public void throwing(Throwable ex) {
-        if (ex instanceof ServiceException) {
-            ServiceException e = (ServiceException) ex;
-            if (e.getErrCode() >= 400 && e.getErrCode() < 500)
-                logger.warn(e.getLogMessage());
-            else if(e.getErrCode() >= 500){
-                logger.error(e.getLogMessage());
-                logger.error(e.getCallStack());
-            }else {
-                logger.info(e.getLogMessage());
-            }
-        } else if (ex instanceof Exception) {
-            logger.error("未知错误");
-            StringWriter sw = new StringWriter();
-            ex.printStackTrace(new PrintWriter(sw));
-            logger.error(sw.toString());
-        }
     }
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")
