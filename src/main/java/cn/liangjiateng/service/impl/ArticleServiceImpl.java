@@ -23,7 +23,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    @Cacheable(key = "'listArticlesSortBy'+#sortType+#pageSize+#page")
+    @Cacheable(key = "'listArticlesSortBy'+#sortType+#pageSize+#page", value = "articles")
     public Page<Article> listArticlesSortBy(Article.SortType sortType, int pageSize, int page) throws Exception {
         if (pageSize <= 0 || page <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
@@ -86,7 +86,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    @Cacheable(key = "'getArticleById'+#id")
+    @Cacheable(key = "'getArticleById'+#id", value = "articles")
     public Article getArticleById(int id) throws Exception {
         Article article = articleMapper.getArticleById(id);
         if (article == null)

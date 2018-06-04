@@ -60,7 +60,6 @@ public class ArticleServiceTest {
 
             articleMapper.insertArticle(article);
         }
-
     }
 
     @After
@@ -109,7 +108,7 @@ public class ArticleServiceTest {
         article = articleMapper.getArticleByTitle("标题啊1");
         Article target = articleService.getArticleById(article.getId());
         Assert.assertEquals(article.getTitle(), target.getTitle());
-        Assert.assertNotNull(srt.opsForValue().get("getArticleById" + article.getId()));
+        Assert.assertNotNull(srt.opsForValue().get("articles::getArticleById" + article.getId()));
     }
 
     @Test(expected = ServiceException.class)

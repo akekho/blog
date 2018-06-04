@@ -1,11 +1,12 @@
 package cn.liangjiateng.pojo.DO;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Created by Jiateng on 5/28/18.
  */
-public abstract class AbstractDO {
+public abstract class AbstractDO implements Serializable {
 
     private Timestamp createTime;
     private Timestamp updateTime;

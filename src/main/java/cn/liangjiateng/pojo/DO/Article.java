@@ -3,10 +3,13 @@ package cn.liangjiateng.pojo.DO;
 import cn.liangjiateng.common.ErrorCode;
 import cn.liangjiateng.common.ServiceException;
 
+
 /**
  * Created by Jiateng on 5/28/18.
  */
-public class Article extends AbstractDO {
+public class Article extends AbstractDO{
+
+    private static final long serialVersionUID = 1L;
 
     private Integer id;
     private String title;

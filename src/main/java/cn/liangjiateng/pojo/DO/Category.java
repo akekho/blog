@@ -4,6 +4,8 @@ package cn.liangjiateng.pojo.DO;
  * Created by Jiateng on 5/28/18.
  */
 public class Category {
+
+    private static final long serialVersionUID = 1L;
     private Integer id;
     private String name;
     private Integer deleted;
