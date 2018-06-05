@@ -1,5 +1,6 @@
 package cn.liangjiateng.service;
 
+import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.pojo.DO.Category;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface CategoryService {
      * @param id 分类id
      * @return
      */
-    Category getCategoryById(int id) throws Exception;
+    Category getCategoryById(int id) throws ServiceException;
 
     /**
      * 列出所有分类，只列出未删除的
@@ -38,12 +39,12 @@ public interface CategoryService {
      * @param id      分类id
      * @param newName 新名称
      */
-    void updateCategoryNameById(int id, String newName) throws Exception;
+    void updateCategoryNameById(int id, String newName) throws ServiceException;
 
     /**
      * 删除一个分类
      *
      * @param id 分类id
      */
-    void deleteCategoryById(int id) throws Exception;
+    void deleteCategoryById(int id) throws ServiceException;
 }

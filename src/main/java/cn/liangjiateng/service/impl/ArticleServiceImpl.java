@@ -22,7 +22,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public Page<Article> listArticlesSortBy(Article.SortType sortType, int pageSize, int page) throws Exception {
+    public Page<Article> listArticlesSortBy(Article.SortType sortType, int pageSize, int page) throws ServiceException {
         if (pageSize <= 0 || page <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         long count = articleMapper.countArticlesByStatus(Article.Status.ONLINE.getVal());
@@ -35,7 +35,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> listHottestArticles(int pageSize) throws Exception {
+    public List<Article> listHottestArticles(int pageSize) throws ServiceException {
         if (pageSize <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         Page<Article> page = new Page<>(pageSize);
@@ -44,7 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> listDrafts(Article.SortType sortType, int pageSize, int page) throws Exception {
+    public Page<Article> listDrafts(Article.SortType sortType, int pageSize, int page) throws ServiceException {
         if (pageSize <= 0 || page <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         long count = articleMapper.countArticlesByStatus(Article.Status.OFFLINE.getVal());
@@ -57,7 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> listArticleByNameSortBy(Article.SortType sortType, String name, int pageSize, int page) throws Exception {
+    public Page<Article> listArticleByNameSortBy(Article.SortType sortType, String name, int pageSize, int page) throws ServiceException {
         if (pageSize <= 0 || page <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         long count = articleMapper.countArticlesByStatus(Article.Status.ONLINE.getVal());
@@ -70,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> listArticleByCategorySortBy(Article.SortType sortType, int categoryId, int pageSize, int page) throws Exception {
+    public Page<Article> listArticleByCategorySortBy(Article.SortType sortType, int categoryId, int pageSize, int page) throws ServiceException {
         if (pageSize <= 0 || page <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         long count = articleMapper.countArticlesByCategoryIdAndStatus(categoryId, Article.Status.ONLINE.getVal());
@@ -84,7 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public Article getArticleById(int id) throws Exception {
+    public Article getArticleById(int id) throws ServiceException {
         Article article = articleMapper.getArticleById(id);
         if (article == null)
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
@@ -92,7 +92,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void updateArticle(Article article) throws Exception {
+    public void updateArticle(Article article) throws ServiceException {
         if (article == null)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         if (article.getTitle().length() > 30)
@@ -107,7 +107,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void postArticleById(int id) throws Exception {
+    public void postArticleById(int id) throws ServiceException {
         Article article = articleMapper.getArticleById(id);
         if (article == null)
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
@@ -115,7 +115,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void offlineArticleById(int id) throws Exception {
+    public void offlineArticleById(int id) throws ServiceException {
         Article article = articleMapper.getArticleById(id);
         if (article == null)
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
@@ -123,7 +123,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void addPvById(int id, int cnt) throws Exception {
+    public void addPvById(int id, int cnt) throws ServiceException {
         Article article = articleMapper.getArticleById(id);
         if (article == null)
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
@@ -131,7 +131,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void deleteArticleById(int id) throws Exception {
+    public void deleteArticleById(int id) throws ServiceException {
         Article article = articleMapper.getArticleById(id);
         if (article == null)
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
@@ -139,7 +139,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void createNewArticle(Article article) throws Exception {
+    public void createNewArticle(Article article) throws ServiceException {
         if (article == null)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         if (article.getTitle().length() > 30)

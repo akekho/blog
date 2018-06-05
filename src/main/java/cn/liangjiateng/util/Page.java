@@ -12,6 +12,13 @@ public class Page<T> {
 
     private List<T> data;
 
+    private int limit;   //保留字段，为了序列化
+
+    private int maxPage; //保留字段，为了序列化
+
+    public Page() {
+    }
+
     public Page(int pageSize) {
         this.pageSize = pageSize;
     }
@@ -26,6 +33,7 @@ public class Page<T> {
     public int getPage() {
         return page;
     }
+
 
     public int getLimit() {
         return page - 1;

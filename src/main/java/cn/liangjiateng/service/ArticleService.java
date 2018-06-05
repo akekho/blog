@@ -1,5 +1,6 @@
 package cn.liangjiateng.service;
 
+import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.pojo.DO.Article;
 import cn.liangjiateng.util.Page;
 
@@ -19,7 +20,7 @@ public interface ArticleService {
      * @return
      * @throws Exception
      */
-    Page<Article> listArticlesSortBy(Article.SortType sortType, int pageSize, int page) throws Exception;
+    Page<Article> listArticlesSortBy(Article.SortType sortType, int pageSize, int page) throws ServiceException;
 
     /**
      * 列出高访问量文章，按时间从DESC排序
@@ -28,7 +29,7 @@ public interface ArticleService {
      * @return
      * @throws Exception
      */
-    List<Article> listHottestArticles(int pageSize) throws Exception;
+    List<Article> listHottestArticles(int pageSize) throws ServiceException;
 
     /**
      * 列出草稿
@@ -39,7 +40,7 @@ public interface ArticleService {
      * @return
      * @throws Exception
      */
-    Page<Article> listDrafts(Article.SortType sortType, int pageSize, int page) throws Exception;
+    Page<Article> listDrafts(Article.SortType sortType, int pageSize, int page) throws ServiceException;
 
     /**
      * 根据名称模糊查询文章
@@ -51,7 +52,7 @@ public interface ArticleService {
      * @return
      * @throws Exception
      */
-    Page<Article> listArticleByNameSortBy(Article.SortType sortType, String name, int pageSize, int page) throws Exception;
+    Page<Article> listArticleByNameSortBy(Article.SortType sortType, String name, int pageSize, int page) throws ServiceException;
 
     /**
      * 根据文章分类列出文章, 列出线上的
@@ -63,7 +64,7 @@ public interface ArticleService {
      * @return
      * @throws Exception
      */
-    Page<Article> listArticleByCategorySortBy(Article.SortType sortType, int categoryId, int pageSize, int page) throws Exception;
+    Page<Article> listArticleByCategorySortBy(Article.SortType sortType, int categoryId, int pageSize, int page) throws ServiceException;
 
     /**
      * 获取文章
@@ -72,7 +73,7 @@ public interface ArticleService {
      * @return
      * @throws Exception
      */
-    Article getArticleById(int id) throws Exception;
+    Article getArticleById(int id) throws ServiceException;
 
     /**
      * 更新文章
@@ -80,7 +81,7 @@ public interface ArticleService {
      * @param article 文章，没设定的字段不做更新
      * @throws Exception
      */
-    void updateArticle(Article article) throws Exception;
+    void updateArticle(Article article) throws ServiceException;
 
     /**
      * 文章上线
@@ -88,7 +89,7 @@ public interface ArticleService {
      * @param id 文章id
      * @throws Exception
      */
-    void postArticleById(int id) throws Exception;
+    void postArticleById(int id) throws ServiceException;
 
     /**
      * 文章下线
@@ -96,7 +97,7 @@ public interface ArticleService {
      * @param id 文章id
      * @throws Exception
      */
-    void offlineArticleById(int id) throws Exception;
+    void offlineArticleById(int id) throws ServiceException;
 
     /**
      * 给文章增加访问量 Todo: 考虑一下并发场景
@@ -105,7 +106,7 @@ public interface ArticleService {
      * @param cnt 增加的访问量
      * @throws Exception
      */
-    void addPvById(int id, int cnt) throws Exception;
+    void addPvById(int id, int cnt) throws ServiceException;
 
     /**
      * 删除文章
@@ -113,7 +114,7 @@ public interface ArticleService {
      * @param id 文章id
      * @throws Exception
      */
-    void deleteArticleById(int id) throws Exception;
+    void deleteArticleById(int id) throws ServiceException;
 
     /**
      * 创建新文章，默认没有上线
@@ -121,6 +122,6 @@ public interface ArticleService {
      * @param article 文章
      * @throws Exception
      */
-    void createNewArticle(Article article) throws Exception;
+    void createNewArticle(Article article) throws ServiceException;
 
 }

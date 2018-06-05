@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
   <head>
 
@@ -61,26 +61,14 @@
         <div class="col-lg-8">
 
           <!-- Title -->
-          <h1 class="mt-4">Post Title</h1>
-
-          <!-- Author -->
-          <!-- <p class="lead">
-            by
-            <a href="#">Start Bootstrap</a>
-          </p> -->
-
+          <h1 class="mt-4" th:text="${article.title}"></h1>
 
           <!-- Date/Time -->
           <p class="date-time">
-              <a><i class="fas fa-calendar-alt"></i>2018-05-23</a>
-              <a style="margin-left: 10px"><i class="fas fa-eye"></i>2312321</a>
+              <span><i class="fas fa-calendar-alt"></i><span th:text="${article.createTime}"></span></span>
+              <span style="margin-left: 10px"><i class="fas fa-eye"></i><span th:text="${article.pv}"></span></span>
               <span style="float: right;">
-                <a></a><i class="fas fa-book"></i><a href="#">html</a></a>
-                <span style="margin-left: 10px"><i class="fas fa-tags"></i>
-                  <a href="#">#tag1</a>
-                  <a href="#">#tag1</a>
-                  <a href="#">#tag1</a>
-                </span>
+                <i class="fas fa-book"></i><a href="#" th:text="${article.categoryName}"></a>
               </span>
           </p>
 
@@ -89,95 +77,8 @@
           <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
 
           <!--<hr>-->
-          <div class="content" style="margin-bottom: 20px">
-            <h2>悲观锁</h2>
-            <p>悲观锁（Pessimistic Lock），顾名思义，就是很悲观，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会block直到它拿到锁。</p>
-            <p>悲观锁：假定会发生并发冲突，屏蔽一切可能违反数据完整性的操作。</p>
-            <p><code>Java synchronized</code>就属于悲观锁的一种实现，每次线程要修改数据时都先获得锁，保证同一时刻只有一个线程能操作数据，其他线程则会被block。</p>
-            <h3 >共享锁</h3>
-            <p>共享锁又称读锁，是读取操作创建的锁。其他用户可以并发读取数据，但任何事务都不能对数据进行修改（获取数据上的排他锁），直到已释放所有共享锁。</p>
-            <h4>sdad</h4>
-            <p>如果事务T对数据A加上共享锁后，则其他事务只能对A再加共享锁，不能加排他锁。获准共享锁的事务只能读数据，不能修改数据。</p>
-            <p><strong>用法</strong>：</p>
-            <pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> ... <span class="hljs-keyword">LOCK</span> <span class="hljs-keyword">IN</span> <span class="hljs-keyword">SHARE</span> <span class="hljs-keyword">MODE</span>;
-</code></pre>
-            <h3>排他锁</h3>
-            <p>排他锁又称写锁，如果事务T对数据A加上排他锁后，则其他事务不能再对A加任任何类型的封锁。获准排他锁的事务既能读数据，又能修改数据。</p>
-            <p><strong>用法</strong>：</p>
-            <pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> ... <span class="hljs-keyword">FOR</span> <span class="hljs-keyword">UPDATE</span>;
-</code></pre>
-            <p>在查询语句后面增加<code>FOR UPDATE</code>，Mysql会对查询结果中的每行都加排他锁，当没有其他线程对查询结果集中的任何一行使用排他锁时，可以成功申请排他锁，否则会被阻塞。</p>
-            <h2>乐观锁</h2>
-            <p>乐观锁（Optimistic Lock），顾名思义，就是很乐观，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在提交更新的时候会判断一下在此期间别人有没有去更新这个数据。乐观锁适用于读多写少的应用场景，这样可以提高吞吐量。</p>
-            <p><strong>乐观锁实现的两种方式：</strong></p>
-            <ul>
-              <li>使用数据版本（Version）记录机制实现，这是乐观锁最常用的一种实现方式。何谓数据版本？即为数据增加一个版本标识，一般是通过为数据库表增加一个数字类型的 “version” 字段来实现。当读取数据时，将version字段的值一同读出，数据每更新一次，对此version值加一。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的version值进行比对，如果数据库表当前版本号与第一次取出来的version值相等，则予以更新，否则认为是过期数据。</li>
-              <li>使用时间戳（timestamp）。乐观锁定的第二种实现方式和第一种差不多，同样是在需要乐观锁控制的table中增加一个字段，名称无所谓，字段类型使用时间戳（timestamp）, 和上面的version类似，也是在更新提交的时候检查当前数据库中数据的时间戳和自己更新前取到的时间戳进行对比，如果一致则OK，否则就是版本冲突。</li>
-            </ul>
-            <h2>参考资料</h2>
-            <ul>
-              <li><a href="https://www.jianshu.com/p/ec4d1a5220cf">https://www.jianshu.com/p/ec4d1a5220cf</a></li>
-              <li><a href="https://blog.csdn.net/puhaiyang/article/details/72284702">https://blog.csdn.net/puhaiyang/article/details/72284702</a></li>
-              <li><a href="http://www.hollischuang.com/archives/923">http://www.hollischuang.com/archives/923</a></li>
-            </ul>
-
+          <div class="content" style="margin-bottom: 20px" th:utext="${article.content}">
           </div>
-
-
-          <!-- Comments Form -->
-          <!--<div class="card my-4">-->
-            <!--<h5 class="card-header">Leave a Comment:</h5>-->
-            <!--<div class="card-body">-->
-              <!--<form>-->
-                <!--<div class="form-group">-->
-                  <!--<textarea class="form-control" rows="3"></textarea>-->
-                <!--</div>-->
-                <!--<button type="submit" class="btn btn-primary">Submit</button>-->
-              <!--</form>-->
-            <!--</div>-->
-          <!--</div>-->
-
-          <!--&lt;!&ndash; Single Comment &ndash;&gt;-->
-          <!--<div class="media mb-4">-->
-            <!--<img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">-->
-            <!--<div class="media-body">-->
-              <!--<h5 class="mt-0">Commenter Name</h5>-->
-              <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.-->
-            <!--</div>-->
-          <!--</div>-->
-
-          <!-- Comment with nested comments -->
-          <!--<div class="media mb-4">-->
-            <!--<img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">-->
-            <!--<div class="media-body">-->
-              <!--<h5 class="mt-0">Commenter Name</h5>-->
-              <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.-->
-
-              <!--<div class="media mt-4">-->
-                <!--<img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">-->
-                <!--<div class="media-body">-->
-                  <!--<h5 class="mt-0">Commenter Name</h5>-->
-                  <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.-->
-                  <!--<div class="media mt-4">-->
-                    <!--<img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">-->
-                    <!--<div class="media-body">-->
-                      <!--<h5 class="mt-0">Commenter Name</h5>-->
-                      <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-
-              <!--<div class="media mt-4">-->
-                <!--<img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">-->
-                <!--<div class="media-body">-->
-                  <!--<h5 class="mt-0">Commenter Name</h5>-->
-                  <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.-->
-                <!--</div>-->
-              <!--</div>-->
-
-            <!--</div>-->
-          <!--</div>-->
 
         </div>
 
@@ -190,108 +91,47 @@
                 <div id="category"></div>
               </div>
             </div>
-
-            <!-- Categories Widget -->
-            <div class="card my-4">
-              <h5 class="card-header">Categories</h5>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <ul class="list-unstyled mb-0">
-                      <li>
-                        <a href="#">Web Design</a>
-                      </li>
-                      <li>
-                        <a href="#">HTML</a>
-                      </li>
-                      <li>
-                        <a href="#">Freebies</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-lg-6">
-                    <ul class="list-unstyled mb-0">
-                      <li>
-                        <a href="#">JavaScript</a>
-                      </li>
-                      <li>
-                        <a href="#">CSS</a>
-                      </li>
-                      <li>
-                        <a href="#">Tutorials</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- Categories -->
           <div class="card my-4">
-            <h5 class="card-header">Tags</h5>
+            <h5 class="card-header">Categories</h5>
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">Web Design(10)</a>
-                    </li>
-                    <li>
-                      <a href="#">HTML(20)</a>
-                    </li>
-                    <li>
-                      <a href="#">Freebies</a>
-                    </li>
-                    <li>
-                      <a href="#">JavaScript</a>
-                    </li>
-                    <li>
-                      <a href="#">CSS</a>
-                    </li>
-                    <li>
-                      <a href="#">Tutorials</a>
+                    <li th:each="category: ${category_data}">
+                      <a href="#" th:text="${category.name}+'('+${category.count}+')'"></a>
                     </li>
                   </ul>
                 </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">JavaScript</a>
-                    </li>
-                    <li>
-                      <a href="#">CSS</a>
-                    </li>
-                    <li>
-                      <a href="#">Tutorials</a>
-                    </li>
-                  </ul>
-                </div>
+                <!--<div class="col-lg-6">-->
+                <!--<ul class="list-unstyled mb-0">-->
+                <!--<li>-->
+                <!--<a href="#">JavaScript</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<a href="#">CSS</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<a href="#">Tutorials</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</div>-->
               </div>
             </div>
           </div>
-            <div class="card my-4">
-            <h5 class="card-header">Side Widget</h5>
+          <!-- Popular Articles -->
+          <div class="card my-4">
+            <h5 class="card-header">Popular Articles</h5>
             <div class="card-body">
               <div class="list-group">
-                <a href="#" class="list-group-item">
-                  <h5 class="list-group-item-heading">List fsd fsdfsd fs group item heading</h5>
-                  <p class="list-group-item-text">dasdasdadadadadaccsadfwfwfvwvwfwccsfwfwvdscvsdcs<i class="fas fa-fire"></i><small>1213</small></p>
+                <a href="#" class="list-group-item" th:each="pop: ${popular_data}">
+                  <h5 class="list-group-item-heading" th:text="${pop.title}"></h5>
+                  <p class="list-group-item-text">
+                    <span th:text="${pop.desc}"></span>
+                    <i class="fas fa-fire"></i>
+                    <small th:text="${pop.pv}"></small>
+                  </p>
                 </a>
-                <a href="#" class="list-group-item">
-                  <h5 class="list-group-item-heading">List fsd fsdfsd fs group item heading</h5>
-                  <p class="list-group-item-text">dasdasdadadadadaccsadfwfwfvwvwfwccsfwfwvdscvsdcs<i class="fas fa-fire"></i><small>1213</small></p>
-                </a>
-                <a href="#" class="list-group-item">
-                  <h5 class="list-group-item-heading">List fsd fsdfsd fs group item heading</h5>
-                  <p class="list-group-item-text">dasdasdadadadadaccsadfwfwfvwvwfwccsfwfwvdscvsdcs<i class="fas fa-fire"></i><small>1213</small></p>
-                </a>
-                <a href="#" class="list-group-item">
-                  <h5 class="list-group-item-heading">List fsd fsdfsd fs group item heading</h5>
-                  <p class="list-group-item-text">dasdasdadadadadaccsadfwfwfvwvwfwccsfwfwvdscvsdcs<i class="fas fa-fire"></i><small>1213</small></p>
-                </a>
-                <a href="#" class="list-group-item">
-                  <h5 class="list-group-item-heading">List fsd fsdfsd fs group item heading</h5>
-                  <p class="list-group-item-text">dasdasdadadadadaccsadfwfwfvwvwfwccsfwfwvdscvsdcs<i class="fas fa-fire"></i><small>1213</small></p>
-                </a>
-
               </div>
             </div>
           </div>

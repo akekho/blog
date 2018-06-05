@@ -6,6 +6,7 @@
 
 body {
   padding-top: 54px;
+  min-height: 750px;
 }
 i{
   margin-right: 5px;
@@ -130,5 +131,6 @@ i{
 @media (min-width: 992px) {
   body {
     padding-top: 56px;
+    min-height: 750px;
   }
 }

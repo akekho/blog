@@ -3,7 +3,7 @@ package cn.liangjiateng.pojo.DO;
 /**
  * Created by Jiateng on 5/28/18.
  */
-public class Image {
+public class Image extends AbstractDO{
 
     private Integer id;
     private String name;

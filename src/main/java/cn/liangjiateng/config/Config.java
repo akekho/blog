@@ -28,7 +28,7 @@ public class Config {
     private int port;
 
     public String getUrl(String url) {
-        return head + "/" + host + ":" + port + url;
+        return head  + host + ":" + port + url;
     }
 
     public String getHead() {

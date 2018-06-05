@@ -2,6 +2,7 @@ package cn.liangjiateng.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -29,6 +30,19 @@ public class JsonUtil {
         JavaType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, cla);
         String res = objectMapper.writeValueAsString(list);
         return res ;
+    }
+
+    /**
+     * 获得子串
+     * @param key
+     * @param json
+     * @return
+     * @throws IOException
+     */
+    public static String get(String key, String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(json);
+        return jsonNode.get(key).toString();
     }
 
     /**

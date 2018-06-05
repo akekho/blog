@@ -2,17 +2,21 @@ package cn.liangjiateng.pojo.VO;
 
 import cn.liangjiateng.pojo.DO.Article;
 import cn.liangjiateng.pojo.DO.Category;
+import cn.liangjiateng.util.DateUtil;
 
 public class ArticleVO {
 
     private Integer id;
     private String title;
     private String content;
+    private String desc; //简述
     private String contentMd;
     private String preface;
     private Integer status;
     private Integer pv;
     private String categoryName;
+    private String createTime;
+    private String updateTime;
 
     public ArticleVO() {
 
@@ -26,8 +30,10 @@ public class ArticleVO {
         this.preface = article.getPreface();
         this.status = article.getStatus();
         this.pv = article.getPv();
-
-
+        //Todo:更改简述算法
+        this.desc = this.content.substring(0, Math.min(50, content.length()));
+        this.createTime = DateUtil.getTime(article.getCreateTime(), DateUtil.DateFormat.PARTIAL);
+        this.updateTime = DateUtil.getTime(article.getUpdateTime(), DateUtil.DateFormat.PARTIAL);
     }
 
     public ArticleVO(Article article, Category category) {
@@ -39,6 +45,10 @@ public class ArticleVO {
         this.status = article.getStatus();
         this.pv = article.getPv();
         this.categoryName = category.getName();
+        //Todo:更改简述算法
+        this.desc = this.content.substring(0, Math.min(50, content.length()));
+        this.createTime = DateUtil.getTime(article.getCreateTime(), DateUtil.DateFormat.PARTIAL);
+        this.updateTime = DateUtil.getTime(article.getUpdateTime(), DateUtil.DateFormat.PARTIAL);
     }
 
     public Integer getId() {
@@ -103,5 +113,29 @@ public class ArticleVO {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 }

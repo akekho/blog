@@ -32,7 +32,6 @@ public class GlobalExceptionHandler {
             resp = new JsonResponse(ErrorCode.PARAM_ERR.getCode(), e.getMessage());
         } else {
             resp = new JsonResponse(ErrorCode.INTERNAL_ERR.getCode(), ErrorCode.INTERNAL_ERR.getMsg());
-            e.printStackTrace();
         }
         doLog(e);
         return resp;
