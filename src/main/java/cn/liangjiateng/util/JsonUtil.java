@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-public class JsonUtil {
+public final class JsonUtil {
 
     /**
      * string 转list
