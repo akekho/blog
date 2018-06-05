@@ -3,6 +3,10 @@ package cn.liangjiateng.service;
 import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.pojo.DO.Image;
 import cn.liangjiateng.util.Page;
+import com.qiniu.common.QiniuException;
+
+import java.io.File;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * 图片服务
@@ -29,10 +33,9 @@ public interface ImageService {
     /**
      * 插入一张图片
      *
-     * @param image 图片
+     * @param file  图片
      */
-    void insertImage(Image image);
-
+    void insertImage(File file) throws NoSuchAlgorithmException, ServiceException;
 
 
     /**
@@ -40,6 +43,6 @@ public interface ImageService {
      *
      * @param id 图片id
      */
-    void deleteImageById(int id);
+    void deleteImageById(int id) throws ServiceException;
 
 }

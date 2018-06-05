@@ -7,7 +7,6 @@ public class Image extends AbstractDO{
 
     private Integer id;
     private String name;
-    private Integer articleId;
     private String url;
 
     public Integer getId() {
@@ -26,13 +25,6 @@ public class Image extends AbstractDO{
         this.name = name;
     }
 
-    public Integer getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
 
     public String getUrl() {
         return url;
