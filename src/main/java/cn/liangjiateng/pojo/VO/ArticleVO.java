@@ -3,6 +3,7 @@ package cn.liangjiateng.pojo.VO;
 import cn.liangjiateng.pojo.DO.Article;
 import cn.liangjiateng.pojo.DO.Category;
 import cn.liangjiateng.util.DateUtil;
+import cn.liangjiateng.util.HtmlUtil;
 
 public class ArticleVO {
 
@@ -10,6 +11,7 @@ public class ArticleVO {
     private String title;
     private String content;
     private String desc; //简述
+    private String shortDesc; //简短简述
     private String contentMd;
     private String preface;
     private Integer status;
@@ -22,7 +24,7 @@ public class ArticleVO {
 
     }
 
-    public ArticleVO(Article article){
+    public ArticleVO(Article article) {
         this.id = article.getId();
         this.title = article.getTitle();
         this.content = article.getContent();
@@ -30,8 +32,8 @@ public class ArticleVO {
         this.preface = article.getPreface();
         this.status = article.getStatus();
         this.pv = article.getPv();
-        //Todo:更改简述算法
-        this.desc = this.content.substring(0, Math.min(50, content.length()));
+        this.desc = computeDesc(content);
+        this.shortDesc = HtmlUtil.delHTMLTag(content).substring(0, Math.min(content.length(), 75));
         this.createTime = DateUtil.getTime(article.getCreateTime(), DateUtil.DateFormat.PARTIAL);
         this.updateTime = DateUtil.getTime(article.getUpdateTime(), DateUtil.DateFormat.PARTIAL);
     }
@@ -45,8 +47,8 @@ public class ArticleVO {
         this.status = article.getStatus();
         this.pv = article.getPv();
         this.categoryName = category.getName();
-        //Todo:更改简述算法
-        this.desc = this.content.substring(0, Math.min(50, content.length()));
+        this.desc = computeDesc(content);
+        this.shortDesc = HtmlUtil.delHTMLTag(content).substring(0, Math.min(content.length(), 75));
         this.createTime = DateUtil.getTime(article.getCreateTime(), DateUtil.DateFormat.PARTIAL);
         this.updateTime = DateUtil.getTime(article.getUpdateTime(), DateUtil.DateFormat.PARTIAL);
     }
@@ -137,5 +139,29 @@ public class ArticleVO {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getShortDesc() {
+        return shortDesc;
+    }
+
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
+    }
+
+    /**
+     * 计算摘要(desc)算法 //Todo:改进算法
+     *
+     * @param content 原本内容
+     * @return
+     */
+    private String computeDesc(String content) {
+        int index;
+        content = content.replaceAll("<!-- more -->", "&m;");
+        index = content.indexOf("&m;");
+        if (index != -1)
+            return content.substring(0, index);
+        else
+            return content.substring(0, Math.min(content.length(), 100));
     }
 }

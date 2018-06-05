@@ -36,7 +36,6 @@ public class BlogFrontController {
         else
             json = HttpUtil.get(config.getUrl("/api/articles/category_id/" + categoryId + "?page=" + page + "&sortType=" + sortType));
         json = JsonUtil.get("data", json);
-        System.out.println(json);
         Page<ArticleVO> holder = JsonUtil.string2Bean(json, Page.class);
         modelMap.addAttribute("page", holder.getPage());
         modelMap.addAttribute("maxPage", holder.getMaxPage());
@@ -50,7 +49,8 @@ public class BlogFrontController {
         json = HttpUtil.get(config.getUrl("/api/categories"));
         json = JsonUtil.get("data", json);
         List<CategoryVO> categoryVOS = JsonUtil.string2Bean(json, List.class);
-        modelMap.addAttribute("category_data", categoryVOS);
+        modelMap.addAttribute("category_data1", categoryVOS.subList(0, categoryVOS.size() / 2));
+        modelMap.addAttribute("category_data2", categoryVOS.subList(categoryVOS.size() / 2 , categoryVOS.size()));
         return "main";
     }
 
@@ -59,8 +59,8 @@ public class BlogFrontController {
         //文章数据
         String json = HttpUtil.get(config.getUrl("/api/articles/" + id));
         json = JsonUtil.get("data", json);
+        System.out.println(json);
         ArticleVO articleVO = JsonUtil.string2Bean(json, ArticleVO.class);
-        System.out.println(articleVO);
         modelMap.addAttribute("article", articleVO);
         //最热文章数据
         json = HttpUtil.get(config.getUrl("/api/articles/popular"));
@@ -71,7 +71,8 @@ public class BlogFrontController {
         json = HttpUtil.get(config.getUrl("/api/categories"));
         json = JsonUtil.get("data", json);
         List<CategoryVO> categoryVOS = JsonUtil.string2Bean(json, List.class);
-        modelMap.addAttribute("category_data", categoryVOS);
+        modelMap.addAttribute("category_data1", categoryVOS.subList(0, categoryVOS.size() / 2));
+        modelMap.addAttribute("category_data2", categoryVOS.subList(categoryVOS.size() / 2 , categoryVOS.size()));
         return "post";
     }
 }

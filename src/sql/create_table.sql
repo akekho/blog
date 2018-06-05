@@ -9,7 +9,7 @@ create table article
   content_md  text                                null
   comment '文章内容，markdown',
   category_id int default 0                           null,
-  preface     varchar(256),
+  preface     text,
   status      int default 0                           null
   comment '0=草稿，文章没上线到主站；1=上线；2=删除',
   pv          int default 0                           null,
