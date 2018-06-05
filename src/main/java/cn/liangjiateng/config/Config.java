@@ -27,6 +27,24 @@ public class Config {
     @Value("${server.port}")
     private int port;
 
+    private String storageHost;
+
+    private String storageAccessKey;
+
+    private String storageSecurityKey;
+
+    private String storageZone;
+
+    private String storageBucket;
+
+    public String getStorageBucket() {
+        return storageBucket;
+    }
+
+    public void setStorageBucket(String storageBucket) {
+        this.storageBucket = storageBucket;
+    }
+
     public String getUrl(String url) {
         return head  + host + ":" + port + url;
     }
@@ -77,5 +95,37 @@ public class Config {
 
     public void setLargePage(int largePage) {
         this.largePage = largePage;
+    }
+
+    public String getStorageHost() {
+        return storageHost;
+    }
+
+    public String getStorageZone() {
+        return storageZone;
+    }
+
+    public void setStorageZone(String storageZone) {
+        this.storageZone = storageZone;
+    }
+
+    public void setStorageHost(String storageHost) {
+        this.storageHost = storageHost;
+    }
+
+    public String getStorageAccessKey() {
+        return storageAccessKey;
+    }
+
+    public void setStorageAccessKey(String storageAccessKey) {
+        this.storageAccessKey = storageAccessKey;
+    }
+
+    public String getStorageSecurityKey() {
+        return storageSecurityKey;
+    }
+
+    public void setStorageSecurityKey(String storageSecurityKey) {
+        this.storageSecurityKey = storageSecurityKey;
     }
 }
