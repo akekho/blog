@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 结合七牛云的文件操作
@@ -88,6 +89,22 @@ public final class CloudFileUtil {
      */
     public void upload(File file, String bucket, String fileName) throws IOException, FileUploadException {
         Response response = getUploadManager().put(file, fileName, getToken(bucket));
+        DefaultPutRet putRet = JsonUtil.string2Bean(response.bodyString(), DefaultPutRet.class);
+        if (!putRet.key.equals(fileName))
+            throw new FileUploadException();
+    }
+
+    /**
+     * 流方式上传文件
+     *
+     * @param is       字节流
+     * @param bucket   云存储的组
+     * @param fileName 文件名
+     * @throws IOException
+     * @throws FileUploadException
+     */
+    public void upload(InputStream is, String bucket, String fileName) throws IOException, FileUploadException {
+        Response response = getUploadManager().put(is, fileName, getToken(bucket), null, null);
         DefaultPutRet putRet = JsonUtil.string2Bean(response.bodyString(), DefaultPutRet.class);
         if (!putRet.key.equals(fileName))
             throw new FileUploadException();

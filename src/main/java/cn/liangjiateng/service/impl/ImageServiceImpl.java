@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -48,6 +49,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void insertImage(File file) throws NoSuchAlgorithmException, ServiceException {
+        if (!checkExtension(file.getName()))
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文件格式不正确");
         String[] sts = file.getName().split("[.]");
         String url = "image/" + EncryUtil.getMd5(System.currentTimeMillis() + sts[0]) + "." + sts[1];
         try {
@@ -57,6 +60,23 @@ public class ImageServiceImpl implements ImageService {
         }
         Image image = new Image();
         image.setName(file.getName());
+        image.setUrl(url);
+        imageMapper.insertImage(image);
+    }
+
+    @Override
+    public void insertImageByStream(InputStream is, String fileName) throws ServiceException, NoSuchAlgorithmException {
+        if (!checkExtension(fileName))
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "文件格式不正确");
+        String[] sts = fileName.split("[.]");
+        String url = "image/" + EncryUtil.getMd5(System.currentTimeMillis() + sts[0]) + "." + sts[1];
+        try {
+            cloudUtil.upload(is, config.getStorageBucket(), url);
+        } catch (Exception e) {
+            throw new ServiceException(ErrorCode.INTERNAL_ERR.getCode(), "文件上传失败：" + e.getMessage());
+        }
+        Image image = new Image();
+        image.setName(fileName);
         image.setUrl(url);
         imageMapper.insertImage(image);
     }
@@ -74,4 +94,24 @@ public class ImageServiceImpl implements ImageService {
         }
         imageMapper.deleteImageById(id);
     }
+
+    private boolean checkExtension(String fileName) {
+        String[] strs = fileName.split("[.]");
+        if (strs.length != 2)
+            return false;
+        switch (strs[1]) {
+            case "jpg":
+            case "JPG":
+            case "png":
+            case "PNG":
+            case "gif":
+            case "GIF":
+            case "jpeg":
+            case "JPEG":
+                return true;
+            default:
+                return false;
+        }
+    }
+
 }

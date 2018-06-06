@@ -6,6 +6,7 @@ import cn.liangjiateng.util.Page;
 import com.qiniu.common.QiniuException;
 
 import java.io.File;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -33,10 +34,17 @@ public interface ImageService {
     /**
      * 插入一张图片
      *
-     * @param file  图片
+     * @param file 图片
      */
     void insertImage(File file) throws NoSuchAlgorithmException, ServiceException;
 
+    /**
+     * 流方式插入图片
+     *
+     * @param is       流
+     * @param fileName 文件名
+     */
+    void insertImageByStream(InputStream is, String fileName) throws ServiceException, NoSuchAlgorithmException;
 
     /**
      * 删除一张图片
