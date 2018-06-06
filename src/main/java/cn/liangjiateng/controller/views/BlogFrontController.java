@@ -59,7 +59,6 @@ public class BlogFrontController {
         //文章数据
         String json = HttpUtil.get(config.getUrl("/api/articles/" + id));
         json = JsonUtil.get("data", json);
-        System.out.println(json);
         ArticleVO articleVO = JsonUtil.string2Bean(json, ArticleVO.class);
         modelMap.addAttribute("article", articleVO);
         //最热文章数据

@@ -37,7 +37,9 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Page<Image> listImages(int pageSize, int page) {
+    public Page<Image> listImages(int pageSize, int page) throws ServiceException {
+        if (page <= 0)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         long cnt = imageMapper.countImages();
         Page<Image> holder = new Page<>(pageSize);
         holder.setPage(page);

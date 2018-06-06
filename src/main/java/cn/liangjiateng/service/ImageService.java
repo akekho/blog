@@ -29,7 +29,7 @@ public interface ImageService {
      * @param page     页码
      * @return
      */
-    Page<Image> listImages(int pageSize, int page);
+    Page<Image> listImages(int pageSize, int page) throws ServiceException;
 
     /**
      * 插入一张图片

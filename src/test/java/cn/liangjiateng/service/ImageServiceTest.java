@@ -65,7 +65,7 @@ public class ImageServiceTest {
     }
 
     @Test
-    public void listImages() {
+    public void listImages() throws ServiceException {
         Page<Image> images = imageService.listImages(20, 1);
         Assert.assertEquals(3, images.getData().size());
         Assert.assertEquals(3, images.getMaxCount());

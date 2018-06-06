@@ -11,8 +11,6 @@ public class JsonResponse {
 
     private Object data;
 
-    public JsonResponse() {
-    }
 
     public JsonResponse(Object data) {
         this.data = data;
