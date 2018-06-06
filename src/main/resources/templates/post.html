@@ -76,7 +76,7 @@
 
 
             <!-- Preview Image -->
-            <img class="img-fluid rounded" th:remove="${article.preface == ''}? tag : none" th:src="${article.preface}" alt="">
+            <img class="img-fluid rounded" th:remove="${article.preface == null}? tag : none" th:src="${article.preface}" alt="">
 
             <!--<hr>-->
             <div class="content" style="margin-bottom: 20px" th:utext="${article.content}">

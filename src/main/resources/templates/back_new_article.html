@@ -19,12 +19,12 @@
           integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/markdown.js"></script>
-    <script src="vendor/bootstrap/js/to-markdown.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap-markdown.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap-markdown.fr.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/markdown.js"></script>
+    <script src="../../vendor/bootstrap/js/to-markdown.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap-markdown.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap-markdown.fr.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
     <style>
         i {
             margin-right: 5px;
@@ -218,18 +218,54 @@
             <form>
                 <div class="input-group" style="margin-bottom: 20px">
                     <span class="input-group-addon" id="basic-addon1">Title</span>
-                    <input type="text" class="form-control">
+                    <input id="title" type="text" class="form-control">
 
                 </div>
 
                 <textarea name="content" data-provide="markdown" rows="10" id="editor"></textarea>
-
+                <script>
+                    $("#editor").markdown({
+                        autofocus: false,
+                        savable: true,
+                        height: 650,
+                        onSave: function(e){
+                            var title = $("#title").val();
+                            var content = e.parseContent();
+                            var contentMd = e.getContent();
+                            var json = {};
+                            json.title = title;
+                            json.content = content;
+                            json.contentMd = contentMd;
+                            $.ajax({
+                                type: "POST",
+                                contentType: "application/json",
+                                data: JSON.stringify(json),
+                                dataType: "json",
+                                url: "/api/articles",
+                                success: function (result) {
+                                    var obj = eval(result);
+                                    if (obj.code == 200) {
+                                        alert("文章上传成功！")
+                                    } else {
+                                        alert("文章上传失败：" + obj.message)
+                                    }
+                                }
+                            });
+                        }
+                    })
+                </script>
                 <hr/>
-                <button type="submit" class="btn btn-warning">Save</button>
-                <button type="submit" class="btn btn-success">Submit</button>
-                <button type="submit" class="btn btn-primary" style="margin-left: 20px">Upload Image</button>
-                <button type="submit" class="btn btn-primary">Create Category</button>
-                <span style="float: right"><code>Category: </code>
+            </form>
+            <button type="submit" class="btn btn-warning">Save as Draft</button>
+            <!--<button type="submit" class="btn btn-success" onclick="submitArticle()">Submit</button>-->
+            <script>
+                function submitArticle() {
+
+                }
+            </script>
+            <button type="submit" class="btn btn-primary" style="margin-left: 20px">Upload Image</button>
+            <button type="submit" class="btn btn-primary">Create Category</button>
+            <span style="float: right"><code>Category: </code>
                 <select class="combobox">
                     <option></option>
                     <option value="PA">Pennsylvania</option>
@@ -238,11 +274,6 @@
                     <option value="MD">Maryland</option>
                     <option value="VA">Virginia</option>
                 </select></span>
-
-            </form>
-            <script>
-                $("#editor").markdown({autofocus: false, savable: false, height: 650})
-            </script>
             <table class="table table-bordered" style="margin-top: 20px" id="img-table">
                 <thead>
                 <tr>

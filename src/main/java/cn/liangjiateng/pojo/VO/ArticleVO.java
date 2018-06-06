@@ -33,7 +33,7 @@ public class ArticleVO {
         this.status = article.getStatus();
         this.pv = article.getPv();
         this.desc = computeDesc(content);
-        this.shortDesc = HtmlUtil.delHTMLTag(content).substring(0, Math.min(content.length(), 75));
+        this.shortDesc = HtmlUtil.delHTMLTag(content).substring(0, Math.min(HtmlUtil.delHTMLTag(content).length(), 75));
         this.createTime = DateUtil.getTime(article.getCreateTime(), DateUtil.DateFormat.PARTIAL);
         this.updateTime = DateUtil.getTime(article.getUpdateTime(), DateUtil.DateFormat.PARTIAL);
     }
@@ -48,7 +48,7 @@ public class ArticleVO {
         this.pv = article.getPv();
         this.categoryName = category.getName();
         this.desc = computeDesc(content);
-        this.shortDesc = HtmlUtil.delHTMLTag(content).substring(0, Math.min(content.length(), 75));
+        this.shortDesc = HtmlUtil.delHTMLTag(content).substring(0, Math.min(HtmlUtil.delHTMLTag(content).length(), 75));
         this.createTime = DateUtil.getTime(article.getCreateTime(), DateUtil.DateFormat.PARTIAL);
         this.updateTime = DateUtil.getTime(article.getUpdateTime(), DateUtil.DateFormat.PARTIAL);
     }

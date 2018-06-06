@@ -7,6 +7,7 @@ import cn.liangjiateng.util.HttpUtil;
 import cn.liangjiateng.util.JsonUtil;
 import cn.liangjiateng.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import java.io.IOException;
 /**
  * Created by Jiateng on 6/6/18.
  */
+@Controller
 @RequestMapping(value = "/back")
 public class BlogBackController {
 

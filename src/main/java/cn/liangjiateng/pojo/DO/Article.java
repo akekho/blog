@@ -16,9 +16,9 @@ public class Article extends AbstractDO{
     private String content;
     private String contentMd;
     private String preface;
-    private Integer status;
-    private Integer pv;
-    private Integer categoryId;
+    private Integer status = 0;
+    private Integer pv = 0;
+    private Integer categoryId = 0;
 
     public Integer getId() {
         return id;
