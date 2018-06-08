@@ -1,5 +1,6 @@
 package cn.liangjiateng.util;
 
+import cn.liangjiateng.common.ServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,15 +26,16 @@ public final class JsonUtil {
         return list;
     }
 
-    public static <T> String list2Str(List<T> list , Class<?> cla) throws JsonProcessingException {
+    public static <T> String list2Str(List<T> list, Class<?> cla) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JavaType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, cla);
         String res = objectMapper.writeValueAsString(list);
-        return res ;
+        return res;
     }
 
     /**
      * 获得子串
+     *
      * @param key
      * @param json
      * @return
@@ -43,6 +45,27 @@ public final class JsonUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(json);
         return jsonNode.get(key).toString();
+    }
+
+    /**
+     * 获取json Data的简便方法，会检查结果，结果不正确抛出异常
+     *
+     * @param json
+     * @return
+     * @throws IOException
+     * @throws ServiceException
+     */
+    public static String getDataAndCheck(String json) throws IOException, ServiceException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(json);
+        int code = Integer.parseInt(jsonNode.get("code").toString());
+        String message = jsonNode.get("message").asText();
+        //Todo: 获取的message有乱码问题
+        if (code == 200)
+            return jsonNode.get("data").toString();
+        else {
+            throw new ServiceException(code, message);
+        }
     }
 
     /**

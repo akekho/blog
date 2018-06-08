@@ -13,6 +13,7 @@ import java.util.Map;
 public final class HttpUtil {
     /**
      * Send a get request
+     *
      * @param url
      * @return response
      * @throws IOException
@@ -23,8 +24,9 @@ public final class HttpUtil {
 
     /**
      * Send a get request
-     * @param url         Url as string
-     * @param headers     Optional map with headers
+     *
+     * @param url     Url as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -35,9 +37,10 @@ public final class HttpUtil {
 
     /**
      * Send a post request
-     * @param url         Url as string
-     * @param body        Request body as string
-     * @param headers     Optional map with headers
+     *
+     * @param url     Url as string
+     * @param body    Request body as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -48,8 +51,9 @@ public final class HttpUtil {
 
     /**
      * Send a post request
-     * @param url         Url as string
-     * @param body        Request body as string
+     *
+     * @param url  Url as string
+     * @param body Request body as string
      * @return response   Response as string
      * @throws IOException
      */
@@ -59,8 +63,9 @@ public final class HttpUtil {
 
     /**
      * Post a form with parameters
-     * @param url         Url as string
-     * @param params      map with parameters/values
+     *
+     * @param url    Url as string
+     * @param params map with parameters/values
      * @return response   Response as string
      * @throws IOException
      */
@@ -71,9 +76,10 @@ public final class HttpUtil {
 
     /**
      * Post a form with parameters
-     * @param url         Url as string
-     * @param params      Map with parameters/values
-     * @param headers     Optional map with headers
+     *
+     * @param url     Url as string
+     * @param params  Map with parameters/values
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -92,8 +98,7 @@ public final class HttpUtil {
             for (String param : params.keySet()) {
                 if (first) {
                     first = false;
-                }
-                else {
+                } else {
                     body += "&";
                 }
                 String value = params.get(param);
@@ -107,9 +112,10 @@ public final class HttpUtil {
 
     /**
      * Send a put request
-     * @param url         Url as string
-     * @param body        Request body as string
-     * @param headers     Optional map with headers
+     *
+     * @param url     Url as string
+     * @param body    Request body as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -120,7 +126,8 @@ public final class HttpUtil {
 
     /**
      * Send a put request
-     * @param url         Url as string
+     *
+     * @param url Url as string
      * @return response   Response as string
      * @throws IOException
      */
@@ -130,8 +137,9 @@ public final class HttpUtil {
 
     /**
      * Send a delete request
-     * @param url         Url as string
-     * @param headers     Optional map with headers
+     *
+     * @param url     Url as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -142,7 +150,8 @@ public final class HttpUtil {
 
     /**
      * Send a delete request
-     * @param url         Url as string
+     *
+     * @param url Url as string
      * @return response   Response as string
      * @throws IOException
      */
@@ -152,8 +161,9 @@ public final class HttpUtil {
 
     /**
      * Append query parameters to given url
-     * @param url         Url as string
-     * @param params      Map with query parameters
+     *
+     * @param url    Url as string
+     * @param params Map with query parameters
      * @return url        Url with query parameters appended
      * @throws IOException
      */
@@ -166,8 +176,7 @@ public final class HttpUtil {
                 if (first) {
                     fullUrl += '?';
                     first = false;
-                }
-                else {
+                } else {
                     fullUrl += '&';
                 }
                 String value = params.get(param);
@@ -181,7 +190,8 @@ public final class HttpUtil {
 
     /**
      * Retrieve the query parameters from given url
-     * @param url         Url containing query parameters
+     *
+     * @param url Url containing query parameters
      * @return params     Map with query parameters
      * @throws IOException
      */
@@ -196,8 +206,7 @@ public final class HttpUtil {
             String param = "";
             if (equals != -1) {
                 param = url.substring(start + 1, equals);
-            }
-            else {
+            } else {
                 param = url.substring(start + 1);
             }
 
@@ -207,8 +216,7 @@ public final class HttpUtil {
                 start = url.indexOf('&', equals);
                 if (start != -1) {
                     value = url.substring(equals + 1, start);
-                }
-                else {
+                } else {
                     value = url.substring(equals + 1);
                 }
             }
@@ -222,7 +230,8 @@ public final class HttpUtil {
 
     /**
      * Returns the url without query parameters
-     * @param url         Url containing query parameters
+     *
+     * @param url Url containing query parameters
      * @return url        Url without query parameters
      * @throws IOException
      */
@@ -231,18 +240,18 @@ public final class HttpUtil {
         int q = url.indexOf('?');
         if (q != -1) {
             return url.substring(0, q);
-        }
-        else {
+        } else {
             return url;
         }
     }
 
     /**
      * Send a request
-     * @param method      HTTP method, for example "GET" or "POST"
-     * @param url         Url as string
-     * @param body        Request body as string
-     * @param headers     Optional map with headers
+     *
+     * @param method  HTTP method, for example "GET" or "POST"
+     * @param url     Url as string
+     * @param body    Request body as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -250,7 +259,7 @@ public final class HttpUtil {
                                Map<String, String> headers) throws IOException {
         // connection
         URL u = new URL(url);
-        HttpURLConnection conn = (HttpURLConnection)u.openConnection();
+        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
         conn.setConnectTimeout(100000);
         conn.setReadTimeout(100000);
 
@@ -261,7 +270,7 @@ public final class HttpUtil {
 
         // headers
         if (headers != null) {
-            for(String key : headers.keySet()) {
+            for (String key : headers.keySet()) {
                 conn.addRequestProperty(key, headers.get(key));
             }
         }
@@ -270,7 +279,6 @@ public final class HttpUtil {
         if (body != null) {
             conn.setDoOutput(true);
             OutputStream os = conn.getOutputStream();
-            os.write(body.getBytes());
             os.flush();
             os.close();
         }
@@ -291,6 +299,7 @@ public final class HttpUtil {
 
     /**
      * Read an input stream into a string
+     *
      * @param in
      * @return
      * @throws IOException
@@ -298,7 +307,7 @@ public final class HttpUtil {
     static public String streamToString(InputStream in) throws IOException {
         StringBuffer out = new StringBuffer();
         byte[] b = new byte[4096];
-        for (int n; (n = in.read(b)) != -1;) {
+        for (int n; (n = in.read(b)) != -1; ) {
             out.append(new String(b, 0, n));
         }
         return out.toString();

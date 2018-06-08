@@ -1,5 +1,6 @@
 package cn.liangjiateng.controller.views;
 
+import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.config.Config;
 import cn.liangjiateng.pojo.DO.Image;
 import cn.liangjiateng.pojo.VO.ArticleVO;
@@ -29,14 +30,14 @@ public class BlogBackController {
     @GetMapping("/articles")
     public String articles(ModelMap modelMap, @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "0") int sortType,
-                           @RequestParam(defaultValue = "0") int categoryId) throws IOException {
+                           @RequestParam(defaultValue = "0") int categoryId) throws IOException, ServiceException {
         //文章列表数据
         String json;
         if (categoryId == 0)
             json = HttpUtil.get(config.getUrl("/api/articles?page=" + page + "&sortType=" + sortType));
         else
             json = HttpUtil.get(config.getUrl("/api/articles/category_id/" + categoryId + "?page=" + page + "&sortType=" + sortType));
-        json = JsonUtil.get("data", json);
+        json = JsonUtil.getDataAndCheck(json);
         Page<ArticleVO> holder = JsonUtil.string2Bean(json, Page.class);
         modelMap.addAttribute("page", holder.getPage());
         modelMap.addAttribute("maxPage", holder.getMaxPage());
@@ -48,10 +49,10 @@ public class BlogBackController {
     @GetMapping("/articles/{name}")
     public String articles(ModelMap modelMap, @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "0") int sortType,
-                           @PathVariable String name) throws IOException {
+                           @PathVariable String name) throws IOException, ServiceException {
         //搜索文章列表数据
         String json = HttpUtil.get(config.getUrl("/api/articles/name/" + name + "?page=" + page + "&sortType=" + sortType));
-        json = JsonUtil.get("data", json);
+        json = JsonUtil.getDataAndCheck(json);
         Page<ArticleVO> holder = JsonUtil.string2Bean(json, Page.class);
         modelMap.addAttribute("page", holder.getPage());
         modelMap.addAttribute("maxPage", holder.getMaxPage());
@@ -61,10 +62,10 @@ public class BlogBackController {
     }
 
     @GetMapping("/new_article")
-    public String newArticle(ModelMap modelMap, @RequestParam(defaultValue = "1") int page) throws IOException {
+    public String newArticle(ModelMap modelMap, @RequestParam(defaultValue = "1") int page) throws IOException, ServiceException {
         //图片列表数据
         String json = HttpUtil.get(config.getUrl("/api/images/?page=" + page));
-        json = JsonUtil.get("data", json);
+        json = JsonUtil.getDataAndCheck(json);
         Page<Image> holder = JsonUtil.string2Bean(json, Page.class);
         modelMap.addAttribute("page", holder.getPage());
         modelMap.addAttribute("maxPage", holder.getMaxPage());

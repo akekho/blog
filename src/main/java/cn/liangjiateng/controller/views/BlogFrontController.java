@@ -1,5 +1,6 @@
 package cn.liangjiateng.controller.views;
 
+import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.config.Config;
 import cn.liangjiateng.pojo.VO.ArticleVO;
 import cn.liangjiateng.pojo.VO.CategoryVO;
@@ -28,26 +29,26 @@ public class BlogFrontController {
     @GetMapping("/home")
     public String main(ModelMap modelMap, @RequestParam(defaultValue = "1") int page,
                        @RequestParam(defaultValue = "0") int sortType,
-                       @RequestParam(defaultValue = "0") int categoryId) throws IOException {
+                       @RequestParam(defaultValue = "0") int categoryId) throws IOException, ServiceException {
         //主页数据
         String json;
         if (categoryId == 0)
             json = HttpUtil.get(config.getUrl("/api/articles?page=" + page + "&sortType=" + sortType));
         else
             json = HttpUtil.get(config.getUrl("/api/articles/category_id/" + categoryId + "?page=" + page + "&sortType=" + sortType));
-        json = JsonUtil.get("data", json);
+        json = JsonUtil.getDataAndCheck(json);
         Page<ArticleVO> holder = JsonUtil.string2Bean(json, Page.class);
         modelMap.addAttribute("page", holder.getPage());
         modelMap.addAttribute("maxPage", holder.getMaxPage());
         modelMap.addAttribute("data", holder.getData());
         //最热文章数据
         json = HttpUtil.get(config.getUrl("/api/articles/popular"));
-        json = JsonUtil.get("data", json);
+        json = JsonUtil.getDataAndCheck(json);
         List<ArticleVO> articleVOS = JsonUtil.string2Bean(json, List.class);
         modelMap.addAttribute("popular_data", articleVOS);
         //分类数据
         json = HttpUtil.get(config.getUrl("/api/categories"));
-        json = JsonUtil.get("data", json);
+        json = JsonUtil.getDataAndCheck(json);
         List<CategoryVO> categoryVOS = JsonUtil.string2Bean(json, List.class);
         modelMap.addAttribute("category_data1", categoryVOS.subList(0, categoryVOS.size() / 2));
         modelMap.addAttribute("category_data2", categoryVOS.subList(categoryVOS.size() / 2 , categoryVOS.size()));
@@ -55,20 +56,20 @@ public class BlogFrontController {
     }
 
     @GetMapping("/posts/{id}")
-    public String posts(ModelMap modelMap, @PathVariable int id) throws IOException {
+    public String posts(ModelMap modelMap, @PathVariable int id) throws IOException, ServiceException {
         //文章数据
         String json = HttpUtil.get(config.getUrl("/api/articles/" + id));
-        json = JsonUtil.get("data", json);
+        json = JsonUtil.getDataAndCheck(json);
         ArticleVO articleVO = JsonUtil.string2Bean(json, ArticleVO.class);
         modelMap.addAttribute("article", articleVO);
         //最热文章数据
         json = HttpUtil.get(config.getUrl("/api/articles/popular"));
-        json = JsonUtil.get("data", json);
+        json = JsonUtil.getDataAndCheck(json);
         List<ArticleVO> articleVOS = JsonUtil.string2Bean(json, List.class);
         modelMap.addAttribute("popular_data", articleVOS);
         //分类数据
         json = HttpUtil.get(config.getUrl("/api/categories"));
-        json = JsonUtil.get("data", json);
+        json = JsonUtil.getDataAndCheck(json);
         List<CategoryVO> categoryVOS = JsonUtil.string2Bean(json, List.class);
         modelMap.addAttribute("category_data1", categoryVOS.subList(0, categoryVOS.size() / 2));
         modelMap.addAttribute("category_data2", categoryVOS.subList(categoryVOS.size() / 2 , categoryVOS.size()));
