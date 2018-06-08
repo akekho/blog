@@ -24,7 +24,7 @@ import java.io.InputStream;
 public final class CloudFileUtil {
 
     @Autowired
-    Config config;
+    private Config config;
 
     private UploadManager uploadManager;
 
