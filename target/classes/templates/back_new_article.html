@@ -228,14 +228,16 @@
                         autofocus: false,
                         savable: true,
                         height: 650,
-                        onSave: function(e){
+                        onSave: function (e) {
                             var title = $("#title").val();
                             var content = e.parseContent();
                             var contentMd = e.getContent();
+                            var categoryId = $("#categories option:selected").val();
                             var json = {};
                             json.title = title;
                             json.content = content;
                             json.contentMd = contentMd;
+                            json.categoryId = categoryId;
                             $.ajax({
                                 type: "POST",
                                 contentType: "application/json",
@@ -256,24 +258,16 @@
                 </script>
                 <hr/>
             </form>
-            <button type="submit" class="btn btn-warning">Save as Draft</button>
-            <!--<button type="submit" class="btn btn-success" onclick="submitArticle()">Submit</button>-->
-            <script>
-                function submitArticle() {
-
-                }
-            </script>
             <button type="submit" class="btn btn-primary" style="margin-left: 20px">Upload Image</button>
             <button type="submit" class="btn btn-primary">Create Category</button>
-            <span style="float: right"><code>Category: </code>
-                <select class="combobox">
+            <span style="float: right">
+                <code>Category: </code>
+                <select class="combobox" id="categories">
                     <option></option>
-                    <option value="PA">Pennsylvania</option>
-                    <option value="CT">Connecticut</option>
-                    <option value="NY">New York</option>
-                    <option value="MD">Maryland</option>
-                    <option value="VA">Virginia</option>
-                </select></span>
+                    <option th:each="category: ${categories}" th:text="${category.name}"
+                            th:value="${category.id}"></option>
+                </select>
+            </span>
             <table class="table table-bordered" style="margin-top: 20px" id="img-table">
                 <thead>
                 <tr>
@@ -308,6 +302,7 @@
                     <a class="page-link" href="#" th:text="${pageNo}"></a>
                 </li>
             </ul>
+
         </div>
     </div>
 </div>

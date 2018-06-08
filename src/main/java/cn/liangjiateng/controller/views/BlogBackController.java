@@ -2,8 +2,10 @@ package cn.liangjiateng.controller.views;
 
 import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.config.Config;
+import cn.liangjiateng.pojo.DO.Category;
 import cn.liangjiateng.pojo.DO.Image;
 import cn.liangjiateng.pojo.VO.ArticleVO;
+import cn.liangjiateng.pojo.VO.CategoryVO;
 import cn.liangjiateng.util.HttpUtil;
 import cn.liangjiateng.util.JsonUtil;
 import cn.liangjiateng.util.Page;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Jiateng on 6/6/18.
@@ -70,6 +73,11 @@ public class BlogBackController {
         modelMap.addAttribute("page", holder.getPage());
         modelMap.addAttribute("maxPage", holder.getMaxPage());
         modelMap.addAttribute("images", holder.getData());
+        //分组数据
+        json = HttpUtil.get(config.getUrl("/api/categories"));
+        json = JsonUtil.getDataAndCheck(json);
+        List<CategoryVO>  categories = JsonUtil.string2List(json, CategoryVO.class);
+        modelMap.addAttribute("categories", categories);
         return "back_new_article";
     }
 
