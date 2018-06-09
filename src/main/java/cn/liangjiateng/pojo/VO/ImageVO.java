@@ -13,6 +13,9 @@ public class ImageVO {
     private String createTime;
     private String updateTime;
 
+    public ImageVO() {
+    }
+
     public ImageVO(Image image) {
         this.id = image.getId();
         this.name = image.getName();

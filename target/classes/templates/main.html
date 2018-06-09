@@ -15,7 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="../../css/blog-home.css" rel="stylesheet">
-    <link href="../../css/blog-post.css" rel="stylesheet">
+    <!--<link href="../../css/blog-post.css" rel="stylesheet">-->
     <link href="../../css/sidebar.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
@@ -95,10 +95,10 @@
 
             <!-- Blog Post -->
             <div class="card mb-4" th:each="post:${data}">
-                <img class="card-img-top" alt="Card image cap" th:remove="${post.preface == ''}? tag : none" th:src="${post.preface}">
+                <img class="card-img-top" alt="Card image cap" th:remove="${post.preface == null}? tag : none" th:src="${post.preface}">
                 <div class="card-body content">
                     <h1 class="card-title" th:text="${post.title}"></h1>
-                    <p class="card-text" th:utext="${post.desc}"></p>
+                    <div class="card-text" th:utext="${post.desc}"></div>
                     <a href="#" class="btn btn-primary" style="color: white">Read More &rarr;</a>
                 </div>
                 <div class="card-footer text-muted">

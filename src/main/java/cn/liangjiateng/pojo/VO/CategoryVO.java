@@ -11,6 +11,9 @@ public class CategoryVO {
     private String createTime;
     private String updateTime;
 
+    public CategoryVO() {
+    }
+
     public CategoryVO(Category category) {
         this.id = category.getId();
         this.name = category.getName();
