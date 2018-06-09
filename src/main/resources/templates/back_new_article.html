@@ -233,7 +233,7 @@
                             var content = e.parseContent();
                             var contentMd = e.getContent();
                             var categoryId = $("#categories option:selected").val();
-                            if(categoryId === '' || categoryId == null) {
+                            if (categoryId === '' || categoryId == null) {
                                 categoryId = 0;
                             }
                             var json = {};
@@ -262,14 +262,15 @@
                 <hr/>
             </form>
             <input type="file" id="file" name="file" placeholder="上传图片"/>
-            <button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="upload()">Upload Image</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="upload()">Upload Image
+            </button>
             <script>
                 function upload() {
                     $.ajaxFileUpload({
                         type: "POST",
                         url: "/api/images/upload",
                         traditional: true,
-                        fileElementId:"file",
+                        fileElementId: "file",
                         dataType: "json",
                         success: function (result) {
                             var obj = eval(result);
@@ -282,7 +283,30 @@
                     });
                 }
             </script>
-            <button type="submit" class="btn btn-primary" style="margin-top: 20px" >Create Category</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="createCategory()">Create Category</button>
+            <script>
+                function createCategory() {
+                    var name=prompt("Category Name")
+                    var json = {};
+                    json.name = name;
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(json),
+                        dataType: "json",
+                        url: "/api/categories/",
+                        success: function (result) {
+                            var obj = eval(result);
+                            if (obj.code == 200) {
+                                alert("success！");
+                                location.reload()
+                            } else {
+                                alert("Failure：" + obj.message)
+                            }
+                        }
+                    });
+                }
+            </script>
             <span style="float: right">
                 <code>Category: </code>
                 <select class="combobox" id="categories">
@@ -311,13 +335,36 @@
                     <td th:text="${image.url}">/url/dda/112.png</td>
                     <td th:text="${image.createTime}">2017-01-23 21:22:11</td>
                     <td th:text="${image.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a th:href="@{${image.url}}" class="btn-sm btn-success" style="margin-right: 10px">View</a><a href="#"
-                                                                                                       class="btn-sm btn-danger">Delete</a>
+                    <td><a th:href="@{${image.url}}" class="btn-sm btn-success" style="margin-right: 10px">View</a><a href="#" class="btn-sm btn-danger" th:onclick="${'deleteImage('+image.id+')'}">Delete</a>
                     </td>
                 </tr>
 
                 </tbody>
             </table>
+            <script>
+                function deleteImage(id) {
+                    var msg = "Are you sure to delete？";
+                    if (confirm(msg)) {
+                        $.ajax({
+                            type: "DELETE",
+                            contentType: "application/json",
+                            dataType: "json",
+                            url: "/api/images/" + id,
+                            success: function (result) {
+                                var obj = eval(result);
+                                if (obj.code == 200) {
+                                    location.reload()
+                                } else {
+                                    alert("Failure：" + obj.message)
+                                }
+                            }
+                        });
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            </script>
 
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">

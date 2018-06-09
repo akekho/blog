@@ -1,9 +1,11 @@
 package cn.liangjiateng.controller.api;
 
 import cn.liangjiateng.common.JsonResponse;
+import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.pojo.DO.Category;
 import cn.liangjiateng.pojo.VO.CategoryVO;
 import cn.liangjiateng.service.CategoryService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +35,12 @@ public class CategoryController {
     @PutMapping("/{id}/{newName}")
     public JsonResponse updateCategoryNameById(@PathVariable int id, @PathVariable String newName) throws Exception {
         categoryService.updateCategoryNameById(id, newName);
+        return new JsonResponse(null);
+    }
+
+    @PostMapping
+    public JsonResponse createCategory(@RequestBody Category category) throws ServiceException {
+        categoryService.createCategory(category.getName());
         return new JsonResponse(null);
     }
 

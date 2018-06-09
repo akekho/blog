@@ -41,6 +41,9 @@ public interface CategoryService {
      */
     void updateCategoryNameById(int id, String newName) throws ServiceException;
 
+
+    void createCategory(String name) throws ServiceException;
+
     /**
      * 删除一个分类
      *

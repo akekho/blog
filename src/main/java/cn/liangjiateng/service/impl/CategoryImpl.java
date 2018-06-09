@@ -53,6 +53,18 @@ public class CategoryImpl implements CategoryService {
     }
 
     @Override
+    public void createCategory(String name) throws ServiceException {
+        if (name == null)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "名字不能为空");
+        Category category = categoryMapper.getCategoryByName(name);
+        if (category != null)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "重复分类名");
+        Category newCategory = new Category();
+        newCategory.setName(name);
+        categoryMapper.insertCategory(newCategory);
+    }
+
+    @Override
     public void deleteCategoryById(int id) throws ServiceException {
         Category category = getCategoryById(id);
         List<Article> articles = articleMapper.listArticlesByCategoryId(category.getId());
