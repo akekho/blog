@@ -27,7 +27,7 @@ public class ImageController {
 
     @PostMapping("/upload")
     public JsonResponse uploadImage(@RequestParam MultipartFile file) throws IOException, ServiceException, NoSuchAlgorithmException {
-        imageService.insertImageByStream(file.getInputStream(), file.getName());
+        imageService.insertImageByStream(file.getInputStream(), file.getOriginalFilename());
         return new JsonResponse(null);
     }
 

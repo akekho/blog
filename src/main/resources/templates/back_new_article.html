@@ -24,6 +24,7 @@
     <script src="../../vendor/bootstrap/js/bootstrap-markdown.js"></script>
     <script src="../../vendor/bootstrap/js/bootstrap-markdown.fr.js"></script>
     <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../js/ajaxfileupload.js"></script>
     <style>
         i {
             margin-right: 5px;
@@ -260,8 +261,28 @@
                 </script>
                 <hr/>
             </form>
-            <button type="submit" class="btn btn-primary" style="margin-left: 20px">Upload Image</button>
-            <button type="submit" class="btn btn-primary">Create Category</button>
+            <input type="file" id="file" name="file" placeholder="上传图片"/>
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="upload()">Upload Image</button>
+            <script>
+                function upload() {
+                    $.ajaxFileUpload({
+                        type: "POST",
+                        url: "/api/images/upload",
+                        traditional: true,
+                        fileElementId:"file",
+                        dataType: "json",
+                        success: function (result) {
+                            var obj = eval(result);
+                            if (obj.code == 200) {
+                                location.reload();
+                            } else {
+                                alert(obj.message);
+                            }
+                        }
+                    });
+                }
+            </script>
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px" >Create Category</button>
             <span style="float: right">
                 <code>Category: </code>
                 <select class="combobox" id="categories">
@@ -290,7 +311,7 @@
                     <td th:text="${image.url}">/url/dda/112.png</td>
                     <td th:text="${image.createTime}">2017-01-23 21:22:11</td>
                     <td th:text="${image.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a href="#" class="btn-sm btn-warning" style="margin-right: 10px">Update</a><a href="#"
+                    <td><a th:href="@{${image.url}}" class="btn-sm btn-success" style="margin-right: 10px">View</a><a href="#"
                                                                                                        class="btn-sm btn-danger">Delete</a>
                     </td>
                 </tr>

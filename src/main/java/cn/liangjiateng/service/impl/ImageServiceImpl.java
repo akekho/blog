@@ -53,7 +53,7 @@ public class ImageServiceImpl implements ImageService {
     public void insertImage(File file) throws NoSuchAlgorithmException, ServiceException {
         if (!checkExtension(file.getName()))
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文件格式不正确");
-        String[] sts = file.getName().split("[.]");
+        String[] sts = getFileNameAndExtension(file.getName());
         String url = "image/" + EncryUtil.getMd5(System.currentTimeMillis() + sts[0]) + "." + sts[1];
         try {
             cloudUtil.upload(file, config.getStorageBucket(), url);
@@ -70,7 +70,7 @@ public class ImageServiceImpl implements ImageService {
     public void insertImageByStream(InputStream is, String fileName) throws ServiceException, NoSuchAlgorithmException {
         if (!checkExtension(fileName))
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文件格式不正确");
-        String[] sts = fileName.split("[.]");
+        String[] sts = getFileNameAndExtension(fileName);
         String url = "image/" + EncryUtil.getMd5(System.currentTimeMillis() + sts[0]) + "." + sts[1];
         try {
             cloudUtil.upload(is, config.getStorageBucket(), url);
@@ -97,9 +97,18 @@ public class ImageServiceImpl implements ImageService {
         imageMapper.deleteImageById(id);
     }
 
+    private String[] getFileNameAndExtension(String fileName) {
+        int index = fileName.lastIndexOf(".");
+        if (index == -1)
+            return null;
+        String ext = fileName.substring(index + 1, fileName.length());
+        String name = fileName.substring(0, index);
+        return new String[]{name, ext};
+    }
+
     private boolean checkExtension(String fileName) {
-        String[] strs = fileName.split("[.]");
-        if (strs.length != 2)
+        String[] strs = getFileNameAndExtension(fileName);
+        if (strs == null)
             return false;
         switch (strs[1]) {
             case "jpg":
