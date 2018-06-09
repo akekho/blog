@@ -236,11 +236,24 @@
                             if (categoryId === '' || categoryId == null) {
                                 categoryId = 0;
                             }
+
+                            var check = document.getElementsByName("preface-check");
+                            var check_val = [];
+                            for (var k in check) {
+                                if (check[k].checked)
+                                    check_val.push(check[k].value);
+                            }
+                            if (check_val.length > 1) {
+                                alert("Only one preface can be selected")
+                                return;
+                            }
                             var json = {};
                             json.title = title;
                             json.content = content;
                             json.contentMd = contentMd;
                             json.categoryId = categoryId;
+                            if (check_val.length === 1)
+                                json.preface = check_val[0];
                             $.ajax({
                                 type: "POST",
                                 contentType: "application/json",
@@ -250,9 +263,9 @@
                                 success: function (result) {
                                     var obj = eval(result);
                                     if (obj.code == 200) {
-                                        alert("文章上传成功！")
+                                        alert("success！")
                                     } else {
-                                        alert("文章上传失败：" + obj.message)
+                                        alert("Failure：" + obj.message)
                                     }
                                 }
                             });
@@ -275,6 +288,7 @@
                         success: function (result) {
                             var obj = eval(result);
                             if (obj.code == 200) {
+                                alert("success！");
                                 location.reload();
                             } else {
                                 alert(obj.message);
@@ -283,10 +297,12 @@
                     });
                 }
             </script>
-            <button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="createCategory()">Create Category</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="createCategory()">Create
+                Category
+            </button>
             <script>
                 function createCategory() {
-                    var name=prompt("Category Name")
+                    var name = prompt("Category Name")
                     var json = {};
                     json.name = name;
                     $.ajax({
@@ -329,13 +345,14 @@
                 </thead>
                 <tbody>
                 <tr th:each="image:${images}">
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" th:value="${image.url}" name="preface-check"></td>
                     <td><img style="width: 100px;height: auto;" th:src="${image.url}"></td>
                     <td th:text="${image.id}">2131</td>
                     <td th:text="${image.url}">/url/dda/112.png</td>
                     <td th:text="${image.createTime}">2017-01-23 21:22:11</td>
                     <td th:text="${image.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a th:href="@{${image.url}}" class="btn-sm btn-success" style="margin-right: 10px">View</a><a href="#" class="btn-sm btn-danger" th:onclick="${'deleteImage('+image.id+')'}">Delete</a>
+                    <td><a th:href="@{${image.url}}" class="btn-sm btn-success" style="margin-right: 10px">View</a><a
+                            href="#" class="btn-sm btn-danger" th:onclick="${'deleteImage('+image.id+')'}">Delete</a>
                     </td>
                 </tr>
 
