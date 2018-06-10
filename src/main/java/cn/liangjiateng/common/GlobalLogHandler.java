@@ -1,12 +1,15 @@
 package cn.liangjiateng.common;
 
+import cn.liangjiateng.config.Config;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -24,12 +27,20 @@ public class GlobalLogHandler {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    private Config config;
+
     @Pointcut("execution(public * cn.liangjiateng.controller..*.*(..))")
     public void webLog() {
     }
 
     @Pointcut("execution(public * cn.liangjiateng.mapper..*.*(..))")
     public void sqlLog() {
+
+    }
+
+    @Pointcut("execution(public * cn.liangjiateng.controller.views..*.*(..))")
+    public void viewOutput() {
 
     }
 
@@ -52,6 +63,15 @@ public class GlobalLogHandler {
         logger.info("RESPONSE : " + ret);
     }
 
-
+    @Before("viewOutput()")
+    public void viewBefore(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        for (Object obj : args) {
+            if (obj instanceof ModelMap) {
+                ModelMap map = (ModelMap) obj;
+                map.addAttribute("host", config.getHead() + config.getHost() + ":" + config.getPort());
+            }
+        }
+    }
 
 }

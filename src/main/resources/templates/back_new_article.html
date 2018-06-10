@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>Simple Sidebar - Start Bootstrap Template</title>
-    <base href="http://localhost:9000"/>
+    <base th:href="@{${host}}" />
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -19,10 +19,8 @@
 
 
     <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/markdown.js"></script>
-    <script src="/vendor/bootstrap/js/to-markdown.js"></script>
+    <script src="/vendor/bootstrap/js/marked.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap-markdown.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap-markdown.fr.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="/js/ajaxfileupload.js"></script>
     <style>
@@ -54,7 +52,7 @@
 
                     <!-- Brand -->
                     <div class="brand-name-wrapper">
-                        <a class="navbar-brand" href="#">
+                        <a class="navbar-brand" href="/back/articles">
                             Jiateng Liang's CMS
                         </a>
                     </div>
@@ -86,118 +84,20 @@
 
                     <li class="panel panel-default" id="dropdown">
                         <a data-toggle="collapse" href="#dropdown-lvl1">
-                            <i class="far fa-newspaper"></i>Articles<span class="caret"></span>
+                            <i class="far fa-newspaper"></i>Articles<span class="badge" style="margin-left: 5px"
+                                                                          th:text="${draft_cnt}">0</span><span
+                                class="caret"></span>
                         </a>
 
                         <!-- Dropdown level 1 -->
                         <div id="dropdown-lvl1" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#">Management</a></li>
-                                    <li><a href="#">New Article</a></li>
-                                    <li><a href="#">Draft<span class="badge" style="margin-left: 5px">42</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown1-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Gallery<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown1-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Management</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown2-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Videos<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown2-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown3-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Resumes<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown3-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown4-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Cover Letters<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown4-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown5-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Cloud<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown5-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown6-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Accounts<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown6-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
+                                    <li><a href="/back/articles">Article Management</a></li>
+                                    <li><a href="/back/articles/categories">Category Management</a></li>
+                                    <li><a href="/back/articles/new_article">New Article</a></li>
+                                    <li><a href="/back/articles/drafts">Drafts<span class="badge" style="margin-left: 5px"
+                                                                                    th:text="${draft_cnt}">0</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -215,6 +115,7 @@
     <div class="container-fluid">
         <div class="side-body">
             <h1>New Article</h1>
+            <div class="alert alert-warning" role="alert">Use &lt;!-- more --&gt; to set a short description!</div>
             <form>
                 <div class="input-group" style="margin-bottom: 20px">
                     <span class="input-group-addon" id="basic-addon1">Title</span>
@@ -225,7 +126,7 @@
 
                 <textarea name="content" data-provide="markdown" rows="10" id="editor"
                           th:text="${article} == null? null : ${article.contentMd}"></textarea>
-                <script>
+                <script th:inline="javascript">
                     $("#editor").markdown({
                         autofocus: false,
                         savable: true,
@@ -256,21 +157,40 @@
                             json.categoryId = categoryId;
                             if (check_val.length === 1)
                                 json.preface = check_val[0];
-                            $.ajax({
-                                type: "POST",
-                                contentType: "application/json",
-                                data: JSON.stringify(json),
-                                dataType: "json",
-                                url: "/api/articles",
-                                success: function (result) {
-                                    var obj = eval(result);
-                                    if (obj.code == 200) {
-                                        alert("success！")
-                                    } else {
-                                        alert("Failure：" + obj.message)
+                            var article = [[${article}]];
+                            if(article != null){
+                                $.ajax({
+                                    type: "PUT",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(json),
+                                    dataType: "json",
+                                    url: "/api/articles/" + article.id,
+                                    success: function (result) {
+                                        var obj = eval(result);
+                                        if (obj.code == 200) {
+                                            alert("success！")
+                                        } else {
+                                            alert("Failure：" + obj.message)
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }else{
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(json),
+                                    dataType: "json",
+                                    url: "/api/articles",
+                                    success: function (result) {
+                                        var obj = eval(result);
+                                        if (obj.code == 200) {
+                                            alert("success！")
+                                        } else {
+                                            alert("Failure：" + obj.message)
+                                        }
+                                    }
+                                });
+                            }
                         }
                     })
                 </script>
@@ -353,7 +273,6 @@
 
         });
     });
-
     function createCategory() {
         var name = prompt("Category Name")
         if (name == null) {
@@ -404,7 +323,6 @@
             return false;
         }
     }
-
     function upload() {
         $.ajaxFileUpload({
             type: "POST",

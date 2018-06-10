@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <title>Blog Home - Start Bootstrap Template</title>
-    <base href="http://localhost:9000" />
+    <base th:href="@{${host}}" />
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -27,42 +27,42 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <img class="d-flex mr-3 rounded-circle" src="../../img/avatar.jpg" alt="" style="width: 40px; height:40px;">
-        <a class="navbar-brand" href="#">我的机器能学习</a>
+        <img class="d-flex mr-3 rounded-circle" src="/img/avatar.jpg" alt="" style="width: 40px; height:40px;">
+        <a class="navbar-brand" href="/blog/home">我的机器能学习</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item" style="margin-right: 20px">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                          <button class="btn btn-secondary" type="button">Go!</button>
-                        </span>
-                    </div>
-                </li>
+                <!--<li class="nav-item" style="margin-right: 20px">-->
+                    <!--<div class="input-group">-->
+                        <!--<input type="text" class="form-control" placeholder="Search for...">-->
+                        <!--<span class="input-group-btn">-->
+                          <!--<button class="btn btn-secondary" type="button">Go!</button>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</li>-->
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home
+                    <a class="nav-link" href="/blog/home">Home
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Gallery</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Video</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
+                <!--<li class="nav-item">-->
+                    <!--<a class="nav-link" href="#">Gallery</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                    <!--<a class="nav-link" href="#">Video</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                    <!--<a class="nav-link" href="#">Projects</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                    <!--<a class="nav-link" href="#">Services</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                    <!--<a class="nav-link" href="#">About</a>-->
+                <!--</li>-->
             </ul>
         </div>
     </div>
@@ -84,8 +84,8 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="#" style="margin-left: 20px">Time</a></li>
-                        <li><a href="#" style="margin-left: 20px">Page View</a></li>
+                        <li><a th:href="@{'/blog/home?page=' + ${page} +'&categoryId='+${category_id}+'&sortType=0'}" style="margin-left: 20px">Time</a></li>
+                        <li><a th:href="@{'/blog/home?page=' + ${page} +'&categoryId='+${category_id}+'&sortType=2'}" style="margin-left: 20px">Page View</a></li>
                     </ul>
                 </div>
             </h1>
@@ -100,13 +100,13 @@
                     <h1 class="card-title" th:text="${post.title}"
                         style="margin-top: 15px; margin-bottom: 15px;text-align: center"></h1>
                     <div class="card-text" th:utext="${post.desc}"></div>
-                    <a href="#" class="btn btn-primary" style="color: white">Read More &rarr;</a>
+                    <a th:href="@{'/blog/posts/' + ${post.id}}" class="btn btn-primary" style="color: white">Read More &rarr;</a>
                 </div>
                 <div class="card-footer text-muted">
                     <span><i class="fas fa-calendar-alt"></i><a th:text="${post.createTime}"></a></span>
                     <span style="margin-left: 10px"><i class="fas fa-eye"></i><a th:text="${post.pv}"></a></span>
                     <div style="float: right;">
-                        <span><i class="fas fa-book"></i><a href="#" th:text="${post.categoryName}"></a></span>
+                        <span><i class="fas fa-book"></i><a th:text="${post.categoryName}"></a></span>
                     </div>
                 </div>
             </div>
@@ -115,7 +115,7 @@
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
                 <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
-                    <a class="page-link" href="#" th:text="${pageNo}"></a>
+                    <a class="page-link" th:href="@{'/blog/home?page=' + ${pageNo} +'&categoryId='+${category_id}+'&sortType='+${sort_type}}" th:text="${pageNo}"></a>
                 </li>
             </ul>
 
@@ -131,14 +131,14 @@
                         <div class="col-lg-6">
                             <ul class="list-unstyled mb-0">
                                 <li th:each="category: ${category_data1}">
-                                    <a href="#" th:text="${category.name}+'('+${category.count}+')'"></a>
+                                    <a th:href="@{'/blog/home?categoryId=' + ${category.id}}" th:text="${category.name}+'('+${category.count}+')'"></a>
                                 </li>
                             </ul>
                         </div>
                         <div class="col-lg-6">
                             <ul class="list-unstyled mb-0">
                                 <li th:each="category: ${category_data2}">
-                                    <a href="#" th:text="${category.name}+'('+${category.count}+')'"></a>
+                                    <a th:href="@{'/blog/home?categoryId=' + ${category.id}}" th:text="${category.name}+'('+${category.count}+')'"></a>
                                 </li>
                             </ul>
                         </div>
@@ -150,7 +150,7 @@
                 <h5 class="card-header">Popular Articles</h5>
                 <div class="card-body">
                     <div class="list-group">
-                        <a href="#" class="list-group-item" th:each="pop: ${popular_data}">
+                        <a th:href="@{'/blog/posts/' + ${pop.id}}" class="list-group-item" th:each="pop: ${popular_data}">
                             <h5 class="list-group-item-heading" th:text="${pop.title}"></h5>
                             <p class="list-group-item-text">
                                 <span th:text="${pop.shortDesc}"></span>
@@ -179,8 +179,8 @@
 </footer>
 
 <!-- Bootstrap core JavaScript -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

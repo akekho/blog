@@ -32,7 +32,7 @@ public class ArticleVO {
         this.preface = article.getPreface();
         this.status = article.getStatus();
         this.pv = article.getPv();
-        this.desc = computeDesc(content);
+        this.desc = computeDesc(article.getContent());
         this.shortDesc = HtmlUtil.delHTMLTag(content).substring(0, Math.min(HtmlUtil.delHTMLTag(content).length(), 75));
         this.createTime = DateUtil.getTime(article.getCreateTime(), DateUtil.DateFormat.PARTIAL);
         this.updateTime = DateUtil.getTime(article.getUpdateTime(), DateUtil.DateFormat.PARTIAL);
@@ -47,7 +47,7 @@ public class ArticleVO {
         this.status = article.getStatus();
         this.pv = article.getPv();
         this.categoryName = category.getName();
-        this.desc = computeDesc(content);
+        this.desc = computeDesc(article.getContent());
         this.shortDesc = HtmlUtil.delHTMLTag(content).substring(0, Math.min(HtmlUtil.delHTMLTag(content).length(), 75));
         this.createTime = DateUtil.getTime(article.getCreateTime(), DateUtil.DateFormat.PARTIAL);
         this.updateTime = DateUtil.getTime(article.getUpdateTime(), DateUtil.DateFormat.PARTIAL);
@@ -156,12 +156,12 @@ public class ArticleVO {
      * @return
      */
     private String computeDesc(String content) {
-        int index;
-        content = content.replaceAll("<!-- more -->", "&m;");
-        index = content.indexOf("&m;");
+        int index = content.indexOf("<!-- more -->");
         if (index != -1)
             return content.substring(0, index);
-        else
-            return content.substring(0, Math.min(content.length(), 100));
+        else{
+            String pureContent = "<p>" + HtmlUtil.delHTMLTag(this.content) +"</p>";
+            return pureContent.substring(0, Math.min(pureContent.length(), 150));
+        }
     }
 }

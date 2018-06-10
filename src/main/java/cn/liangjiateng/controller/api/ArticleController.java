@@ -109,13 +109,6 @@ public class ArticleController {
 
     @PostMapping
     public JsonResponse createNewArticle(@RequestBody Article article) throws Exception {
-        //处理bootstrap markdown编辑器的一个Bug
-        if (article.getContent() != null) {
-            String content = article.getContent().
-                    replaceAll("<p><code>", "<pre><code>").
-                    replaceAll("</code></p>", "</code></pre>");
-            article.setContent(content);
-        }
         articleService.createNewArticle(article);
         return new JsonResponse(null);
     }

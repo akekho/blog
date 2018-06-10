@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>Simple Sidebar - Start Bootstrap Template</title>
-    <base href="http://localhost:9000"/>
+    <base th:href="@{${host}}" />
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -46,7 +46,7 @@
 
                     <!-- Brand -->
                     <div class="brand-name-wrapper">
-                        <a class="navbar-brand" href="#">
+                        <a class="navbar-brand" href="/back/articles">
                             Jiateng Liang's CMS
                         </a>
                     </div>
@@ -87,10 +87,11 @@
                         <div id="dropdown-lvl1" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#">Management</a></li>
-                                    <li><a href="#">New Article</a></li>
-                                    <li><a href="#">Draft<span class="badge" style="margin-left: 5px"
-                                                               th:text="${draft_cnt}">0</span></a></li>
+                                    <li><a href="/back/articles">Article Management</a></li>
+                                    <li><a href="/back/articles/categories">Category Management</a></li>
+                                    <li><a href="/back/articles/new_article">New Article</a></li>
+                                    <li><a href="/back/articles/drafts">Drafts<span class="badge" style="margin-left: 5px"
+                                                                                    th:text="${draft_cnt}">0</span></a></li>
                                 </ul>
                             </div>
                         </div>
