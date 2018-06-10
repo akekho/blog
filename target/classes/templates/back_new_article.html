@@ -218,11 +218,11 @@
             <form>
                 <div class="input-group" style="margin-bottom: 20px">
                     <span class="input-group-addon" id="basic-addon1">Title</span>
-                    <input id="title" type="text" class="form-control">
+                    <input id="title" type="text" class="form-control" th:value="${article} == null? null : ${article.title}">
 
                 </div>
 
-                <textarea name="content" data-provide="markdown" rows="10" id="editor"></textarea>
+                <textarea name="content" data-provide="markdown" rows="10" id="editor" th:text="${article} == null? null : ${article.contentMd}"></textarea>
                 <script>
                     $("#editor").markdown({
                         autofocus: false,
@@ -277,52 +277,9 @@
             <input type="file" id="file" name="file" placeholder="上传图片"/>
             <button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="upload()">Upload Image
             </button>
-            <script>
-                function upload() {
-                    $.ajaxFileUpload({
-                        type: "POST",
-                        url: "/api/images/upload",
-                        traditional: true,
-                        fileElementId: "file",
-                        dataType: "json",
-                        success: function (result) {
-                            var obj = eval(result);
-                            if (obj.code == 200) {
-                                alert("success！");
-                                location.reload();
-                            } else {
-                                alert(obj.message);
-                            }
-                        }
-                    });
-                }
-            </script>
             <button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="createCategory()">Create
                 Category
             </button>
-            <script>
-                function createCategory() {
-                    var name = prompt("Category Name")
-                    var json = {};
-                    json.name = name;
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify(json),
-                        dataType: "json",
-                        url: "/api/categories/",
-                        success: function (result) {
-                            var obj = eval(result);
-                            if (obj.code == 200) {
-                                alert("success！");
-                                location.reload()
-                            } else {
-                                alert("Failure：" + obj.message)
-                            }
-                        }
-                    });
-                }
-            </script>
             <span style="float: right">
                 <code>Category: </code>
                 <select class="combobox" id="categories">
@@ -358,30 +315,6 @@
 
                 </tbody>
             </table>
-            <script>
-                function deleteImage(id) {
-                    var msg = "Are you sure to delete？";
-                    if (confirm(msg)) {
-                        $.ajax({
-                            type: "DELETE",
-                            contentType: "application/json",
-                            dataType: "json",
-                            url: "/api/images/" + id,
-                            success: function (result) {
-                                var obj = eval(result);
-                                if (obj.code == 200) {
-                                    location.reload()
-                                } else {
-                                    alert("Failure：" + obj.message)
-                                }
-                            }
-                        });
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            </script>
 
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
@@ -418,6 +351,69 @@
 
         });
     });
+
+    function createCategory() {
+        var name = prompt("Category Name")
+        var json = {};
+        json.name = name;
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(json),
+            dataType: "json",
+            url: "/api/categories/",
+            success: function (result) {
+                var obj = eval(result);
+                if (obj.code == 200) {
+                    alert("success！");
+                    location.reload()
+                } else {
+                    alert("Failure：" + obj.message)
+                }
+            }
+        });
+    }
+
+    function deleteImage(id) {
+        var msg = "Are you sure to delete？";
+        if (confirm(msg)) {
+            $.ajax({
+                type: "DELETE",
+                contentType: "application/json",
+                dataType: "json",
+                url: "/api/images/" + id,
+                success: function (result) {
+                    var obj = eval(result);
+                    if (obj.code == 200) {
+                        location.reload()
+                    } else {
+                        alert("Failure：" + obj.message)
+                    }
+                }
+            });
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function upload() {
+        $.ajaxFileUpload({
+            type: "POST",
+            url: "/api/images/upload",
+            traditional: true,
+            fileElementId: "file",
+            dataType: "json",
+            success: function (result) {
+                var obj = eval(result);
+                if (obj.code == 200) {
+                    alert("success！");
+                    location.reload();
+                } else {
+                    alert(obj.message);
+                }
+            }
+        });
+    }
 </script>
 
 </html>

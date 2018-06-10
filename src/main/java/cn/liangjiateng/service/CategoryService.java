@@ -42,6 +42,12 @@ public interface CategoryService {
     void updateCategoryNameById(int id, String newName) throws ServiceException;
 
 
+    /**
+     * 创建新的分类
+     *
+     * @param name 分类名称
+     * @throws ServiceException
+     */
     void createCategory(String name) throws ServiceException;
 
     /**

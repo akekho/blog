@@ -126,11 +126,11 @@
                     <td th:text=" ${article.id}">2131</td>
                     <td><img th:remove="${article.preface == null}? tag : none"
                              th:src="${article.preface}" style="width: 100px;height: auto;"></td>
-                    <td><a th:href="@{'/blog/posts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
+                    <td><a th:href="@{'/back/drafts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
                     <td th:text="${article.categoryName}">HTML</td>
                     <td th:text="${article.createTime}">2017-01-23 21:22:11</td>
                     <td th:text="${article.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a href="" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
+                    <td><a th:href="@{'/back/drafts/' + ${article.id}}" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
                         <a href="" class="btn-sm btn-danger" style="margin-right: 10px"
                            th:onclick="${'deleteArticle('+article.id+')'}">Delete</a>
                         <a href="" class="btn-sm btn-success" th:onclick="${'post('+article.id+')'}">Post</a>

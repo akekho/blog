@@ -2,7 +2,6 @@ package cn.liangjiateng.controller.views;
 
 import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.config.Config;
-import cn.liangjiateng.pojo.DO.Category;
 import cn.liangjiateng.pojo.DO.Image;
 import cn.liangjiateng.pojo.VO.ArticleVO;
 import cn.liangjiateng.pojo.VO.CategoryVO;
@@ -109,8 +108,37 @@ public class BlogBackController {
         json = HttpUtil.get(config.getUrl("/api/articles/count/0"));
         json = JsonUtil.getDataAndCheck(json);
         modelMap.addAttribute("draft_cnt", json);
-        return "drafts";
+        return "back_drafts";
     }
+
+    @GetMapping("/drafts/{id}")
+    public String draft(ModelMap modelMap, @PathVariable int id, @RequestParam(defaultValue = "1") int page) throws IOException, ServiceException {
+        //草稿数据
+        String json = HttpUtil.get(config.getUrl("/api/articles/" + id));
+        json = JsonUtil.getDataAndCheck(json);
+        ArticleVO articleVO = JsonUtil.string2Bean(json, ArticleVO.class);
+        modelMap.addAttribute("article", articleVO);
+
+        //图片列表数据
+        json = HttpUtil.get(config.getUrl("/api/images/?page=" + page));
+        json = JsonUtil.getDataAndCheck(json);
+        Page<Image> holder = JsonUtil.string2Bean(json, Page.class);
+        modelMap.addAttribute("page", holder.getPage());
+        modelMap.addAttribute("maxPage", holder.getMaxPage());
+        modelMap.addAttribute("images", holder.getData());
+        //分组数据
+        json = HttpUtil.get(config.getUrl("/api/categories"));
+        json = JsonUtil.getDataAndCheck(json);
+        List<CategoryVO> categories = JsonUtil.string2List(json, CategoryVO.class);
+        modelMap.addAttribute("categories", categories);
+
+        //草稿数量
+        json = HttpUtil.get(config.getUrl("/api/articles/count/0"));
+        json = JsonUtil.getDataAndCheck(json);
+        modelMap.addAttribute("draft_cnt", json);
+        return "back_new_article";
+    }
+
 
     @GetMapping("/new_article")
     public String newArticle(ModelMap modelMap, @RequestParam(defaultValue = "1") int page) throws IOException, ServiceException {
@@ -126,6 +154,11 @@ public class BlogBackController {
         json = JsonUtil.getDataAndCheck(json);
         List<CategoryVO> categories = JsonUtil.string2List(json, CategoryVO.class);
         modelMap.addAttribute("categories", categories);
+
+        //草稿数量
+        json = HttpUtil.get(config.getUrl("/api/articles/count/0"));
+        json = JsonUtil.getDataAndCheck(json);
+        modelMap.addAttribute("draft_cnt", json);
 
         return "back_new_article";
     }
