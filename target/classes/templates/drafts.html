@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../../css/simple-sidebar.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"-->
+    <!--integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">-->
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<!--sidebar-->
+<div class="row">
+    <!-- uncomment code for absolute positioning tweek see top comment in css -->
+    <!-- <div class="absolute-wrapper"> </div> -->
+    <!-- Menu -->
+    <div class="side-menu">
+
+        <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <div class="brand-wrapper">
+                    <!-- Hamburger -->
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Brand -->
+                    <div class="brand-name-wrapper">
+                        <a class="navbar-brand" href="#">
+                            Jiateng Liang's CMS
+                        </a>
+                    </div>
+
+                    <!-- Search -->
+                    <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </a>
+
+                    <!-- Search body -->
+                    <div id="search" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form class="navbar-form" role="search">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search">
+                                </div>
+                                <button type="submit" class="btn btn-default "><span
+                                        class="glyphicon glyphicon-ok"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Main Menu -->
+            <div class="side-menu-container">
+                <ul class="nav navbar-nav">
+
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-lvl1">
+                            <i class="far fa-newspaper"></i>Articles<span class="badge" style="margin-left: 5px"
+                                                                          th:text="${draft_cnt}">0</span><span
+                                class="caret"></span>
+                        </a>
+
+                        <!-- Dropdown level 1 -->
+                        <div id="dropdown-lvl1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="#">Management</a></li>
+                                    <li><a href="#">New Article</a></li>
+                                    <li><a href="#">Draft<span class="badge" style="margin-left: 5px"
+                                                               th:text="${draft_cnt}">0</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li><a href="#"><span class="glyphicon glyphicon-signal"></span>Logout
+                        <span>(current user: 702313)</span></a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="side-body">
+            <h1>Drafts</h1>
+
+            <table class="table table-bordered" style="margin-top: 20px">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Preface</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Create Time</th>
+                    <th>Update Time</th>
+                    <th>Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="article :${articles}">
+                    <td th:text=" ${article.id}">2131</td>
+                    <td><img th:remove="${article.preface == null}? tag : none"
+                             th:src="${article.preface}" style="width: 100px;height: auto;"></td>
+                    <td><a th:href="@{'/blog/posts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
+                    <td th:text="${article.categoryName}">HTML</td>
+                    <td th:text="${article.createTime}">2017-01-23 21:22:11</td>
+                    <td th:text="${article.updateTime}">2017-01-23 21:22:11</td>
+                    <td><a href="" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
+                        <a href="" class="btn-sm btn-danger" style="margin-right: 10px"
+                           th:onclick="${'deleteArticle('+article.id+')'}">Delete</a>
+                        <a href="" class="btn-sm btn-success" th:onclick="${'post('+article.id+')'}">Post</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- Pagination -->
+            <ul class="pagination justify-content-center mb-4">
+                <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
+                    <a class="page-link" th:href="@{'/back/drafts?page=' + ${page}}" th:text="${pageNo}"></a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+    $(function () {
+        $('.navbar-toggle').click(function () {
+            $('.navbar-nav').toggleClass('slide-in');
+            $('.side-body').toggleClass('body-slide-in');
+            $('#search').removeClass('in').addClass('collapse').slideUp(200);
+
+            /// uncomment code for absolute positioning tweek see top comment in css
+            //$('.absolute-wrapper').toggleClass('slide-in');
+
+        });
+
+        // Remove menu for searching
+        $('#search-trigger').click(function () {
+            $('.navbar-nav').removeClass('slide-in');
+            $('.side-body').removeClass('body-slide-in');
+
+            /// uncomment code for absolute positioning tweek see top comment in css
+            //$('.absolute-wrapper').removeClass('slide-in');
+
+        });
+    });
+    function deleteArticle(id) {
+        var msg = "Are you sure to delete？";
+        if (confirm(msg)) {
+            $.ajax({
+                type: "DELETE",
+                contentType: "application/json",
+                dataType: "json",
+                url: "/api/articles/" + id,
+                success: function (result) {
+                    var obj = eval(result);
+                    if (obj.code == 200) {
+                        location.reload()
+                    } else {
+                        alert("Failure：" + obj.message)
+                    }
+                }
+            });
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function post(id) {
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json",
+            dataType: "json",
+            url: "/api/articles/post/" + id,
+            success: function (result) {
+                var obj = eval(result);
+                if (obj.code == 200) {
+                    location.reload()
+                } else {
+                    alert("Failure：" + obj.message)
+                }
+            }
+        });
+    }
+</script>
+
+</html>

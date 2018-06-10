@@ -93,6 +93,25 @@ public class BlogBackController {
         return "back_article_management";
     }
 
+    @GetMapping("/drafts")
+    public String drafts(ModelMap modelMap,
+                         @RequestParam(defaultValue = "1") int page,
+                         @RequestParam(defaultValue = "0") int sortType) throws IOException, ServiceException {
+        //搜索文章列表数据
+        String json = HttpUtil.get(config.getUrl("/api/articles/drafts?page=" + page + "&sortType=" + sortType));
+        json = JsonUtil.getDataAndCheck(json);
+        Page<ArticleVO> holder = JsonUtil.string2Bean(json, Page.class);
+        modelMap.addAttribute("page", holder.getPage());
+        modelMap.addAttribute("maxPage", holder.getMaxPage());
+        modelMap.addAttribute("articles", holder.getData());
+
+        //草稿数量
+        json = HttpUtil.get(config.getUrl("/api/articles/count/0"));
+        json = JsonUtil.getDataAndCheck(json);
+        modelMap.addAttribute("draft_cnt", json);
+        return "drafts";
+    }
+
     @GetMapping("/new_article")
     public String newArticle(ModelMap modelMap, @RequestParam(defaultValue = "1") int page) throws IOException, ServiceException {
         //图片列表数据
