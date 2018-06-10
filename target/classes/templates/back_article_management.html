@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -10,21 +10,13 @@
     <title>Simple Sidebar - Start Bootstrap Template</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="../../vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="css/simple-sidebar.css" rel="stylesheet">
-    <link href="vendor/bootstrap/css/bootstrap-markdown.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-
-
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/markdown.js"></script>
-    <script src="vendor/bootstrap/js/to-markdown.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap-markdown.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap-markdown.fr.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <link href="../../css/simple-sidebar.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"-->
+          <!--integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">-->
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
     <style>
         i {
             margin-right: 5px;
@@ -86,7 +78,9 @@
 
                     <li class="panel panel-default" id="dropdown">
                         <a data-toggle="collapse" href="#dropdown-lvl1">
-                            <i class="far fa-newspaper"></i>Articles<span class="caret"></span>
+                            <i class="far fa-newspaper"></i>Articles<span class="badge" style="margin-left: 5px"
+                                                                          th:text="${draft_cnt}">0</span><span
+                                class="caret"></span>
                         </a>
 
                         <!-- Dropdown level 1 -->
@@ -95,109 +89,8 @@
                                 <ul class="nav navbar-nav">
                                     <li><a href="#">Management</a></li>
                                     <li><a href="#">New Article</a></li>
-                                    <li><a href="#">Draft<span class="badge" style="margin-left: 5px">42</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown1-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Gallery<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown1-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Management</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown2-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Videos<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown2-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown3-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Resumes<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown3-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown4-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Cover Letters<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown4-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown5-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Cloud<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown5-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown6-lvl1">
-                            <span class="glyphicon glyphicon-user"></span>Accounts<span class="caret"></span>
-                        </a>
-
-                        <!-- Dropdown level 1 -->
-                        <div id="dropdown6-lvl1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
+                                    <li><a href="#">Draft<span class="badge" style="margin-left: 5px"
+                                                               th:text="${draft_cnt}">0</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -219,33 +112,20 @@
             <div class="col-lg-6" style="padding: 0;margin-bottom: 20px">
                 <div class="input-group">
                   <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Go!</button>
+                    <button class="btn btn-default" type="button" onclick="search()">Go!</button>
                   </span>
-                    <input type="text" class="form-control" placeholder="Search for...">
+                    <input id="input-title" type="text" class="form-control" placeholder="Search for title..." th:value="${title} == null? null:${title}">
                 </div>
             </div>
+            <script>
+                
+            </script>
             <span style="float: right"><code>Category: </code>
-                <select class="combobox">
-                    <option></option>
-                    <option value="PA">HTML</option>
-                    <option value="PA">Java</option>
-                    <option value="CT">Unposted</option>
+               <select class="combobox" id="categories" onchange="changeCategory()">
+                    <option value="0">All</option>
+                    <option th:each="category: ${categories}" th:text="${category.name}"
+                            th:value="${category.id}" th:selected="${category_id} == ${category.id} ? selected : null"></option>
                 </select></span>
-            <span style="float: right"><code>Sort By: </code>
-                <select class="combobox">
-                    <option></option>
-                    <option value="PA">Time Desc</option>
-                    <option value="CT">Time Asc</option>
-                </select></span>
-
-            <span style="float: right"><code>Status: </code>
-                <select class="combobox">
-                    <option></option>
-                    <option value="PA">All</option>
-                    <option value="PA">Posted</option>
-                    <option value="CT">Unposted</option>
-                </select></span>
-
 
             <table class="table table-bordered" style="margin-top: 20px">
                 <thead>
@@ -260,50 +140,29 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>2131</td>
-                    <td><img src="img/avatar.jpg" style="width: 100px;height: auto;"></td>
-                    <td><a href="#">Synchronizer</a></td>
-                    <td>HTML</td>
-                    <td>2017-01-23 21:22:11</td>
-                    <td>2017-01-23 21:22:11</td>
-                    <td><a href="#" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
-                        <a href="#" class="btn-sm btn-danger" style="margin-right: 10px">Delete</a>
-                        <a href="#" class="btn-sm btn-success">Post</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2131</td>
-                    <td><img src="img/1.jpeg" style="width: 100px;height: auto;"></td>
-                    <td><a href="#">Synchronizer</a></td>
-                    <td>HTML</td>
-                    <td>2017-01-23 21:22:11</td>
-                    <td>2017-01-23 21:22:11</td>
-                    <td><a href="#" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
-                        <a href="#" class="btn-sm btn-danger" style="margin-right: 10px">Delete</a>
-                        <a href="#" class="btn-sm btn-warning">Offline</a>
+                <tr th:each="article :${articles}">
+                    <td th:text=" ${article.id}">2131</td>
+                    <td><img th:remove="${article.preface == null}? tag : none"
+                             th:src="${article.preface}" style="width: 100px;height: auto;"></td>
+                    <td><a th:href="@{'/blog/posts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
+                    <td th:text="${article.categoryName}">HTML</td>
+                    <td th:text="${article.createTime}">2017-01-23 21:22:11</td>
+                    <td th:text="${article.updateTime}">2017-01-23 21:22:11</td>
+                    <td><a href="" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
+                        <a href="" class="btn-sm btn-danger" style="margin-right: 10px"
+                           th:onclick="${'deleteArticle('+article.id+')'}">Delete</a>
+                        <a href="" class="btn-sm btn-warning" th:onclick="${'offline('+article.id+')'}">Offline</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
-                <li class="page-item">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">4</a>
-                </li>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">5</a>
+                <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
+                    <a class="page-link" th:href="${title == null} ? @{'/back/articles?page=' + ${page} + '&categoryId='+${category_id}} : @{'/back/articles/'+ ${title} +'?page=' + ${page}}" th:text="${pageNo}"></a>
                 </li>
             </ul>
+
         </div>
     </div>
 </div>
@@ -332,6 +191,54 @@
 
         });
     });
+    function deleteArticle(id) {
+        var msg = "Are you sure to delete？";
+        if (confirm(msg)) {
+            $.ajax({
+                type: "DELETE",
+                contentType: "application/json",
+                dataType: "json",
+                url: "/api/articles/" + id,
+                success: function (result) {
+                    var obj = eval(result);
+                    if (obj.code == 200) {
+                        location.reload()
+                    } else {
+                        alert("Failure：" + obj.message)
+                    }
+                }
+            });
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function offline(id) {
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json",
+            dataType: "json",
+            url: "/api/articles/offline/" + id,
+            success: function (result) {
+                var obj = eval(result);
+                if (obj.code == 200) {
+                    location.reload()
+                } else {
+                    alert("Failure：" + obj.message)
+                }
+            }
+        });
+    }
+    function search() {
+        var title = $("#input-title").val();
+        window.location.href="/back/articles/" + title;
+    }
+    function changeCategory(){
+        var id = $("#categories").val();
+        window.location.href="/back/articles?categoryId=" + id;
+    }
+
 </script>
 
 </html>

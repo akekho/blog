@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -46,6 +48,18 @@ public class BlogBackController {
         modelMap.addAttribute("maxPage", holder.getMaxPage());
         modelMap.addAttribute("articles", holder.getData());
         modelMap.addAttribute("status", 0); //标识当前页面显示状态 0-普通 1-通过名字搜索
+
+        //草稿数量
+        json = HttpUtil.get(config.getUrl("/api/articles/count/0"));
+        json = JsonUtil.getDataAndCheck(json);
+        modelMap.addAttribute("draft_cnt", json);
+
+        //分组数据
+        json = HttpUtil.get(config.getUrl("/api/categories"));
+        json = JsonUtil.getDataAndCheck(json);
+        List<CategoryVO> categories = JsonUtil.string2List(json, CategoryVO.class);
+        modelMap.addAttribute("categories", categories);
+        modelMap.addAttribute("category_id", categoryId);
         return "back_article_management";
     }
 
@@ -54,6 +68,7 @@ public class BlogBackController {
                            @RequestParam(defaultValue = "0") int sortType,
                            @PathVariable String name) throws IOException, ServiceException {
         //搜索文章列表数据
+        name = URLEncoder.encode(name, "UTF-8");
         String json = HttpUtil.get(config.getUrl("/api/articles/name/" + name + "?page=" + page + "&sortType=" + sortType));
         json = JsonUtil.getDataAndCheck(json);
         Page<ArticleVO> holder = JsonUtil.string2Bean(json, Page.class);
@@ -61,6 +76,20 @@ public class BlogBackController {
         modelMap.addAttribute("maxPage", holder.getMaxPage());
         modelMap.addAttribute("articles", holder.getData());
         modelMap.addAttribute("status", 1); //标识当前页面显示状态 0-普通 1-通过名字搜索
+
+        //草稿数量
+        json = HttpUtil.get(config.getUrl("/api/articles/count/0"));
+        json = JsonUtil.getDataAndCheck(json);
+        modelMap.addAttribute("draft_cnt", json);
+
+        //分组数据
+        json = HttpUtil.get(config.getUrl("/api/categories"));
+        json = JsonUtil.getDataAndCheck(json);
+        List<CategoryVO> categories = JsonUtil.string2List(json, CategoryVO.class);
+        modelMap.addAttribute("categories", categories);
+        modelMap.addAttribute("category_id", 0);
+        name = URLDecoder.decode(name, "UTF-8");
+        modelMap.addAttribute("title", name);
         return "back_article_management";
     }
 
@@ -76,8 +105,9 @@ public class BlogBackController {
         //分组数据
         json = HttpUtil.get(config.getUrl("/api/categories"));
         json = JsonUtil.getDataAndCheck(json);
-        List<CategoryVO>  categories = JsonUtil.string2List(json, CategoryVO.class);
+        List<CategoryVO> categories = JsonUtil.string2List(json, CategoryVO.class);
         modelMap.addAttribute("categories", categories);
+
         return "back_new_article";
     }
 

@@ -1,6 +1,7 @@
 package cn.liangjiateng.controller.api;
 
 import cn.liangjiateng.common.JsonResponse;
+import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.config.Config;
 import cn.liangjiateng.pojo.DO.Article;
 import cn.liangjiateng.pojo.DO.Category;
@@ -8,6 +9,7 @@ import cn.liangjiateng.pojo.VO.ArticleVO;
 import cn.liangjiateng.service.ArticleService;
 import cn.liangjiateng.service.CategoryService;
 import cn.liangjiateng.util.Page;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,11 @@ public class ArticleController {
     private CategoryService categoryService;
     @Autowired
     private Config config;
+
+    @GetMapping("/count/{status}")
+    public JsonResponse countArticleByStatus(@PathVariable int status) throws ServiceException {
+        return new JsonResponse(articleService.countArticleByStatus(Article.getStatusType(status)));
+    }
 
     @GetMapping("/{id}")
     public JsonResponse getArticleById(@PathVariable int id) throws Exception {

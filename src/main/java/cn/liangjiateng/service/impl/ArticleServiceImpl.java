@@ -22,6 +22,11 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
+    public long countArticleByStatus(Article.Status status) {
+        return articleMapper.countArticlesByStatus(status.getVal());
+    }
+
+    @Override
     public Page<Article> listArticlesSortBy(Article.SortType sortType, int pageSize, int page) throws ServiceException {
         if (pageSize <= 0 || page <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());

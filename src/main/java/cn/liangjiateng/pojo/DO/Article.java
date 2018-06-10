@@ -116,7 +116,7 @@ public class Article extends AbstractDO{
         }
 
     }
-    public static Status getStatus(int status) throws ServiceException {
+    public static Status getStatusType(int status) throws ServiceException {
         switch (status) {
             case 0:
                 return Status.OFFLINE;

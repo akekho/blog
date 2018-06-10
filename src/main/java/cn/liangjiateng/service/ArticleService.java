@@ -11,6 +11,16 @@ import java.util.List;
  * Created by Jiateng on 5/29/18.
  */
 public interface ArticleService {
+
+
+    /**
+     * 查询文章数量
+     *
+     * @param status 文章状态
+     * @return
+     */
+    long countArticleByStatus(Article.Status status);
+
     /**
      * 列出上线的所有文章
      *
