@@ -8,23 +8,23 @@
     <meta name="author" content="">
 
     <title>Simple Sidebar - Start Bootstrap Template</title>
-
+    <base href="http://localhost:9000" />
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="../../css/simple-sidebar.css" rel="stylesheet">
-    <link href="../../vendor/bootstrap/css/bootstrap-markdown.min.css" rel="stylesheet">
+    <link href="/css/simple-sidebar.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap-markdown.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
           integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
 
-    <script src="../../vendor/jquery/jquery.min.js"></script>
-    <script src="../../vendor/bootstrap/js/markdown.js"></script>
-    <script src="../../vendor/bootstrap/js/to-markdown.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap-markdown.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap-markdown.fr.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../js/ajaxfileupload.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/markdown.js"></script>
+    <script src="/vendor/bootstrap/js/to-markdown.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap-markdown.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap-markdown.fr.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/ajaxfileupload.js"></script>
     <style>
         i {
             margin-right: 5px;
@@ -218,11 +218,13 @@
             <form>
                 <div class="input-group" style="margin-bottom: 20px">
                     <span class="input-group-addon" id="basic-addon1">Title</span>
-                    <input id="title" type="text" class="form-control" th:value="${article} == null? null : ${article.title}">
+                    <input id="title" type="text" class="form-control"
+                           th:value="${article} == null? null : ${article.title}">
 
                 </div>
 
-                <textarea name="content" data-provide="markdown" rows="10" id="editor" th:text="${article} == null? null : ${article.contentMd}"></textarea>
+                <textarea name="content" data-provide="markdown" rows="10" id="editor"
+                          th:text="${article} == null? null : ${article.contentMd}"></textarea>
                 <script>
                     $("#editor").markdown({
                         autofocus: false,
@@ -396,6 +398,7 @@
             return false;
         }
     }
+
     function upload() {
         $.ajaxFileUpload({
             type: "POST",

@@ -8,20 +8,21 @@
     <meta name="author" content="">
 
     <title>Simple Sidebar - Start Bootstrap Template</title>
-
+    <base href="http://localhost:9000" />
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="../../css/simple-sidebar.css" rel="stylesheet">
-    <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"-->
-    <!--integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">-->
-    <script src="../../vendor/jquery/jquery.min.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/css/simple-sidebar.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <style>
         i {
             margin-right: 5px;
         }
     </style>
+
 </head>
 
 <body>
@@ -126,14 +127,14 @@
                     <td th:text=" ${article.id}">2131</td>
                     <td><img th:remove="${article.preface == null}? tag : none"
                              th:src="${article.preface}" style="width: 100px;height: auto;"></td>
-                    <td><a th:href="@{'/back/drafts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
+                    <td><a th:href="@{'/back/articles/drafts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
                     <td th:text="${article.categoryName}">HTML</td>
                     <td th:text="${article.createTime}">2017-01-23 21:22:11</td>
                     <td th:text="${article.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a th:href="@{'/back/drafts/' + ${article.id}}" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
-                        <a href="" class="btn-sm btn-danger" style="margin-right: 10px"
+                    <td><a th:href="@{'/back/articles/drafts/' + ${article.id}}" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
+                        <a class="btn-sm btn-danger" style="margin-right: 10px"
                            th:onclick="${'deleteArticle('+article.id+')'}">Delete</a>
-                        <a href="" class="btn-sm btn-success" th:onclick="${'post('+article.id+')'}">Post</a>
+                        <a class="btn-sm btn-success" th:onclick="${'post('+article.id+')'}">Post</a>
                     </td>
                 </tr>
                 </tbody>
@@ -141,7 +142,7 @@
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
                 <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
-                    <a class="page-link" th:href="@{'/back/drafts?page=' + ${page}}" th:text="${pageNo}"></a>
+                    <a class="page-link" th:href="@{'/back/articles/drafts?page=' + ${page}}" th:text="${pageNo}"></a>
                 </li>
             </ul>
 

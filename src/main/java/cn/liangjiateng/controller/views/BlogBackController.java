@@ -25,13 +25,13 @@ import java.util.List;
  * Created by Jiateng on 6/6/18.
  */
 @Controller
-@RequestMapping(value = "/back")
+@RequestMapping(value = "/back/articles")
 public class BlogBackController {
 
     @Autowired
     private Config config;
 
-    @GetMapping("/articles")
+    @GetMapping
     public String articles(ModelMap modelMap, @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "0") int sortType,
                            @RequestParam(defaultValue = "0") int categoryId) throws IOException, ServiceException {
@@ -62,7 +62,7 @@ public class BlogBackController {
         return "back_article_management";
     }
 
-    @GetMapping("/articles/{name}")
+    @GetMapping("/{name}")
     public String articles(ModelMap modelMap, @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "0") int sortType,
                            @PathVariable String name) throws IOException, ServiceException {
@@ -163,5 +163,20 @@ public class BlogBackController {
         return "back_new_article";
     }
 
+    @GetMapping("/categories")
+    public String categories(ModelMap modelMap) throws IOException, ServiceException {
+
+        //分组数据
+        String json = HttpUtil.get(config.getUrl("/api/categories"));
+        json = JsonUtil.getDataAndCheck(json);
+        List<CategoryVO> categories = JsonUtil.string2List(json, CategoryVO.class);
+        modelMap.addAttribute("categories", categories);
+
+        //草稿数量
+        json = HttpUtil.get(config.getUrl("/api/articles/count/0"));
+        json = JsonUtil.getDataAndCheck(json);
+        modelMap.addAttribute("draft_cnt", json);
+        return "back_categories";
+    }
 
 }

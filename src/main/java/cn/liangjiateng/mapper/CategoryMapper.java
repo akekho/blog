@@ -14,16 +14,16 @@ public interface CategoryMapper {
     @Select("select * from category where name = #{name}")
     Category getCategoryByName(String name);
 
-    @Select("select * from category where deleted = 0")
+    @Select("select * from category where deleted = 0 order by create_time desc")
     List<Category> listCategories();
 
-    @Update("update category set deleted = 1 where id = #{id}")
+    @Update("update category set deleted = 1, update_time = now() where id = #{id}")
     void deleteCategoryById(int id);
 
     @Insert("insert into category set name = #{name}, deleted = 0")
     void insertCategory(Category category);
 
-    @Update("update category set name = #{name} where id = #{id}")
+    @Update("update category set name = #{name}, update_time = now() where id = #{id}")
     void updateCategoryNameById(@Param("id") int id, @Param("name") String name);
 
     @Delete("delete from category")

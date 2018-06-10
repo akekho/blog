@@ -29,7 +29,7 @@ public interface ArticleMapper {
     List<Article> listArticlesByCategoryIdSortBy(@Param("categoryId") int categoryId, @Param("sortType") int sortType,
                                                  @Param("status") int status, @Param("page") Page page);
 
-    @Select("select * from article where category_id = #{categoryId}")
+    @Select("select * from article where category_id = #{categoryId} order by create_time desc")
     List<Article> listArticlesByCategoryId(int categoryId);
 
     List<Article> listArticlesByNameSortBy(@Param("title") String title, @Param("sortType") int sortType,

@@ -14,7 +14,7 @@
     <!-- Custom styles for this template -->
     <link href="/css/simple-sidebar.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <style>
@@ -22,6 +22,7 @@
             margin-right: 5px;
         }
     </style>
+
 </head>
 
 <body>
@@ -107,25 +108,7 @@
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
-            <h1>Article Management</h1>
-
-            <div class="col-lg-6" style="padding: 0;margin-bottom: 20px">
-                <div class="input-group">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" onclick="search()">Go!</button>
-                  </span>
-                    <input id="input-title" type="text" class="form-control" placeholder="Search for title..." th:value="${title} == null? null:${title}">
-                </div>
-            </div>
-            <script>
-                
-            </script>
-            <span style="float: right"><code>Category: </code>
-               <select class="combobox" id="categories" onchange="changeCategory()">
-                    <option value="0">All</option>
-                    <option th:each="category: ${categories}" th:text="${category.name}"
-                            th:value="${category.id}" th:selected="${category_id} == ${category.id} ? selected : null"></option>
-                </select></span>
+            <h1>Drafts</h1>
 
             <table class="table table-bordered" style="margin-top: 20px">
                 <thead>
@@ -144,14 +127,14 @@
                     <td th:text=" ${article.id}">2131</td>
                     <td><img th:remove="${article.preface == null}? tag : none"
                              th:src="${article.preface}" style="width: 100px;height: auto;"></td>
-                    <td><a th:href="@{'/blog/posts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
+                    <td><a th:href="@{'/back/articles/drafts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
                     <td th:text="${article.categoryName}">HTML</td>
                     <td th:text="${article.createTime}">2017-01-23 21:22:11</td>
                     <td th:text="${article.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
-                        <a class="btn-sm btn-danger" style="margin-right: 10px"
+                    <td><a th:href="@{'/back/articles/drafts/' + ${article.id}}" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
+                        <a href="" class="btn-sm btn-danger" style="margin-right: 10px"
                            th:onclick="${'deleteArticle('+article.id+')'}">Delete</a>
-                        <a class="btn-sm btn-warning" th:onclick="${'offline('+article.id+')'}">Offline</a>
+                        <a href="" class="btn-sm btn-success" th:onclick="${'post('+article.id+')'}">Post</a>
                     </td>
                 </tr>
                 </tbody>
@@ -159,7 +142,7 @@
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
                 <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
-                    <a class="page-link" th:href="${title == null} ? @{'/back/articles?page=' + ${page} + '&categoryId='+${category_id}} : @{'/back/articles/'+ ${title} +'?page=' + ${page}}" th:text="${pageNo}"></a>
+                    <a class="page-link" th:href="@{'/back/articles/drafts?page=' + ${page}}" th:text="${pageNo}"></a>
                 </li>
             </ul>
 
@@ -214,12 +197,12 @@
         }
     }
 
-    function offline(id) {
+    function post(id) {
         $.ajax({
             type: "PUT",
             contentType: "application/json",
             dataType: "json",
-            url: "/api/articles/offline/" + id,
+            url: "/api/articles/post/" + id,
             success: function (result) {
                 var obj = eval(result);
                 if (obj.code == 200) {
@@ -230,15 +213,6 @@
             }
         });
     }
-    function search() {
-        var title = $("#input-title").val();
-        window.location.href="/back/articles/" + title;
-    }
-    function changeCategory(){
-        var id = $("#categories").val();
-        window.location.href="/back/articles?categoryId=" + id;
-    }
-
 </script>
 
 </html>

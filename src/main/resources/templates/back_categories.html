@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>Simple Sidebar - Start Bootstrap Template</title>
-    <base href="http://localhost:9000" />
+    <base href="http://localhost:9000"/>
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -107,62 +107,34 @@
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
-            <h1>Article Management</h1>
-
-            <div class="col-lg-6" style="padding: 0;margin-bottom: 20px">
-                <div class="input-group">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" onclick="search()">Go!</button>
-                  </span>
-                    <input id="input-title" type="text" class="form-control" placeholder="Search for title..." th:value="${title} == null? null:${title}">
-                </div>
-            </div>
-            <script>
-                
-            </script>
-            <span style="float: right"><code>Category: </code>
-               <select class="combobox" id="categories" onchange="changeCategory()">
-                    <option value="0">All</option>
-                    <option th:each="category: ${categories}" th:text="${category.name}"
-                            th:value="${category.id}" th:selected="${category_id} == ${category.id} ? selected : null"></option>
-                </select></span>
+            <h1>Categories</h1>
 
             <table class="table table-bordered" style="margin-top: 20px">
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Preface</th>
                     <th>Name</th>
-                    <th>Category</th>
+                    <th>Article Count</th>
                     <th>Create Time</th>
                     <th>Update Time</th>
                     <th>Operation</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="article :${articles}">
-                    <td th:text=" ${article.id}">2131</td>
-                    <td><img th:remove="${article.preface == null}? tag : none"
-                             th:src="${article.preface}" style="width: 100px;height: auto;"></td>
-                    <td><a th:href="@{'/blog/posts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
-                    <td th:text="${article.categoryName}">HTML</td>
-                    <td th:text="${article.createTime}">2017-01-23 21:22:11</td>
-                    <td th:text="${article.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
+                <tr th:each="category :${categories}">
+                    <td th:text=" ${category.id}">2131</td>
+                    <td th:text="${category.name}">Synchronizer</td>
+                    <td th:text="${category.count}">HTML</td>
+                    <td th:text="${category.createTime}">2017-01-23 21:22:11</td>
+                    <td th:text="${category.updateTime}">2017-01-23 21:22:11</td>
+                    <td><a class="btn-sm btn-primary" style="margin-right: 10px"
+                           th:onclick="${'updateCategory('+category.id+')'}">Edit</a>
                         <a class="btn-sm btn-danger" style="margin-right: 10px"
-                           th:onclick="${'deleteArticle('+article.id+')'}">Delete</a>
-                        <a class="btn-sm btn-warning" th:onclick="${'offline('+article.id+')'}">Offline</a>
+                           th:onclick="${'deleteCategory('+category.id+')'}">Delete</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <!-- Pagination -->
-            <ul class="pagination justify-content-center mb-4">
-                <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
-                    <a class="page-link" th:href="${title == null} ? @{'/back/articles?page=' + ${page} + '&categoryId='+${category_id}} : @{'/back/articles/'+ ${title} +'?page=' + ${page}}" th:text="${pageNo}"></a>
-                </li>
-            </ul>
-
         </div>
     </div>
 </div>
@@ -191,14 +163,41 @@
 
         });
     });
-    function deleteArticle(id) {
+
+
+    function updateCategory(id) {
+        var name = prompt("Category Name")
+        if (name == null) {
+
+        } else if (name === "") {
+            alert("Category name should not be null")
+        } else {
+            $.ajax({
+                type: "PUT",
+                contentType: "application/json",
+                dataType: "json",
+                url: "/api/categories/" + id + "/" + name,
+                success: function (result) {
+                    var obj = eval(result);
+                    if (obj.code == 200) {
+                        alert("success！");
+                        location.reload()
+                    } else {
+                        alert("Failure：" + obj.message)
+                    }
+                }
+            });
+        }
+    }
+
+    function deleteCategory(id) {
         var msg = "Are you sure to delete？";
         if (confirm(msg)) {
             $.ajax({
                 type: "DELETE",
                 contentType: "application/json",
                 dataType: "json",
-                url: "/api/articles/" + id,
+                url: "/api/categories/" + id,
                 success: function (result) {
                     var obj = eval(result);
                     if (obj.code == 200) {
@@ -212,31 +211,6 @@
         } else {
             return false;
         }
-    }
-
-    function offline(id) {
-        $.ajax({
-            type: "PUT",
-            contentType: "application/json",
-            dataType: "json",
-            url: "/api/articles/offline/" + id,
-            success: function (result) {
-                var obj = eval(result);
-                if (obj.code == 200) {
-                    location.reload()
-                } else {
-                    alert("Failure：" + obj.message)
-                }
-            }
-        });
-    }
-    function search() {
-        var title = $("#input-title").val();
-        window.location.href="/back/articles/" + title;
-    }
-    function changeCategory(){
-        var id = $("#categories").val();
-        window.location.href="/back/articles?categoryId=" + id;
     }
 
 </script>

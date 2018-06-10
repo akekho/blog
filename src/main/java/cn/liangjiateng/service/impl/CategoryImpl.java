@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class CategoryImpl implements CategoryService {
     @Override
     public Map<Category, Long> countCategoryArticleNum() {
         List<Category> categories = listCategories();
-        Map<Category, Long> res = new HashMap<>();
+        Map<Category, Long> res = new LinkedHashMap<>();
         for (Category c : categories) {
             res.put(c, articleMapper.countArticlesByCategoryIdAndStatus(c.getId(), Article.Status.ONLINE.getVal()));
         }
@@ -48,7 +49,11 @@ public class CategoryImpl implements CategoryService {
 
     @Override
     public void updateCategoryNameById(int id, String newName) throws ServiceException {
+        if (newName == null)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "名字不能为空");
         Category category = getCategoryById(id);
+        if (categoryMapper.getCategoryByName(newName) != null)
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "分类名已经存在");
         categoryMapper.updateCategoryNameById(category.getId(), newName);
     }
 
