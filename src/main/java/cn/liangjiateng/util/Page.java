@@ -36,7 +36,7 @@ public class Page<T> {
 
 
     public int getLimit() {
-        return page - 1;
+        return (page - 1) * pageSize;
     }
 
     public void setPage(int page) {

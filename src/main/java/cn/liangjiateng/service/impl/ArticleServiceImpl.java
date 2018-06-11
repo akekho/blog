@@ -100,6 +100,8 @@ public class ArticleServiceImpl implements ArticleService {
     public void updateArticle(Article article) throws ServiceException {
         if (article == null)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
+        if (article.getTitle() == null || article.getTitle().equals(""))
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "标题不能为空");
         if (article.getTitle().length() > 30)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "文章标题不能超过30个字符");
         Article check = articleMapper.getArticleById(article.getId());
@@ -144,6 +146,8 @@ public class ArticleServiceImpl implements ArticleService {
     public void createNewArticle(Article article) throws ServiceException {
         if (article == null)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
+        if (article.getTitle() == null || article.getTitle().equals(""))
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "标题不能为空");
         if (article.getTitle().length() > 30)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "文章标题不能超过30个字符");
         Article check = articleMapper.getArticleByTitle(article.getTitle());

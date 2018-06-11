@@ -34,17 +34,18 @@ public class ImageController {
     @GetMapping("/{id}")
     public JsonResponse getImageById(@PathVariable int id) throws ServiceException {
         Image image = imageService.getImageById(id);
-        image.setUrl(config.getStorageHost() + image.getUrl());
-        return new JsonResponse(new ImageVO(image));
+        return new JsonResponse(transfer2VO(image));
+    }
+
+    @GetMapping("/slim_url/{url}")
+    public JsonResponse getImageBySlimUrl(@PathVariable String url) throws ServiceException {
+        return new JsonResponse(transfer2VO(imageService.getImageBySlimUrl(url)));
     }
 
     @GetMapping
     public JsonResponse listImages(@RequestParam int page) throws ServiceException {
         Page<Image> holder = imageService.listImages(config.getMediumPage(), page);
-        for (Image image : holder.getData()) {
-            image.setUrl(config.getStorageHost() + image.getUrl());
-        }
-        Page<ImageVO> res = new Page<>(holder.getPage(), holder.getPageSize(),holder.getMaxCount(),batchTransfer2VO(holder.getData()));
+        Page<ImageVO> res = new Page<>(holder.getPage(), holder.getPageSize(), holder.getMaxCount(), batchTransfer2VO(holder.getData()));
         return new JsonResponse(res);
     }
 
@@ -54,10 +55,21 @@ public class ImageController {
         return new JsonResponse(null);
     }
 
+    private ImageVO transfer2VO(Image image) {
+        ImageVO imageVO = new ImageVO(image);
+        imageVO.setUrl(config.getStorageHost() + image.getUrl());
+        imageVO.setThumbUrl(config.getStorageHost() + image.getThumbUrl());
+        imageVO.setSlimUrl(config.getStorageHost() + image.getSlimUrl());
+        return imageVO;
+    }
+
     private List<ImageVO> batchTransfer2VO(List<Image> images) {
         List<ImageVO> imageVOS = new ArrayList<>();
         for (Image image : images) {
             ImageVO imageVO = new ImageVO(image);
+            imageVO.setUrl(config.getStorageHost() + image.getUrl());
+            imageVO.setThumbUrl(config.getStorageHost() + image.getThumbUrl());
+            imageVO.setSlimUrl(config.getStorageHost() + image.getSlimUrl());
             imageVOS.add(imageVO);
         }
         return imageVOS;

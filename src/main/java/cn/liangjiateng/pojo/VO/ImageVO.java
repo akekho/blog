@@ -10,6 +10,8 @@ public class ImageVO {
     private Integer id;
     private String name;
     private String url;
+    private String thumbUrl;
+    private String slimUrl;
     private String createTime;
     private String updateTime;
 
@@ -20,6 +22,8 @@ public class ImageVO {
         this.id = image.getId();
         this.name = image.getName();
         this.url = image.getUrl();
+        this.thumbUrl = image.getThumbUrl();
+        this.slimUrl = image.getSlimUrl();
         this.createTime = DateUtil.getTime(image.getCreateTime(), DateUtil.DateFormat.INTACT);
         this.updateTime = DateUtil.getTime(image.getUpdateTime(), DateUtil.DateFormat.INTACT);
     }
@@ -63,5 +67,21 @@ public class ImageVO {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+
+    public String getSlimUrl() {
+        return slimUrl;
+    }
+
+    public void setSlimUrl(String slimUrl) {
+        this.slimUrl = slimUrl;
     }
 }

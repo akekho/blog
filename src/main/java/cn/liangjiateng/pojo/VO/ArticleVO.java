@@ -159,6 +159,8 @@ public class ArticleVO {
         this.shortDesc = shortDesc;
     }
 
+
+
     /**
      * 计算摘要(desc)算法 //Todo:改进算法
      *

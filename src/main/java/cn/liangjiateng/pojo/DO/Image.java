@@ -8,6 +8,8 @@ public class Image extends AbstractDO{
     private Integer id;
     private String name;
     private String url;
+    private String thumbUrl;
+    private String slimUrl;
 
     public Integer getId() {
         return id;
@@ -32,5 +34,22 @@ public class Image extends AbstractDO{
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+
+
+    public String getSlimUrl() {
+        return slimUrl;
+    }
+
+    public void setSlimUrl(String slimUrl) {
+        this.slimUrl = slimUrl;
     }
 }

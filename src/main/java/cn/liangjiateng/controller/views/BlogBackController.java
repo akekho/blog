@@ -5,6 +5,8 @@ import cn.liangjiateng.config.Config;
 import cn.liangjiateng.pojo.DO.Image;
 import cn.liangjiateng.pojo.VO.ArticleVO;
 import cn.liangjiateng.pojo.VO.CategoryVO;
+import cn.liangjiateng.pojo.VO.ImageVO;
+import cn.liangjiateng.service.ImageService;
 import cn.liangjiateng.util.HttpUtil;
 import cn.liangjiateng.util.JsonUtil;
 import cn.liangjiateng.util.Page;
@@ -30,6 +32,8 @@ public class BlogBackController {
 
     @Autowired
     private Config config;
+    @Autowired
+    private ImageService imageService;
 
     @GetMapping
     public String articles(ModelMap modelMap, @RequestParam(defaultValue = "1") int page,
@@ -126,6 +130,14 @@ public class BlogBackController {
         modelMap.addAttribute("page", holder.getPage());
         modelMap.addAttribute("maxPage", holder.getMaxPage());
         modelMap.addAttribute("images", holder.getData());
+
+        //preface 数据
+        ImageVO imageVO = new ImageVO(imageService.getImageBySlimUrl(articleVO.getPreface().replaceAll(config.getStorageHost(), "")));
+        imageVO.setUrl(config.getStorageHost() + imageVO.getUrl());
+        imageVO.setThumbUrl(config.getStorageHost() + imageVO.getThumbUrl());
+        imageVO.setSlimUrl(config.getStorageHost() + imageVO.getSlimUrl());
+        modelMap.addAttribute("image_preface", imageVO);
+
         //分组数据
         json = HttpUtil.get(config.getUrl("/api/categories"));
         json = JsonUtil.getDataAndCheck(json);

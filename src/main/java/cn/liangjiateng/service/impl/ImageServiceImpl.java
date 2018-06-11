@@ -37,6 +37,13 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public Image getImageBySlimUrl(String url) throws ServiceException {
+        if (url == null || url.equals(""))
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "url不能为空");
+        return imageMapper.getImageBySlimUrl(url);
+    }
+
+    @Override
     public Page<Image> listImages(int pageSize, int page) throws ServiceException {
         if (page <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
@@ -63,6 +70,8 @@ public class ImageServiceImpl implements ImageService {
         Image image = new Image();
         image.setName(file.getName());
         image.setUrl(url);
+        image.setThumbUrl(url + "?" + config.getThumbUrl());
+        image.setSlimUrl(url + "?" + config.getSlimUrl());
         imageMapper.insertImage(image);
     }
 
@@ -80,6 +89,8 @@ public class ImageServiceImpl implements ImageService {
         Image image = new Image();
         image.setName(fileName);
         image.setUrl(url);
+        image.setThumbUrl(url + "?" + config.getThumbUrl());
+        image.setSlimUrl(url + "?" + config.getSlimUrl());
         imageMapper.insertImage(image);
     }
 

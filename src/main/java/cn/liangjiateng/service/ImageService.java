@@ -23,6 +23,14 @@ public interface ImageService {
     Image getImageById(int id) throws ServiceException;
 
     /**
+     * 根据url获取图片
+     *
+     * @param url url
+     * @return
+     */
+    Image getImageBySlimUrl(String url) throws ServiceException;
+
+    /**
      * 分页查询图片 按create_time降序排序
      *
      * @param pageSize 每页数据量

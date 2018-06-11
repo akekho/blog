@@ -205,9 +205,9 @@
             <span style="float: right">
                 <code>Category: </code>
                 <select class="combobox" id="categories">
-                    <option></option>
+                    <option value="0"></option>
                     <option th:each="category: ${categories}" th:text="${category.name}"
-                            th:value="${category.id}"></option>
+                            th:value="${category.id}" th:selected="${article != null} and ${category.id} == ${article.categoryId} ? selected : null"></option>
                 </select>
             </span>
             <table class="table table-bordered" style="margin-top: 20px" id="img-table">
@@ -223,11 +223,22 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:remove="${image_preface == null} ? tag: null">
+                    <td><input type="checkbox" th:value="${image_preface.slimUrl}" name="preface-check" checked="true"></td>
+                    <td><img style="width: 100px;height: auto;" th:src="${image_preface.thumbUrl}"></td>
+                    <td th:text="${image_preface.id}">2131</td>
+                    <td th:text="${image_preface.slimUrl}">/url/dda/112.png</td>
+                    <td th:text="${image_preface.createTime}">2017-01-23 21:22:11</td>
+                    <td th:text="${image_preface.updateTime}">2017-01-23 21:22:11</td>
+                    <td><a th:href="@{${image_preface.url}}" class="btn-sm btn-success" style="margin-right: 10px">View</a><a
+                            href="#" class="btn-sm btn-danger" th:onclick="${'deleteImage('+image_preface.id+')'}">Delete</a>
+                    </td>
+                </tr>
                 <tr th:each="image:${images}">
-                    <td><input type="checkbox" th:value="${image.url}" name="preface-check"></td>
-                    <td><img style="width: 100px;height: auto;" th:src="${image.url}"></td>
+                    <td><input type="checkbox" th:value="${image.slimUrl}" name="preface-check"></td>
+                    <td><img style="width: 100px;height: auto;" th:src="${image.thumbUrl}"></td>
                     <td th:text="${image.id}">2131</td>
-                    <td th:text="${image.url}">/url/dda/112.png</td>
+                    <td th:text="${image.slimUrl}">/url/dda/112.png</td>
                     <td th:text="${image.createTime}">2017-01-23 21:22:11</td>
                     <td th:text="${image.updateTime}">2017-01-23 21:22:11</td>
                     <td><a th:href="@{${image.url}}" class="btn-sm btn-success" style="margin-right: 10px">View</a><a
@@ -240,8 +251,8 @@
 
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
-                <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
-                    <a class="page-link" href="#" th:text="${pageNo}"></a>
+                <li class="page-item" th:each="page : ${#numbers.sequence(1, maxPage)}">
+                    <a class="page-link" th:href="${article == null} ? @{'/back/articles/new_article?page=' + ${page}} : @{'/back/articles/drafts/'+ ${article.id} +'?page=' + ${page}}" th:text="${page}"></a>
                 </li>
             </ul>
 

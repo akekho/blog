@@ -34,7 +34,9 @@ CREATE TABLE image
 (
   id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   name varchar(256) NOT NULL,
-  url varchar(256) NOT NULL,
+  url text NOT NULL COMMENT '原图url',
+  thumb_url text NOT NULL COMMENT '压缩缩略图url 5-10k',
+  slim_url text NOT NULL COMMENT '压缩缩略图url 0-500k',
   create_time timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   update_time timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
 )engine = InnoDB default charset=utf8;

@@ -37,6 +37,10 @@ public class Config {
 
     private String storageBucket;
 
+    private String thumbUrl;
+
+    private String slimUrl;
+
     public String getStorageBucket() {
         return storageBucket;
     }
@@ -127,5 +131,21 @@ public class Config {
 
     public void setStorageSecurityKey(String storageSecurityKey) {
         this.storageSecurityKey = storageSecurityKey;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+
+    public String getSlimUrl() {
+        return slimUrl;
+    }
+
+    public void setSlimUrl(String slimUrl) {
+        this.slimUrl = slimUrl;
     }
 }
