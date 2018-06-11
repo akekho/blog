@@ -41,14 +41,20 @@ public class ImageServiceTest {
         Image image = new Image();
         image.setName("sanch");
         image.setUrl("/dasda/1.png");
+        image.setThumbUrl("/dasda/1.png");
+        image.setSlimUrl("/dasda/1.png");
         imageMapper.insertImage(image);
 
         image.setName("sanch1");
         image.setUrl("/dasda/2.png");
+        image.setThumbUrl("/dasda/2.png");
+        image.setSlimUrl("/dasda/2.png");
         imageMapper.insertImage(image);
 
         image.setName("sanch3");
         image.setUrl("/dasda/3.png");
+        image.setThumbUrl("/dasda/3.png");
+        image.setSlimUrl("/dasda/3.png");
         imageMapper.insertImage(image);
     }
 
@@ -72,14 +78,6 @@ public class ImageServiceTest {
         Assert.assertEquals(1, images.getMaxPage());
     }
 
-    @Test
-    public void insertImage() throws ServiceException, NoSuchAlgorithmException {
-        imageService.insertImage(f1);
-        imageService.insertImage(f2);
-        imageService.insertImage(f3);
-        Image image = imageMapper.getImageByName(f1.getName());
-        Assert.assertNotNull(image);
-    }
 
     private void deleteImageById() throws ServiceException, NoSuchAlgorithmException {
 
