@@ -223,7 +223,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:remove="${image_preface == null} ? tag: null">
+                <tr th:remove="${image_preface == null} ? all: none">
                     <td><input type="checkbox" th:value="${image_preface.slimUrl}" name="preface-check" checked="true"></td>
                     <td><img style="width: 100px;height: auto;" th:src="${image_preface.thumbUrl}"></td>
                     <td th:text="${image_preface.id}">2131</td>
