@@ -16,6 +16,7 @@ public class ArticleVO {
     private String preface;
     private Integer status;
     private Integer pv;
+    private Integer categoryId;
     private String categoryName;
     private String createTime;
     private String updateTime;
@@ -40,6 +41,7 @@ public class ArticleVO {
 
     public ArticleVO(Article article, Category category) {
         this.id = article.getId();
+        this.categoryId = category.getId();
         this.title = article.getTitle();
         this.content = article.getContent();
         this.contentMd = article.getContentMd();
@@ -59,6 +61,14 @@ public class ArticleVO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getTitle() {

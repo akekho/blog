@@ -120,6 +120,7 @@ public class ArticleController {
         if (article.getCategoryId() != 0) {
             Category category = categoryService.getCategoryById(article.getCategoryId());
             articleVO.setCategoryName(category.getName());
+            articleVO.setCategoryId(category.getId());
         }
         return articleVO;
     }
@@ -133,6 +134,7 @@ public class ArticleController {
             if (article.getCategoryId() != 0) {
                 Category category = categoryService.getCategoryById(article.getCategoryId());
                 articleVO.setCategoryName(category.getName());
+                articleVO.setCategoryId(category.getId());
             }
             articleVOS.add(articleVO);
         }
