@@ -14,14 +14,49 @@
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/css/blog-post.css" rel="stylesheet">
+    <link href="/css/github-markdown.css" rel="stylesheet">
     <link href="/css/sidebar.css" rel="stylesheet">
 
     <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"-->
           <!--integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">-->
 
 </head>
+<style>
+    body {
+        padding-top: 54px;
+    }
 
+    i{
+        margin-right: 5px;
+    }
+    .date-time{
+        color: gray;
+    }
+    .tags-list{
+        list-style: none;
+        display: inline-block;
+        padding-left: 0px;
+        margin-bottom: 0px;
+    }
+    .tags-list li{
+        display: inline-block;
+    }
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding-top: 45px;
+        padding-bottom: 45px;
+    }
+
+    @media (max-width: 767px) {
+        .markdown-body {
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+    }
+</style>
 <body>
 
 <!-- Navigation -->
@@ -93,7 +128,7 @@
             <span class="img-fluid rounded" th:remove="${article.preface == null}? tag : none" th:style="'height:300px; width:900px; display:inline-block;background-image: url('+${article.preface}+');background-position:center;'">
             </span>
             <!--<hr>-->
-            <div class="content" style="margin-bottom: 20px" th:utext="${article.content}">
+            <div class="markdown-body" style="margin-bottom: 20px" th:utext="${article.content}">
             </div>
 
         </div>
@@ -171,17 +206,18 @@
 <!--<script>hljs.initHighlightingOnLoad();</script>-->
 <script th:inline="javascript">
     $(document).ready(function () {
-        $(".content").children("h2,h3,h4,h5,h6").each(function (i, item) {
+        $(".markdown-body").children("h1,h2,h3,h4,h5,h6").each(function (i, item) {
 
             var id = [[${article.id}]];
             var tag = $(item).get(0).localName;
             $(item).attr("id", "wow" + i);
             $("#category").append('<a class="new' + tag + '" href="/blog/posts/' + id + '#wow' + i + '">' + $(this).text() + '</a></br>');
-            $(".newh2").css("margin-left", 0);
-            $(".newh3").css("margin-left", 20);
-            $(".newh4").css("margin-left", 40);
+            $(".newh1").css("margin-left", 0);
+            $(".newh2").css("margin-left", 15);
+            $(".newh3").css("margin-left", 30);
+            $(".newh4").css("margin-left", 45);
             $(".newh5").css("margin-left", 60);
-            $(".newh6").css("margin-left", 80);
+            $(".newh6").css("margin-left", 75);
 
         });
     });
