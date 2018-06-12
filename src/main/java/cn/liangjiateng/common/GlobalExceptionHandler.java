@@ -1,6 +1,7 @@
 package cn.liangjiateng.common;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +30,8 @@ public class GlobalExceptionHandler {
             resp = new JsonResponse(ErrorCode.PARAM_ERR.getCode(), e.getMessage());
         } else if (e instanceof MethodArgumentTypeMismatchException) {
             resp = new JsonResponse(ErrorCode.PARAM_ERR.getCode(), e.getMessage());
+        } else if (e instanceof HttpRequestMethodNotSupportedException) {
+            resp = new JsonResponse(ErrorCode.PARAM_ERR.getCode(), e.getMessage());
         } else {
             resp = new JsonResponse(ErrorCode.INTERNAL_ERR.getCode(), ErrorCode.INTERNAL_ERR.getMsg());
         }
@@ -52,7 +55,9 @@ public class GlobalExceptionHandler {
             } else {
                 logger.info(e.getLogMessage());
             }
-        } else if (ex instanceof MissingServletRequestParameterException | ex instanceof MethodArgumentTypeMismatchException) {
+        } else if (ex instanceof MissingServletRequestParameterException ||
+                ex instanceof MethodArgumentTypeMismatchException ||
+                ex instanceof HttpRequestMethodNotSupportedException) {
             logger.warn(ex.getMessage());
         } else if (ex instanceof Exception) {
             StringWriter sw = new StringWriter();

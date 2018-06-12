@@ -52,4 +52,15 @@ public class Image extends AbstractDO{
     public void setSlimUrl(String slimUrl) {
         this.slimUrl = slimUrl;
     }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", slimUrl='" + slimUrl + '\'' +
+                "} " + super.toString();
+    }
 }

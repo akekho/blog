@@ -132,11 +132,13 @@ public class BlogBackController {
         modelMap.addAttribute("images", holder.getData());
 
         //preface 数据
-        ImageVO imageVO = new ImageVO(imageService.getImageBySlimUrl(articleVO.getPreface().replaceAll(config.getStorageHost(), "")));
-        imageVO.setUrl(config.getStorageHost() + imageVO.getUrl());
-        imageVO.setThumbUrl(config.getStorageHost() + imageVO.getThumbUrl());
-        imageVO.setSlimUrl(config.getStorageHost() + imageVO.getSlimUrl());
-        modelMap.addAttribute("image_preface", imageVO);
+        if(articleVO.getPreface() != null){
+            ImageVO imageVO = new ImageVO(imageService.getImageBySlimUrl(articleVO.getPreface().replaceAll(config.getStorageHost(), "")));
+            imageVO.setUrl(config.getStorageHost() + imageVO.getUrl());
+            imageVO.setThumbUrl(config.getStorageHost() + imageVO.getThumbUrl());
+            imageVO.setSlimUrl(config.getStorageHost() + imageVO.getSlimUrl());
+            modelMap.addAttribute("image_preface", imageVO);
+        }
 
         //分组数据
         json = HttpUtil.get(config.getUrl("/api/categories"));

@@ -67,4 +67,16 @@ public class Page<T> {
     public void setData(List<T> data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "Page{" +
+                "page=" + page +
+                ", pageSize=" + pageSize +
+                ", maxCount=" + maxCount +
+                ", data=" + data +
+                ", limit=" + limit +
+                ", maxPage=" + maxPage +
+                '}';
+    }
 }

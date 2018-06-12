@@ -176,4 +176,23 @@ public class ArticleVO {
             return pureContent.substring(0, Math.min(pureContent.length(), 150));
         }
     }
+
+    @Override
+    public String toString() {
+        return "ArticleVO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", desc='" + desc + '\'' +
+                ", shortDesc='" + shortDesc + '\'' +
+                ", contentMd='" + contentMd + '\'' +
+                ", preface='" + preface + '\'' +
+                ", status=" + status +
+                ", pv=" + pv +
+                ", categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                '}';
+    }
 }

@@ -33,4 +33,13 @@ public class Category extends AbstractDO{
     public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", deleted=" + deleted +
+                "} " + super.toString();
+    }
 }

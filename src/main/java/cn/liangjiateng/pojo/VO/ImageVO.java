@@ -84,4 +84,17 @@ public class ImageVO {
     public void setSlimUrl(String slimUrl) {
         this.slimUrl = slimUrl;
     }
+
+    @Override
+    public String toString() {
+        return "ImageVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", thumbUrl='" + thumbUrl + '\'' +
+                ", slimUrl='" + slimUrl + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                '}';
+    }
 }

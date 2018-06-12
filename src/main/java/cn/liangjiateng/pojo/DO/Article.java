@@ -141,4 +141,17 @@ public class Article extends AbstractDO{
         }
     }
 
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", contentMd='" + contentMd + '\'' +
+                ", preface='" + preface + '\'' +
+                ", status=" + status +
+                ", pv=" + pv +
+                ", categoryId=" + categoryId +
+                "} " + super.toString();
+    }
 }

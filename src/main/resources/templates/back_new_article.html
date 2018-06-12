@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>Simple Sidebar - Start Bootstrap Template</title>
-    <base th:href="@{${host}}" />
+    <base th:href="@{${host}}"/>
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -96,8 +96,10 @@
                                     <li><a href="/back/articles">Article Management</a></li>
                                     <li><a href="/back/articles/categories">Category Management</a></li>
                                     <li><a href="/back/articles/new_article">New Article</a></li>
-                                    <li><a href="/back/articles/drafts">Drafts<span class="badge" style="margin-left: 5px"
-                                                                                    th:text="${draft_cnt}">0</span></a></li>
+                                    <li><a href="/back/articles/drafts">Drafts<span class="badge"
+                                                                                    style="margin-left: 5px"
+                                                                                    th:text="${draft_cnt}">0</span></a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -158,7 +160,7 @@
                             if (check_val.length === 1)
                                 json.preface = check_val[0];
                             var article = [[${article}]];
-                            if(article != null){
+                            if (article != null) {
                                 $.ajax({
                                     type: "PUT",
                                     contentType: "application/json",
@@ -174,7 +176,7 @@
                                         }
                                     }
                                 });
-                            }else{
+                            } else {
                                 $.ajax({
                                     type: "POST",
                                     contentType: "application/json",
@@ -207,7 +209,8 @@
                 <select class="combobox" id="categories">
                     <option value="0"></option>
                     <option th:each="category: ${categories}" th:text="${category.name}"
-                            th:value="${category.id}" th:selected="${article != null} and ${category.id} == ${article.categoryId} ? selected : null"></option>
+                            th:value="${category.id}"
+                            th:selected="${article != null} and ${category.id} == ${article.categoryId} ? selected : null"></option>
                 </select>
             </span>
             <table class="table table-bordered" style="margin-top: 20px" id="img-table">
@@ -224,13 +227,15 @@
                 </thead>
                 <tbody>
                 <tr th:remove="${image_preface == null} ? all: none">
-                    <td><input type="checkbox" th:value="${image_preface.slimUrl}" name="preface-check" checked="true"></td>
+                    <td><input type="checkbox" th:value="${image_preface.slimUrl}" name="preface-check" checked="true">
+                    </td>
                     <td><img style="width: 100px;height: auto;" th:src="${image_preface.thumbUrl}"></td>
                     <td th:text="${image_preface.id}">2131</td>
                     <td th:text="${image_preface.slimUrl}">/url/dda/112.png</td>
                     <td th:text="${image_preface.createTime}">2017-01-23 21:22:11</td>
                     <td th:text="${image_preface.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a th:href="@{${image_preface.url}}" class="btn-sm btn-success" style="margin-right: 10px">View</a><a
+                    <td><a th:href="@{${image_preface.url}}" class="btn-sm btn-success"
+                           style="margin-right: 10px">View</a><a
                             href="#" class="btn-sm btn-danger" th:onclick="${'deleteImage('+image_preface.id+')'}">Delete</a>
                     </td>
                 </tr>
@@ -242,7 +247,7 @@
                     <td th:text="${image.createTime}">2017-01-23 21:22:11</td>
                     <td th:text="${image.updateTime}">2017-01-23 21:22:11</td>
                     <td><a th:href="@{${image.url}}" class="btn-sm btn-success" style="margin-right: 10px">View</a><a
-                            href="#" class="btn-sm btn-danger" th:onclick="${'deleteImage('+image.id+')'}">Delete</a>
+                            class="btn-sm btn-danger" th:onclick="${'deleteImage('+image.id+')'}">Delete</a>
                     </td>
                 </tr>
 
@@ -252,7 +257,9 @@
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
                 <li class="page-item" th:each="page : ${#numbers.sequence(1, maxPage)}">
-                    <a class="page-link" th:href="${article == null} ? @{'/back/articles/new_article?page=' + ${page}} : @{'/back/articles/drafts/'+ ${article.id} +'?page=' + ${page}}" th:text="${page}"></a>
+                    <a class="page-link"
+                       th:href="${article == null} ? @{'/back/articles/new_article?page=' + ${page}} : @{'/back/articles/drafts/'+ ${article.id} +'?page=' + ${page}}"
+                       th:text="${page}"></a>
                 </li>
             </ul>
 
@@ -284,6 +291,7 @@
 
         });
     });
+
     function createCategory() {
         var name = prompt("Category Name")
         if (name == null) {
@@ -334,6 +342,7 @@
             return false;
         }
     }
+
     function upload() {
         $.ajaxFileUpload({
             type: "POST",

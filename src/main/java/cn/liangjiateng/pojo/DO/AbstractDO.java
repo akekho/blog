@@ -26,4 +26,12 @@ public abstract class AbstractDO implements Serializable {
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "AbstractDO{" +
+                "createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }
