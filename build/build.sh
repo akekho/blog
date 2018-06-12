@@ -4,16 +4,16 @@ build_img(){
    cd .. && \
    mvn clean && \
    mvn compile && \
-   mvn package && \
-   if test $env = "dev"
+   mvn package -DskipTests && \
+   if test ${env} ="dev"
    then
-       java -jar target/blog.jar --spring.profiles.active
+       java -jar target/blog.jar
        echo "构建完成！"
-   elif test $env = "test"
+   elif test ${env} = "test"
    then
       java -jar target/blog.jar --spring.profiles.active=${env}
       echo "构建完成！"
-   elif test $env = "prod"
+   elif test ${env} = "prod"
    then
       nohup java -jar target/blog.jar --spring.profiles.active=${env}&
       echo "构建完成！"
