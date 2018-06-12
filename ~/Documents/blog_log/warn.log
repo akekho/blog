@@ -1,0 +1,51 @@
+2018-06-12 18:32:53  [ main:0 ] - [ DEBUG ]  Logging initialized using 'class org.apache.ibatis.logging.log4j.Log4jImpl' adapter.
+2018-06-12 18:32:53  [ main:185 ] - [ DEBUG ]  Using VFS adapter org.mybatis.spring.boot.autoconfigure.SpringBootVFS
+2018-06-12 18:32:53  [ main:187 ] - [ DEBUG ]  Checking to see if class cn.liangjiateng.pojo.DO.AbstractDO matches criteria [is assignable to Object]
+2018-06-12 18:32:53  [ main:187 ] - [ DEBUG ]  Checking to see if class cn.liangjiateng.pojo.DO.Article$SortType matches criteria [is assignable to Object]
+2018-06-12 18:32:53  [ main:188 ] - [ DEBUG ]  Checking to see if class cn.liangjiateng.pojo.DO.Article$Status matches criteria [is assignable to Object]
+2018-06-12 18:32:53  [ main:188 ] - [ DEBUG ]  Checking to see if class cn.liangjiateng.pojo.DO.Article matches criteria [is assignable to Object]
+2018-06-12 18:32:53  [ main:189 ] - [ DEBUG ]  Checking to see if class cn.liangjiateng.pojo.DO.Category matches criteria [is assignable to Object]
+2018-06-12 18:32:53  [ main:189 ] - [ DEBUG ]  Checking to see if class cn.liangjiateng.pojo.DO.Image matches criteria [is assignable to Object]
+2018-06-12 18:32:53  [ main:190 ] - [ DEBUG ]  Checking to see if class cn.liangjiateng.pojo.VO.ArticleVO matches criteria [is assignable to Object]
+2018-06-12 18:32:53  [ main:190 ] - [ DEBUG ]  Checking to see if class cn.liangjiateng.pojo.VO.CategoryVO matches criteria [is assignable to Object]
+2018-06-12 18:32:53  [ main:190 ] - [ DEBUG ]  Checking to see if class cn.liangjiateng.pojo.VO.ImageVO matches criteria [is assignable to Object]
+2018-06-12 18:32:53  [ main:191 ] - [ DEBUG ]  Scanned package: 'cn.liangjiateng.pojo' for aliases
+2018-06-12 18:32:53  [ main:249 ] - [ DEBUG ]  Parsed mapper file: 'file [/Users/liangjiateng/repos/blog/target/classes/mapper/articleMapper.xml]'
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:22790 ] - [ DEBUG ]  Creating a new SqlSession
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:22793 ] - [ DEBUG ]  SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@475eff32] was not registered for synchronization because synchronization is not active
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:22961 ] - [ INFO ]  {dataSource-1} inited
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:22962 ] - [ DEBUG ]  JDBC Connection [com.mysql.jdbc.JDBC4Connection@2cc08ce2] will not be managed by Spring
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:22969 ] - [ DEBUG ]  ==>  Preparing: select count(*) from article where status = ? 
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:22990 ] - [ DEBUG ]  ==> Parameters: 1(Integer)
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23006 ] - [ DEBUG ]  <==      Total: 1
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23008 ] - [ DEBUG ]  stmt enter cache
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23009 ] - [ DEBUG ]  Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@475eff32]
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23011 ] - [ DEBUG ]  Creating a new SqlSession
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23012 ] - [ DEBUG ]  SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7f041e53] was not registered for synchronization because synchronization is not active
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23042 ] - [ DEBUG ]  JDBC Connection [com.mysql.jdbc.JDBC4Connection@2cc08ce2] will not be managed by Spring
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23043 ] - [ DEBUG ]  ==>  Preparing: select * from article where status = ? order by create_time desc limit ?, ? 
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23043 ] - [ DEBUG ]  ==> Parameters: 1(Integer), 0(Integer), 5(Integer)
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23044 ] - [ DEBUG ]  <==      Total: 0
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23045 ] - [ DEBUG ]  stmt enter cache
+2018-06-12 18:33:16  [ http-nio-9000-exec-2:23046 ] - [ DEBUG ]  Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7f041e53]
+2018-06-12 18:33:16  [ http-nio-9000-exec-3:23137 ] - [ DEBUG ]  Creating a new SqlSession
+2018-06-12 18:33:16  [ http-nio-9000-exec-3:23138 ] - [ DEBUG ]  SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@84ac4c] was not registered for synchronization because synchronization is not active
+2018-06-12 18:33:16  [ http-nio-9000-exec-3:23139 ] - [ DEBUG ]  JDBC Connection [com.mysql.jdbc.JDBC4Connection@2cc08ce2] will not be managed by Spring
+2018-06-12 18:33:16  [ http-nio-9000-exec-3:23139 ] - [ DEBUG ]  ==>  Preparing: select * from article where status = ? order by pv desc limit ?, ? 
+2018-06-12 18:33:16  [ http-nio-9000-exec-3:23140 ] - [ DEBUG ]  ==> Parameters: 1(Integer), 0(Integer), 10(Integer)
+2018-06-12 18:33:16  [ http-nio-9000-exec-3:23142 ] - [ DEBUG ]  <==      Total: 0
+2018-06-12 18:33:16  [ http-nio-9000-exec-3:23143 ] - [ DEBUG ]  stmt enter cache
+2018-06-12 18:33:16  [ http-nio-9000-exec-3:23144 ] - [ DEBUG ]  Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@84ac4c]
+2018-06-12 18:33:16  [ http-nio-9000-exec-4:23156 ] - [ DEBUG ]  Creating a new SqlSession
+2018-06-12 18:33:16  [ http-nio-9000-exec-4:23157 ] - [ DEBUG ]  SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e7ef7a1] was not registered for synchronization because synchronization is not active
+2018-06-12 18:33:16  [ http-nio-9000-exec-4:23157 ] - [ DEBUG ]  JDBC Connection [com.mysql.jdbc.JDBC4Connection@2cc08ce2] will not be managed by Spring
+2018-06-12 18:33:16  [ http-nio-9000-exec-4:23158 ] - [ DEBUG ]  ==>  Preparing: select * from category where deleted = 0 order by create_time desc 
+2018-06-12 18:33:16  [ http-nio-9000-exec-4:23158 ] - [ DEBUG ]  ==> Parameters: 
+2018-06-12 18:33:16  [ http-nio-9000-exec-4:23160 ] - [ DEBUG ]  <==      Total: 0
+2018-06-12 18:33:16  [ http-nio-9000-exec-4:23161 ] - [ DEBUG ]  stmt enter cache
+2018-06-12 18:33:16  [ http-nio-9000-exec-4:23162 ] - [ DEBUG ]  Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3e7ef7a1]
+2018-06-12 18:34:04  [ Thread-2:70974 ] - [ DEBUG ]  stmt exit cache
+2018-06-12 18:34:04  [ Thread-2:70975 ] - [ DEBUG ]  stmt exit cache
+2018-06-12 18:34:04  [ Thread-2:70975 ] - [ DEBUG ]  stmt exit cache
+2018-06-12 18:34:04  [ Thread-2:70975 ] - [ DEBUG ]  stmt exit cache
+2018-06-12 18:34:04  [ Thread-2:70976 ] - [ INFO ]  {dataSource-1} closed

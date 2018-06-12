@@ -1,9 +1,7 @@
 package cn.liangjiateng.common;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -18,7 +16,7 @@ import java.io.StringWriter;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = Logger.getLogger(getClass());
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
@@ -57,10 +55,9 @@ public class GlobalExceptionHandler {
         } else if (ex instanceof MissingServletRequestParameterException | ex instanceof MethodArgumentTypeMismatchException) {
             logger.warn(ex.getMessage());
         } else if (ex instanceof Exception) {
-            logger.error("未知错误");
             StringWriter sw = new StringWriter();
             ex.printStackTrace(new PrintWriter(sw));
-            logger.error(sw.toString());
+            logger.error("未知错误：" + sw.toString());
         }
     }
 
