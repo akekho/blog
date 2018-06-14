@@ -50,8 +50,7 @@ public class BlogFrontController {
         json = HttpUtil.get(config.getUrl("/api/categories"));
         json = JsonUtil.getDataAndCheck(json);
         List<CategoryVO> categoryVOS = JsonUtil.string2Bean(json, List.class);
-        modelMap.addAttribute("category_data1", categoryVOS.subList(0, categoryVOS.size() / 2));
-        modelMap.addAttribute("category_data2", categoryVOS.subList(categoryVOS.size() / 2 , categoryVOS.size()));
+        modelMap.addAttribute("category_data", categoryVOS);
         modelMap.addAttribute("category_id", categoryId);
 
         modelMap.addAttribute("sort_type", sortType);
@@ -74,8 +73,7 @@ public class BlogFrontController {
         json = HttpUtil.get(config.getUrl("/api/categories"));
         json = JsonUtil.getDataAndCheck(json);
         List<CategoryVO> categoryVOS = JsonUtil.string2Bean(json, List.class);
-        modelMap.addAttribute("category_data1", categoryVOS.subList(0, categoryVOS.size() / 2));
-        modelMap.addAttribute("category_data2", categoryVOS.subList(categoryVOS.size() / 2 , categoryVOS.size()));
+        modelMap.addAttribute("category_data", categoryVOS);
         return "post";
     }
 }

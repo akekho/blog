@@ -153,17 +153,9 @@
                 <h5 class="card-header">Categories</h5>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <ul class="list-unstyled mb-0">
-                                <li th:each="category: ${category_data1}">
-                                    <a th:href="@{'/blog/home?categoryId=' + ${category.id}}"
-                                       th:text="${category.name}+'('+${category.count}+')'"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li th:each="category: ${category_data2}">
+                                <li th:each="category: ${category_data}">
                                     <a th:href="@{'/blog/home?categoryId=' + ${category.id}}"
                                        th:text="${category.name}+'('+${category.count}+')'"></a>
                                 </li>
@@ -179,17 +171,15 @@
                     <div class="list-group">
                         <a th:href="@{'/blog/posts/' + ${pop.id}}" class="list-group-item"
                            th:each="pop: ${popular_data}">
-                            <h5 class="list-group-item-heading" th:text="${pop.title}"></h5>
-                            <p class="list-group-item-text">
-                                <span th:text="${pop.shortDesc}"></span>
-                                <i class="fas fa-fire"></i>
-                                <small th:text="${pop.pv}"></small>
+                            <div><h5 class="list-group-item-heading" th:text="${pop.title}"
+                                     style="display: inline-block"></h5><span><i class="fas fa-fire"></i>
+                                <small th:text="${pop.pv}"></small></span></div>
+                            <p class="list-group-item-text" th:text="${pop.shortDesc}">
                             </p>
                         </a>
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
@@ -226,38 +216,40 @@
             var id = [[${article.id}]];
             var tag = $(item).get(0).localName;
             $(item).attr("id", "wow" + i);
-            var text;
+            var text = $(this).text();
             if (tag === "h1") {
-                h1++;
-                text = h1 + "." + $(this).text();
+                // h1++;
+                // text = h1 + "." + $(this).text();
                 if (text.length > 30)
                     text = text.substring(0, 30) + "...";
             } else if (tag === "h2") {
-                h2++;
-                text = h1 + "." + h2 + "." + $(this).text();
+                // h2++;
+                // text = h1 + "." + h2 + "." + $(this).text();
                 if (text.length > 27)
                     text = text.substring(0, 27) + "...";
             } else if (tag === "h3") {
-                h3++;
-                text = h1 + "." + h2 + "." + h3 + "." + $(this).text();
-                if (text.length > 27)
-                    text = text.substring(0, 27) + "...";
+                // h3++;
+                // text = h1 + "." + h2 + "." + h3 + "." + $(this).text();
+                if (text.length > 25)
+                    text = text.substring(0, 25) + "...";
             } else if (tag === "h4") {
-                h4++;
-                text = h1 + "." + h2 + "." + h3 + "." + h4 + "." + $(this).text();
+                // h4++;
+                // text = h1 + "." + h2 + "." + h3 + "." + h4 + "." + $(this).text();
                 if (text.length > 22)
                     text = text.substring(0, 22) + "...";
             } else if (tag === "h5") {
-                h5++;
-                text = h1 + "." + h2 + "." + h3 + "." + h4 + "." + h5 + "." + $(this).text();
-                if (text.length > 22)
-                    text = text.substring(0, 22) + "...";
+                // h5++;
+                // text = h1 + "." + h2 + "." + h3 + "." + h4 + "." + h5 + "." + $(this).text();
+                if (text.length > 20)
+                    text = text.substring(0, 20) + "...";
             } else if (tag === "h6") {
-                h6++;
-                text = h1 + "." + h2 + "." + h3 + "." + h4 + "." + h5 + "." + h6 + "." + $(this).text();
-                if (text.length > 22)
-                    text = text.substring(0, 22) + "...";
+                // h6++;
+                // text = h1 + "." + h2 + "." + h3 + "." + h4 + "." + h5 + "." + h6 + "." + $(this).text();
+                if (text.length > 15)
+                    text = text.substring(0, 15) + "...";
             }
+
+
 
             $("#category").append('<a class="new' + tag + '" href="/blog/posts/' + id + '#wow' + i + '">' + text + '</a></br>');
             $(".newh1").css("margin-left", 0);
