@@ -1,8 +1,6 @@
 package cn.liangjiateng.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -305,11 +303,12 @@ public final class HttpUtil {
      * @throws IOException
      */
     static public String streamToString(InputStream in) throws IOException {
-        StringBuffer out = new StringBuffer();
-        byte[] b = new byte[4096];
-        for (int n; (n = in.read(b)) != -1; ) {
-            out.append(new String(b, 0, n));
+        BufferedReader br = new BufferedReader( new InputStreamReader(in, "utf-8"));
+        String line = "";
+        StringBuilder result = new StringBuilder();
+        while ((line = br.readLine()) != null) {
+            result.append(line);
         }
-        return out.toString();
+        return result.toString();
     }
 }

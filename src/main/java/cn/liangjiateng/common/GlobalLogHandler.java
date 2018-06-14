@@ -47,10 +47,10 @@ public class GlobalLogHandler {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         // 记录下请求内容
-        logger.info("URL : " + request.getRequestURL().toString()+
+        logger.info("URL : " + request.getRequestURL().toString() +
                 " HTTP_METHOD : " + request.getMethod() +
-                " IP : " + request.getRemoteAddr()+
-                " CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName()+
+                " IP : " + request.getRemoteAddr() +
+                " CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() +
                 " ARGS : " + Arrays.toString(joinPoint.getArgs()));
     }
 
@@ -66,9 +66,9 @@ public class GlobalLogHandler {
         for (Object obj : args) {
             if (obj instanceof ModelMap) {
                 ModelMap map = (ModelMap) obj;
-                if(config.getDomain() != null){
+                if (config.getDomain() != null && !config.getDomain().equals("")) {
                     map.addAttribute("host", config.getHead() + config.getDomain());
-                }else{
+                } else {
                     map.addAttribute("host", config.getHead() + config.getHost() + ":" + config.getPort());
                 }
             }
