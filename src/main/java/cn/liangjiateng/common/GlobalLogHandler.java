@@ -66,7 +66,11 @@ public class GlobalLogHandler {
         for (Object obj : args) {
             if (obj instanceof ModelMap) {
                 ModelMap map = (ModelMap) obj;
-                map.addAttribute("host", config.getHead() + config.getHost() + ":" + config.getPort());
+                if(config.getDomain() != null){
+                    map.addAttribute("host", config.getHead() + config.getDomain());
+                }else{
+                    map.addAttribute("host", config.getHead() + config.getHost() + ":" + config.getPort());
+                }
             }
         }
     }

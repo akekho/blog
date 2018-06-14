@@ -27,6 +27,9 @@ public class Config {
     @Value("${server.port}")
     private int port;
 
+    @Value("${server.domain}")
+    private String domain;
+
     private String storageHost;
 
     private String storageAccessKey;
@@ -55,6 +58,14 @@ public class Config {
 
     public String getHead() {
         return head;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     public void setHead(String head) {
