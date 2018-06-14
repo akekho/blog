@@ -55,10 +55,9 @@ public final class CloudFileUtil {
     }
 
     private String getToken(String bucket) {
-        if (token == null) {
-            Auth auth = Auth.create(config.getStorageAccessKey(), config.getStorageSecurityKey());
-            this.token = auth.uploadToken(bucket);
-        }
+        //每次都需要创建，解决token失效的问题
+        Auth auth = Auth.create(config.getStorageAccessKey(), config.getStorageSecurityKey());
+        this.token = auth.uploadToken(bucket);
         return token;
     }
 
