@@ -57,7 +57,8 @@ public class GlobalLogHandler {
     @AfterReturning(returning = "ret", pointcut = "webLog()")
     public void webAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
-        logger.info("RESPONSE : " + ret.toString());
+        if (ret != null)
+            logger.info("RESPONSE : " + ret.toString());
     }
 
     @Before("viewOutput()")
