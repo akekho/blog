@@ -51,7 +51,7 @@
         <if test="categoryId != null">category_id = #{categoryId},</if>
         <if test="preface != null">preface = #{preface},</if>
         <if test="status != null">status = #{status},</if>
-        <if test="pv != null">status = #{pv},</if>
+        <if test="pv != null">pv = #{pv},</if>
         update_time = now()
         where id = #{id}
     </update>
