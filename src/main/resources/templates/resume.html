@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="我的机器能学习">
+    <meta name="author" content="梁嘉腾">
+
+    <title>我的机器能学习</title>
+    <base th:href="@{${host}}"/>
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.ckeditor.com/4.8.0/full-all/ckeditor.js"></script>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <img class="d-flex mr-3 rounded-circle" src="/img/avatar.jpg" alt="" style="width: 40px; height:40px;">
+        <a class="navbar-brand" href="/blog/home">我的机器能学习</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <!--<li class="nav-item" style="margin-right: 20px">-->
+                <!--<div class="input-group">-->
+                <!--<input type="text" class="form-control" placeholder="Search for...">-->
+                <!--<span class="input-group-btn">-->
+                <!--<button class="btn btn-secondary" type="button">Go!</button>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</li>-->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/blog/home">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">Gallery</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">Video</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">Projects</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">Services</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">About</a>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Page Content -->
+<div class="container" style="padding-top:  80px">
+
+    <!-- Jumbotron Header -->
+    <textarea id="editor1">
+
+    </textarea>
+    <script>
+        CKEDITOR.replace( 'editor1', {
+            // Define the toolbar: http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_toolbar
+            // The full preset from CDN which we used as a base provides more features than we need.
+            // Also by default it comes with a 3-line toolbar. Here we put all buttons in a single row.
+            toolbar: [
+                { name: 'document', items: [ 'Print' ] },
+                { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
+                { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
+                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'CopyFormatting' ] },
+                { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                { name: 'align', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+                { name: 'links', items: [ 'Link', 'Unlink' ] },
+                { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+                { name: 'insert', items: [ 'Image', 'Table' ] },
+                { name: 'tools', items: [ 'Maximize' ] },
+                { name: 'editing', items: [ 'Scayt' ] }
+            ],
+
+            // Since we define all configuration options here, let's instruct CKEditor to not load config.js which it does by default.
+            // One HTTP request less will result in a faster startup time.
+            // For more information check http://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-customConfig
+            customConfig: '',
+
+            // Sometimes applications that convert HTML to PDF prefer setting image width through attributes instead of CSS styles.
+            // For more information check:
+            //  - About Advanced Content Filter: http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_advanced_content_filter
+            //  - About Disallowed Content: http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_disallowed_content
+            //  - About Allowed Content: http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_allowed_content_rules
+            disallowedContent: 'img{width,height,float}',
+            extraAllowedContent: 'img[width,height,align]',
+
+            // Enabling extra plugins, available in the full-all preset: http://ckeditor.com/presets-all
+            extraPlugins: 'tableresize,uploadimage,uploadfile',
+
+            /*********************** File management support ***********************/
+            // In order to turn on support for file uploads, CKEditor has to be configured to use some server side
+            // solution with file upload/management capabilities, like for example CKFinder.
+            // For more information see http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_ckfinder_integration
+
+            // Uncomment and correct these lines after you setup your local CKFinder instance.
+            // filebrowserBrowseUrl: 'http://example.com/ckfinder/ckfinder.html',
+            // filebrowserUploadUrl: 'http://example.com/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+            /*********************** File management support ***********************/
+
+            // Make the editing area bigger than default.
+            height: 800,
+
+            // An array of stylesheets to style the WYSIWYG area.
+            // Note: it is recommended to keep your own styles in a separate file in order to make future updates painless.
+            contentsCss: [ 'https://cdn.ckeditor.com/4.8.0/full-all/contents.css', 'mystyles.css' ],
+
+            // This is optional, but will let us define multiple different styles for multiple editors using the same CSS file.
+            // bodyClass: 'document-editor',
+
+            // Reduce the list of block elements listed in the Format dropdown to the most commonly used.
+            format_tags: 'p;h1;h2;h3;pre',
+
+            // Simplify the Image and Link dialog windows. The "Advanced" tab is not needed in most cases.
+            removeDialogTabs: 'image:advanced;link:advanced',
+
+            // Define the list of styles which should be available in the Styles dropdown list.
+            // If the "class" attribute is used to style an element, make sure to define the style for the class in "mystyles.css"
+            // (and on your website so that it rendered in the same way).
+            // Note: by default CKEditor looks for styles.js file. Defining stylesSet inline (as below) stops CKEditor from loading
+            // that file, which means one HTTP request less (and a faster startup).
+            // For more information see http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_styles
+            stylesSet: [
+                /* Inline Styles */
+                { name: 'Marker', element: 'span', attributes: { 'class': 'marker' } },
+                { name: 'Cited Work', element: 'cite' },
+                { name: 'Inline Quotation', element: 'q' },
+
+                /* Object Styles */
+                {
+                    name: 'Special Container',
+                    element: 'div',
+                    styles: {
+                        padding: '5px 10px',
+                        background: '#eee',
+                        border: '1px solid #ccc'
+                    }
+                },
+                {
+                    name: 'Compact table',
+                    element: 'table',
+                    attributes: {
+                        cellpadding: '5',
+                        cellspacing: '0',
+                        border: '1',
+                        bordercolor: '#ccc'
+                    },
+                    styles: {
+                        'border-collapse': 'collapse'
+                    }
+                },
+                { name: 'Borderless Table', element: 'table', styles: { 'border-style': 'hidden', 'background-color': '#E6E6FA' } },
+                { name: 'Square Bulleted List', element: 'ul', styles: { 'list-style-type': 'square' } }
+            ]
+        } );
+    </script>
+    <h1 style="margin-top: 50px">Templates</h1>
+    <!-- Page Features -->
+    <div class="row text-center" style="margin-top: 20px">
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/500x325" alt="" style="height: 300px;">
+                <div class="card-body">
+                    <h4 class="card-title">Card title</h4>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary">Find Out More!</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/500x325" alt="" style="height: 300px;">
+                <div class="card-body">
+                    <h4 class="card-title">Card title</h4>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary">Find Out More!</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/500x325" alt="" style="height: 300px;">
+                <div class="card-body">
+                    <h4 class="card-title">Card title</h4>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary">Find Out More!</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/500x325" alt="" style="height: 300px;">
+                <div class="card-body">
+                    <h4 class="card-title">Card title</h4>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary">Find Out More!</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- /.row -->
+    <!-- Pagination -->
+    <ul class="pagination justify-content-center mb-4">
+        <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
+            <a class="page-link"
+               th:href="@{'/blog/home?page=' + ${pageNo} +'&categoryId='+${category_id}+'&sortType='+${sort_type}}"
+               th:text="${pageNo}"></a>
+        </li>
+    </ul>
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Jiateng Liang's Blog 2018</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
