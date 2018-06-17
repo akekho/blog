@@ -1,6 +1,6 @@
 # 博客
 
-[访问地址](http://206.81.6.248:18123/blog/home)
+www.liangjiateng.cn
 
 ## 日志
 

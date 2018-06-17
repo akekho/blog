@@ -40,3 +40,20 @@ CREATE TABLE image
   create_time timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   update_time timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
 )engine = InnoDB default charset=utf8;
+
+create table doc_template
+(
+  id          int auto_increment
+    primary key,
+  title       varchar(100)                        not null,
+  image_id    int default '0'                     not null,
+  content     text                                null,
+  use_time    int default '0'                     null,
+  status      int default '0'                     not null
+  comment '0下线审核, 1上线, 2已删除',
+  create_time timestamp default CURRENT_TIMESTAMP not null,
+  update_time timestamp default CURRENT_TIMESTAMP not null
+)
+  comment '文档模板表'
+  engine = InnoDB default charset=utf8;
+
