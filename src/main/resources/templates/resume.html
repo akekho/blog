@@ -62,10 +62,10 @@
 <!-- Page Content -->
 <div class="container" style="padding-top:  80px">
 
-    <!-- Jumbotron Header -->
     <textarea id="editor1">
 
     </textarea>
+
     <script>
         CKEDITOR.replace( 'editor1', {
             // Define the toolbar: http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_toolbar
@@ -171,65 +171,19 @@
     <!-- Page Features -->
     <div class="row text-center" style="margin-top: 20px">
 
-        <div class="col-lg-3 col-md-6 mb-4">
+        <div class="col-lg-3 col-md-6 mb-4" th:each="doc: ${templates}">
             <div class="card">
-                <img class="card-img-top" src="http://placehold.it/500x325" alt="" style="height: 300px;">
+                <img class="card-img-top" th:remove="${doc.slimUrl == null}? tag : null" th:src="${doc.slimUrl}" alt="" style="height: 300px;">
                 <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
+                    <h4 class="card-title"><a th:text="${doc.title}" th:href="@{${doc.originUrl}}">Card title</a></h4>
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Find Out More!</a>
+                    <a href="#" class="btn btn-primary">Use it!</a>
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card">
-                <img class="card-img-top" src="http://placehold.it/500x325" alt="" style="height: 300px;">
-                <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Find Out More!</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card">
-                <img class="card-img-top" src="http://placehold.it/500x325" alt="" style="height: 300px;">
-                <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Find Out More!</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card">
-                <img class="card-img-top" src="http://placehold.it/500x325" alt="" style="height: 300px;">
-                <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Find Out More!</a>
-                </div>
-            </div>
-        </div>
-
-
     </div>
     <!-- /.row -->
-    <!-- Pagination -->
-    <ul class="pagination justify-content-center mb-4">
-        <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
-            <a class="page-link"
-               th:href="@{'/blog/home?page=' + ${pageNo} +'&categoryId='+${category_id}+'&sortType='+${sort_type}}"
-               th:text="${pageNo}"></a>
-        </li>
-    </ul>
 </div>
 <!-- /.container -->
 

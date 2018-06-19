@@ -108,6 +108,9 @@ public class DocTemplateController {
         } else {
             Image image = imageService.getImageById(docTemplate.getImageId());
             docTemplateVO = new DocTemplateVO(docTemplate, image);
+            docTemplateVO.setThumbUrl(config.getStorageHost() + docTemplateVO.getThumbUrl());
+            docTemplateVO.setSlimUrl(config.getStorageHost() + docTemplateVO.getSlimUrl());
+            docTemplateVO.setOriginUrl(config.getStorageHost() + docTemplateVO.getOriginUrl());
         }
         return docTemplateVO;
     }
