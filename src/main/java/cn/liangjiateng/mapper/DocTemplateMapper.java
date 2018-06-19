@@ -1,10 +1,7 @@
 package cn.liangjiateng.mapper;
 import cn.liangjiateng.pojo.DO.DocTemplate;
 import cn.liangjiateng.util.Page;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ import java.util.List;
  * resume模板mapper
  * Created by Jiateng on 6/16/18.
  */
+@Mapper
 public interface DocTemplateMapper {
 
     @Select("select count(*) from doc_template where status = #{status}")
@@ -19,6 +17,12 @@ public interface DocTemplateMapper {
 
     @Select("select * from doc_template where id = #{id} and status = #{status}")
     DocTemplate getDocByIdAndStatus(@Param("id") int id, @Param("status") int status);
+
+    @Select("select * from doc_template where title = #{name}")
+    DocTemplate getDocByName(String name);
+
+    @Select("select * from doc_template where id = #{id}")
+    DocTemplate getDocById(int id);
 
     List<DocTemplate> listDocsSortBy(@Param("sortType") int sortType, @Param("status") int status,
                                      @Param("page") Page page);

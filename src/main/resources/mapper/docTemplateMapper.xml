@@ -7,25 +7,25 @@
         order by
         <if test="sortType == 0">create_time desc</if>
         <if test="sortType == 1">create_time asc</if>
-        <if test="sortType == 2">pv desc</if>
+        <if test="sortType == 2">use_time desc</if>
         limit #{page.limit}, #{page.pageSize}
     </select>
 
-    <insert id="insertArticle" parameterType="cn.liangjiateng.pojo.DO.DocTemplate">
+    <insert id="insertDoc" parameterType="cn.liangjiateng.pojo.DO.DocTemplate">
         insert into
         doc_template(title, content,
         <if test="imageId != null">image_id,</if>
         <if test="status != null">status,</if>
-        <if test="useTime != null">useTime,</if>
+        <if test="useTime != null">use_time,</if>
         create_time, update_time)
         values (#{title}, #{content},
-        <if test="imageId != null">#{image_id},</if>
+        <if test="imageId != null">#{imageId},</if>
         <if test="status != null">#{status},</if>
         <if test="useTime != null">#{useTime},</if>
         now(), now())
     </insert>
 
-    <update id="updateArticle" parameterType="cn.liangjiateng.pojo.DO.DocTemplate">
+    <update id="updateDoc" parameterType="cn.liangjiateng.pojo.DO.DocTemplate">
         update doc_template set
         <if test="title != null">title = #{title},</if>
         <if test="content != null">content = #{content},</if>

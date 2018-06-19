@@ -52,7 +52,6 @@ public interface DocTemplateService {
     Page<DocTemplate> listDrafts(DocTemplate.SortType sortType, int pageSize, int page) throws ServiceException;
 
 
-
     /**
      * 获取模板
      *
@@ -65,10 +64,10 @@ public interface DocTemplateService {
     /**
      * 更新模板
      *
-     * @param article 模板，没设定的字段不做更新
+     * @param docTemplate 模板，没设定的字段不做更新
      * @throws Exception
      */
-    void updateDoc(DocTemplate article) throws ServiceException;
+    void updateDoc(DocTemplate docTemplate) throws ServiceException;
 
     /**
      * 模板上线
