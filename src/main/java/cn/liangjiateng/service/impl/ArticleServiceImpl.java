@@ -107,6 +107,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article check = articleMapper.getArticleById(article.getId());
         if (check == null)
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文章不存在");
+        article.setPv(check.getPv());
         articleMapper.updateArticle(article);
     }
 
