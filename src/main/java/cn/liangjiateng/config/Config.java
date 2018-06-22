@@ -44,6 +44,16 @@ public class Config {
 
     private String slimUrl;
 
+    private String tempPath;
+
+    public String getTempPath() {
+        return tempPath;
+    }
+
+    public void setTempPath(String tempPath) {
+        this.tempPath = tempPath;
+    }
+
     public String getStorageBucket() {
         return storageBucket;
     }

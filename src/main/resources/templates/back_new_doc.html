@@ -116,7 +116,6 @@
     <div class="container-fluid">
         <div class="side-body">
             <h1>New Template</h1>
-            <div class="alert alert-warning" role="alert">Use &lt;!-- more --&gt; to set a short description!</div>
             <form>
                 <div class="input-group" style="margin-bottom: 20px">
                     <span class="input-group-addon" id="basic-addon1">Title</span>
@@ -227,9 +226,11 @@
                 </script>
             </form>
 
-            <input type="file" id="file" name="file" placeholder="上传Html"/>
-            <button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="upload()">Upload HTML
-            </button>
+            <!--<input type="file" id="file" name="file" placeholder="上传Html"/>-->
+            <!--<button type="submit" class="btn btn-primary" style="margin-top: 20px" onclick="upload()">Upload HTML-->
+            <!--</button>-->
+
+            <button type="submit" class="btn btn-success" style="margin-top: 20px" onclick="upload()">Submit</button>
 
         </div>
     </div>
@@ -263,19 +264,22 @@
 
 
     function upload() {
-        $.ajaxFileUpload({
+        var json = {};
+        json.title = $("#title").val();
+        json.content = CKEDITOR.instances.editor1.getData();
+
+        $.ajax({
             type: "POST",
-            url: "/api/images/upload",
-            traditional: true,
-            fileElementId: "file",
+            contentType: "application/json",
+            data: JSON.stringify(json),
             dataType: "json",
+            url: "/api/templates",
             success: function (result) {
                 var obj = eval(result);
                 if (obj.code == 200) {
-                    alert("success！");
-                    location.reload();
+                    alert("success！")
                 } else {
-                    alert(obj.message);
+                    alert("Failure：" + obj.message)
                 }
             }
         });

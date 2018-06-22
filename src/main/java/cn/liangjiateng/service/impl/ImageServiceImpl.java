@@ -7,6 +7,7 @@ import cn.liangjiateng.mapper.ImageMapper;
 import cn.liangjiateng.pojo.DO.Image;
 import cn.liangjiateng.service.ImageService;
 import cn.liangjiateng.util.EncryUtil;
+import cn.liangjiateng.util.FileUtil;
 import cn.liangjiateng.util.Page;
 import cn.liangjiateng.util.CloudFileUtil;
 import com.qiniu.common.QiniuException;
@@ -57,10 +58,10 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void insertImage(File file) throws NoSuchAlgorithmException, ServiceException {
+    public int insertImage(File file) throws NoSuchAlgorithmException, ServiceException {
         if (!checkExtension(file.getName()))
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文件格式不正确");
-        String[] sts = getFileNameAndExtension(file.getName());
+        String[] sts = FileUtil.getFileNameAndExtension(file.getName());
         String url = "image/" + EncryUtil.getMd5(System.currentTimeMillis() + sts[0]) + "." + sts[1];
         try {
             cloudUtil.upload(file, config.getStorageBucket(), url);
@@ -73,13 +74,14 @@ public class ImageServiceImpl implements ImageService {
         image.setThumbUrl(url + "?" + config.getThumbUrl());
         image.setSlimUrl(url + "?" + config.getSlimUrl());
         imageMapper.insertImage(image);
+        return image.getId();
     }
 
     @Override
-    public void insertImageByStream(InputStream is, String fileName) throws ServiceException, NoSuchAlgorithmException {
+    public int insertImageByStream(InputStream is, String fileName) throws ServiceException, NoSuchAlgorithmException {
         if (!checkExtension(fileName))
             throw new ServiceException(ErrorCode.FAIL.getCode(), "文件格式不正确");
-        String[] sts = getFileNameAndExtension(fileName);
+        String[] sts = FileUtil.getFileNameAndExtension(fileName);
         String url = "image/" + EncryUtil.getMd5(System.currentTimeMillis() + sts[0]) + "." + sts[1];
         try {
             cloudUtil.upload(is, config.getStorageBucket(), url);
@@ -92,6 +94,7 @@ public class ImageServiceImpl implements ImageService {
         image.setThumbUrl(url + "?" + config.getThumbUrl());
         image.setSlimUrl(url + "?" + config.getSlimUrl());
         imageMapper.insertImage(image);
+        return image.getId();
     }
 
 
@@ -108,17 +111,9 @@ public class ImageServiceImpl implements ImageService {
         imageMapper.deleteImageById(id);
     }
 
-    private String[] getFileNameAndExtension(String fileName) {
-        int index = fileName.lastIndexOf(".");
-        if (index == -1)
-            return null;
-        String ext = fileName.substring(index + 1, fileName.length());
-        String name = fileName.substring(0, index);
-        return new String[]{name, ext};
-    }
 
     private boolean checkExtension(String fileName) {
-        String[] strs = getFileNameAndExtension(fileName);
+        String[] strs = FileUtil.getFileNameAndExtension(fileName);
         if (strs == null)
             return false;
         switch (strs[1]) {

@@ -44,7 +44,7 @@ public interface ImageService {
      *
      * @param file 图片
      */
-    void insertImage(File file) throws NoSuchAlgorithmException, ServiceException;
+    int insertImage(File file) throws NoSuchAlgorithmException, ServiceException;
 
     /**
      * 流方式插入图片
@@ -52,7 +52,7 @@ public interface ImageService {
      * @param is       流
      * @param fileName 文件名
      */
-    void insertImageByStream(InputStream is, String fileName) throws ServiceException, NoSuchAlgorithmException;
+    int insertImageByStream(InputStream is, String fileName) throws ServiceException, NoSuchAlgorithmException;
 
     /**
      * 删除一张图片

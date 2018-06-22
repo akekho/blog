@@ -1,5 +1,6 @@
 package cn.liangjiateng.controller.api;
 
+import cn.liangjiateng.common.ErrorCode;
 import cn.liangjiateng.common.JsonResponse;
 import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.config.Config;
@@ -9,14 +10,14 @@ import cn.liangjiateng.pojo.DO.DocTemplate;
 import cn.liangjiateng.pojo.DO.Image;
 import cn.liangjiateng.pojo.VO.ArticleVO;
 import cn.liangjiateng.pojo.VO.DocTemplateVO;
-import cn.liangjiateng.service.ArticleService;
-import cn.liangjiateng.service.CategoryService;
-import cn.liangjiateng.service.DocTemplateService;
-import cn.liangjiateng.service.ImageService;
+import cn.liangjiateng.service.*;
+import cn.liangjiateng.util.FileUtil;
 import cn.liangjiateng.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class DocTemplateController {
     private DocTemplateService docTemplateService;
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private FileService fileService;
     @Autowired
     private Config config;
 
@@ -94,7 +97,16 @@ public class DocTemplateController {
     }
 
     @PostMapping
-    public JsonResponse createNewTemplate(@RequestBody DocTemplate template) throws Exception {
+    public JsonResponse createNewTemplate(@RequestParam MultipartFile file,
+                                          @RequestBody DocTemplate template) throws Exception {
+        String[] strs = FileUtil.getFileNameAndExtension(file.getOriginalFilename());
+        if (strs == null || !strs[1].equals("pdf") || !strs[1].equals("PDF"))
+            throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "文件格式不正确");
+
+        String fileName = fileService.uploadFile(file, config.getTempPath());
+        InputStream imageStream = FileUtil.pdf2Image(config.getTempPath() + fileName);
+        int imageId = imageService.insertImageByStream(imageStream, template.getTitle());
+        template.setImageId(imageId);
         docTemplateService.createNewDoc(template);
         return new JsonResponse(null);
     }

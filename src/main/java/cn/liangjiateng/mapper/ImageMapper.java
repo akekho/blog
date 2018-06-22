@@ -27,7 +27,6 @@ public interface ImageMapper {
     @Select("select * from image order by create_time desc limit #{limit}, #{pageSize}")
     List<Image> listImages(Page page);
 
-    @Insert("insert into image(name, url, thumb_url, slim_url) values(#{name}, #{url}, #{thumbUrl}, #{slimUrl})")
     void insertImage(Image image);
 
     @Delete("delete from image where id = #{id}")

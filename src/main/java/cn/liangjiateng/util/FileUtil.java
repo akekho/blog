@@ -28,4 +28,19 @@ public final class FileUtil {
         ImageIO.write(image, "PNG", os);
         return new ByteArrayInputStream(os.toByteArray());
     }
+
+    /**
+     * 获取文件名和扩展名
+     *
+     * @param fileName
+     * @return
+     */
+    public static String[] getFileNameAndExtension(String fileName) {
+        int index = fileName.lastIndexOf(".");
+        if (index == -1)
+            return null;
+        String name = fileName.substring(0, index);
+        String ext = fileName.substring(index + 1, fileName.length());
+        return new String[]{name, ext};
+    }
 }
