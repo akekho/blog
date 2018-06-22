@@ -72,8 +72,27 @@ public class DocTemplateController {
 
 
     @PutMapping("/{id}")
-    public JsonResponse updateTemplate(@RequestBody DocTemplate docTemplate, @PathVariable int id) throws Exception {
+    public JsonResponse updateTemplate(@RequestParam(required = false) String fileName, @RequestBody DocTemplate docTemplate, @PathVariable int id) throws Exception {
         docTemplate.setId(id);
+        //更新cover image处理
+        if (fileName != null) {
+            //检查文件
+            String[] strs = FileUtil.getFileNameAndExtension(fileName);
+            if (strs == null || (!strs[1].equals("pdf") && !strs[1].equals("PDF"))) {
+                fileService.deleteFile(config.getTempPath(), fileName);
+                throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "文件格式不正确");
+            }
+            //转成image
+            InputStream imageStream = FileUtil.pdf2Image(config.getTempPath() + fileName);
+            //删除pdf
+            fileService.deleteFile(config.getTempPath(), fileName);
+            //上传image
+            int imageId = imageService.insertImageByStream(imageStream, strs[0] + ".PNG");
+            //删除老image
+            DocTemplate template = docTemplateService.getDocById(id);
+            imageService.deleteImageById(template.getImageId());
+            docTemplate.setImageId(imageId);
+        }
         docTemplateService.updateDoc(docTemplate);
         return new JsonResponse(null);
     }
