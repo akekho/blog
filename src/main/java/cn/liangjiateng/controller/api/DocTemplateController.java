@@ -97,17 +97,23 @@ public class DocTemplateController {
     }
 
     @PostMapping
-    public JsonResponse createNewTemplate(@RequestParam MultipartFile file,
-                                          @RequestBody DocTemplate template) throws Exception {
-        String[] strs = FileUtil.getFileNameAndExtension(file.getOriginalFilename());
-        if (strs == null || !strs[1].equals("pdf") || !strs[1].equals("PDF"))
+    public JsonResponse createNewTemplate(@RequestParam String fileName, @RequestBody DocTemplate template) throws Exception {
+        //检查文件
+        String[] strs = FileUtil.getFileNameAndExtension(fileName);
+        if (strs == null || (!strs[1].equals("pdf") && !strs[1].equals("PDF"))) {
+            fileService.deleteFile(config.getTempPath(), fileName);
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "文件格式不正确");
-
-        String fileName = fileService.uploadFile(file, config.getTempPath());
+        }
+        //转成image
         InputStream imageStream = FileUtil.pdf2Image(config.getTempPath() + fileName);
-        int imageId = imageService.insertImageByStream(imageStream, template.getTitle());
+        //删除pdf
+        fileService.deleteFile(config.getTempPath(), fileName);
+        //上传image
+        int imageId = imageService.insertImageByStream(imageStream, strs[0] + ".PNG");
         template.setImageId(imageId);
+        //新建模板
         docTemplateService.createNewDoc(template);
+
         return new JsonResponse(null);
     }
 

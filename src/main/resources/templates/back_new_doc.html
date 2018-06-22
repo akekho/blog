@@ -124,22 +124,28 @@
                 <textarea id="editor1"></textarea>
 
                 <script>
-                    CKEDITOR.replace( 'editor1', {
+                    CKEDITOR.replace('editor1', {
                         // Define the toolbar: http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_toolbar
                         // The full preset from CDN which we used as a base provides more features than we need.
                         // Also by default it comes with a 3-line toolbar. Here we put all buttons in a single row.
                         toolbar: [
-                            { name: 'document', items: [ 'Print' ] },
-                            { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
-                            { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
-                            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'CopyFormatting' ] },
-                            { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-                            { name: 'align', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-                            { name: 'links', items: [ 'Link', 'Unlink' ] },
-                            { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
-                            { name: 'insert', items: [ 'Image', 'Table' ] },
-                            { name: 'tools', items: [ 'Maximize' ] },
-                            { name: 'editing', items: [ 'Scayt' ] }
+                            {name: 'document', items: ['Print']},
+                            {name: 'clipboard', items: ['Undo', 'Redo']},
+                            {name: 'styles', items: ['Format', 'Font', 'FontSize']},
+                            {
+                                name: 'basicstyles',
+                                items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'CopyFormatting']
+                            },
+                            {name: 'colors', items: ['TextColor', 'BGColor']},
+                            {name: 'align', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+                            {name: 'links', items: ['Link', 'Unlink']},
+                            {
+                                name: 'paragraph',
+                                items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']
+                            },
+                            {name: 'insert', items: ['Image', 'Table']},
+                            {name: 'tools', items: ['Maximize']},
+                            {name: 'editing', items: ['Scayt']}
                         ],
 
                         // Since we define all configuration options here, let's instruct CKEditor to not load config.js which it does by default.
@@ -173,7 +179,7 @@
 
                         // An array of stylesheets to style the WYSIWYG area.
                         // Note: it is recommended to keep your own styles in a separate file in order to make future updates painless.
-                        contentsCss: [ 'https://cdn.ckeditor.com/4.8.0/full-all/contents.css', 'mystyles.css' ],
+                        contentsCss: ['https://cdn.ckeditor.com/4.8.0/full-all/contents.css', 'mystyles.css'],
 
                         // This is optional, but will let us define multiple different styles for multiple editors using the same CSS file.
                         // bodyClass: 'document-editor',
@@ -192,9 +198,9 @@
                         // For more information see http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_styles
                         stylesSet: [
                             /* Inline Styles */
-                            { name: 'Marker', element: 'span', attributes: { 'class': 'marker' } },
-                            { name: 'Cited Work', element: 'cite' },
-                            { name: 'Inline Quotation', element: 'q' },
+                            {name: 'Marker', element: 'span', attributes: {'class': 'marker'}},
+                            {name: 'Cited Work', element: 'cite'},
+                            {name: 'Inline Quotation', element: 'q'},
 
                             /* Object Styles */
                             {
@@ -219,11 +225,16 @@
                                     'border-collapse': 'collapse'
                                 }
                             },
-                            { name: 'Borderless Table', element: 'table', styles: { 'border-style': 'hidden', 'background-color': '#E6E6FA' } },
-                            { name: 'Square Bulleted List', element: 'ul', styles: { 'list-style-type': 'square' } }
+                            {
+                                name: 'Borderless Table',
+                                element: 'table',
+                                styles: {'border-style': 'hidden', 'background-color': '#E6E6FA'}
+                            },
+                            {name: 'Square Bulleted List', element: 'ul', styles: {'list-style-type': 'square'}}
                         ]
-                    } );
+                    });
                 </script>
+                <input type="file" id="file" name="file" placeholder="上传模板pdf版"/>
             </form>
 
             <!--<input type="file" id="file" name="file" placeholder="上传Html"/>-->
@@ -262,24 +273,45 @@
     });
 
 
-
     function upload() {
         var json = {};
         json.title = $("#title").val();
         json.content = CKEDITOR.instances.editor1.getData();
-
-        $.ajax({
+        if(json.title == null || json.title === ''){
+            alert("title cannot be null");
+            return;
+        }
+        if(json.content == null || json.content === ''){
+            alert("content cannot be null");
+            return;
+        }
+        $.ajaxFileUpload({
             type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(json),
+            url: "/api/files/upload",
+            traditional: true,
+            fileElementId: "file",
             dataType: "json",
-            url: "/api/templates",
             success: function (result) {
                 var obj = eval(result);
-                if (obj.code == 200) {
-                    alert("success！")
+                if (obj.code === 200) {
+                    var fileName = obj.data.fileName;
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(json),
+                        url: "/api/templates?fileName=" + fileName,
+                        success: function (result) {
+                            var obj = eval(result);
+                            if (obj.code === 200) {
+                                location.reload()
+                            } else {
+                                alert("Failure：" + obj.message)
+                            }
+                        }
+                    });
                 } else {
-                    alert("Failure：" + obj.message)
+                    alert(obj.message);
                 }
             }
         });

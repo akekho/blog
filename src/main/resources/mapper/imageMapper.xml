@@ -3,7 +3,7 @@
 <mapper namespace="cn.liangjiateng.mapper.ImageMapper">
 
 
-    <insert id="insertImage" parameterType="cn.liangjiateng.pojo.DO.Image" keyProperty="id">
+    <insert id="insertImage" parameterType="cn.liangjiateng.pojo.DO.Image" keyProperty="id" useGeneratedKeys="true">
         insert into
         image(name, url, thumb_url, slim_url)
         values(#{name}, #{url}, #{thumbUrl}, #{slimUrl})
