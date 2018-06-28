@@ -44,7 +44,37 @@ public class Config {
 
     private String slimUrl;
 
-    private String tempPath;
+    private String tempPath; //文件临时过渡位置
+
+    private String rpcHost;
+
+    private int rpcPort;
+
+    private int rpcTimeout;
+
+    public int getRpcTimeout() {
+        return rpcTimeout;
+    }
+
+    public void setRpcTimeout(int rpcTimeout) {
+        this.rpcTimeout = rpcTimeout;
+    }
+
+    public String getRpcHost() {
+        return rpcHost;
+    }
+
+    public void setRpcHost(String rpcHost) {
+        this.rpcHost = rpcHost;
+    }
+
+    public int getRpcPort() {
+        return rpcPort;
+    }
+
+    public void setRpcPort(int rpcPort) {
+        this.rpcPort = rpcPort;
+    }
 
     public String getTempPath() {
         return tempPath;

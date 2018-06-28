@@ -20,22 +20,31 @@ import java.util.Arrays;
  */
 @Aspect
 @Component
-public class GlobalLogHandler {
+public class AspectHandler {
 
     private Logger logger = Logger.getLogger(getClass());
 
     @Autowired
     private Config config;
 
+    /**
+     * http接口切面
+     */
     @Pointcut("execution(public * cn.liangjiateng.controller..*.*(..))")
     public void webLog() {
     }
 
+    /**
+     * 数据库接口log
+     */
     @Pointcut("execution(public * cn.liangjiateng.mapper..*.*(..))")
     public void sqlLog() {
 
     }
 
+    /**
+     * s
+     */
     @Pointcut("execution(public * cn.liangjiateng.controller.views..*.*(..))")
     public void viewOutput() {
 
