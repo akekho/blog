@@ -1,5 +1,6 @@
 package cn.liangjiateng.common;
 
+import cn.liangjiateng.thrift_client.job.JobServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -32,6 +33,9 @@ public class GlobalExceptionHandler {
             resp = new JsonResponse(ErrorCode.PARAM_ERR.getCode(), e.getMessage());
         } else if (e instanceof HttpRequestMethodNotSupportedException) {
             resp = new JsonResponse(ErrorCode.PARAM_ERR.getCode(), e.getMessage());
+        } else if (e instanceof JobServiceException) {
+            JobServiceException je = (JobServiceException) e;
+            resp = new JsonResponse(ErrorCode.FAIL.getCode(), je.msg);
         } else {
             resp = new JsonResponse(ErrorCode.INTERNAL_ERR.getCode(), ErrorCode.INTERNAL_ERR.getMsg());
         }
@@ -47,7 +51,7 @@ public class GlobalExceptionHandler {
     private void doLog(Throwable ex) {
         if (ex instanceof ServiceException) {
             ServiceException e = (ServiceException) ex;
-            if (e.getErrCode() >= 400 && e.getErrCode() < 500)
+            if (e.getErrCode() >= 400 && e.getErrCode() < 500 || e.getErrCode() == -1)
                 logger.warn(e.getLogMessage());
             else if (e.getErrCode() >= 500) {
                 logger.error(e.getLogMessage());

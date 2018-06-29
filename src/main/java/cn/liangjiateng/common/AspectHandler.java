@@ -43,12 +43,13 @@ public class AspectHandler {
     }
 
     /**
-     * s
+     * 视图层
      */
     @Pointcut("execution(public * cn.liangjiateng.controller.views..*.*(..))")
     public void viewOutput() {
 
     }
+
 
     @Before("webLog()")
     public void webBefore(JoinPoint joinPoint) throws Throwable {
@@ -83,5 +84,4 @@ public class AspectHandler {
             }
         }
     }
-
 }
