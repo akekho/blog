@@ -1,5 +1,6 @@
 package cn.liangjiateng.service;
 
+
 import cn.liangjiateng.thrift_client.job.JobRPCService;
 
 /**

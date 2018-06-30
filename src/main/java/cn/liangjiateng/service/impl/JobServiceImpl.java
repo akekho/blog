@@ -57,4 +57,9 @@ public class JobServiceImpl implements JobService {
     public String submit_job(String file_bytes, String config) throws JobServiceException, TException {
         return jobClient.submit_job(file_bytes, config);
     }
+
+    @Override
+    public int status() throws JobServiceException, TException {
+        return jobClient.status();
+    }
 }

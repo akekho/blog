@@ -65,8 +65,7 @@ CREATE TABLE job
     status int DEFAULT 0 NOT NULL COMMENT '-1删除，0停止，1执行中，2暂停',
     executed_times bigint DEFAULT 0 NOT NULL COMMENT '执行次数',
     cron varchar(255) DEFAULT '' COMMENT '执行策略',
-    start_date timestamp DEFAULT '2000-01-01 00:00:00' COMMENT '开始时间，空则立刻开始',
-    end_date timestamp DEFAULT '2000-01-01 00:00:00' COMMENT '结束时间，空则一直运行',
+    instance_cnt int DEFAULT 0 COMMENT '执行次数',
     create_time timestamp DEFAULT current_timestamp NOT NULL,
     update_time timestamp DEFAULT current_timestamp NOT NULL
 )
