@@ -66,6 +66,7 @@ CREATE TABLE job
     executed_times bigint DEFAULT 0 NOT NULL COMMENT '执行次数',
     cron varchar(255) DEFAULT '' COMMENT '执行策略',
     instance_cnt int DEFAULT 0 COMMENT '执行次数',
+    type int default 1 comment '1 interval 2 cron',
     create_time timestamp DEFAULT current_timestamp NOT NULL,
     update_time timestamp DEFAULT current_timestamp NOT NULL
 )
