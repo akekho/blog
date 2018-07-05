@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface JobMapper {
 
-    @Select("select count(*) from job where status = status")
+    @Select("select count(*) from job where status = #{status}")
     long countJobsByStatus(int status);
 
     @Select("select count(*) from job where status != -1")

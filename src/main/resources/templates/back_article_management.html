@@ -78,25 +78,44 @@
                 <ul class="nav navbar-nav">
 
                     <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown-lvl1">
+                        <a data-toggle="collapse" href="#dropdown-article">
                             <i class="far fa-newspaper"></i>Articles<span class="badge" style="margin-left: 5px"
                                                                           th:text="${draft_cnt}">0</span><span
                                 class="caret"></span>
                         </a>
 
                         <!-- Dropdown level 1 -->
-                        <div id="dropdown-lvl1" class="panel-collapse collapse">
+                        <div id="dropdown-article" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
                                     <li><a href="/back/articles">Article Management</a></li>
                                     <li><a href="/back/articles/categories">Category Management</a></li>
                                     <li><a href="/back/articles/new_article">New Article</a></li>
-                                    <li><a href="/back/articles/drafts">Drafts<span class="badge" style="margin-left: 5px"
-                                                               th:text="${draft_cnt}">0</span></a></li>
+                                    <li><a href="/back/articles/drafts">Drafts<span class="badge"
+                                                                                    style="margin-left: 5px"
+                                                                                    th:text="${draft_cnt}">0</span></a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </li>
+
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-job">
+                            <i class="far fa-clock"></i>Cron Jobs<span class="caret"></span>
+                        </a>
+
+                        <!-- Dropdown level 1 -->
+                        <div id="dropdown-job" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="/back/cronjobs">Job Management</a></li>
+                                    <li><a href="/back/cronjobs/new">New Job</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
 
                     <li><a href="#"><span class="glyphicon glyphicon-signal"></span>Logout
                         <span>(current user: 702313)</span></a></li>

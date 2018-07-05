@@ -71,5 +71,5 @@ CREATE TABLE job
     update_time timestamp DEFAULT current_timestamp NOT NULL
 )
   comment '定时任务'
-  engine = InnoDB default charset=utf8;;
+  engine = InnoDB default charset=utf8;
 CREATE UNIQUE INDEX job_job_id_uindex ON job (job_id);

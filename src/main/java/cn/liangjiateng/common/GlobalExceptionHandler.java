@@ -2,6 +2,7 @@ package cn.liangjiateng.common;
 
 import cn.liangjiateng.thrift_client.job.JobServiceException;
 import org.apache.log4j.Logger;
+import org.apache.thrift.transport.TTransportException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +12,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 
 /**
  * Created by Jiateng on 5/30/18.
@@ -36,6 +38,8 @@ public class GlobalExceptionHandler {
         } else if (e instanceof JobServiceException) {
             JobServiceException je = (JobServiceException) e;
             resp = new JsonResponse(ErrorCode.FAIL.getCode(), je.msg);
+        } else if (e instanceof TTransportException) {
+            resp = new JsonResponse(ErrorCode.INTERNAL_ERR.getCode(), "RPC连接错误");
         } else {
             resp = new JsonResponse(ErrorCode.INTERNAL_ERR.getCode(), ErrorCode.INTERNAL_ERR.getMsg());
         }
@@ -59,6 +63,9 @@ public class GlobalExceptionHandler {
             } else {
                 logger.info(e.getLogMessage());
             }
+        } else if (ex instanceof JobServiceException) {
+            JobServiceException jse = (JobServiceException) ex;
+            logger.warn(jse.getMsg());
         } else if (ex instanceof MissingServletRequestParameterException ||
                 ex instanceof MethodArgumentTypeMismatchException ||
                 ex instanceof HttpRequestMethodNotSupportedException) {

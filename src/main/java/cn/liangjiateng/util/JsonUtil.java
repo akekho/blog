@@ -45,7 +45,7 @@ public final class JsonUtil {
         if (jsonNode == null)
             return null;
         else
-            return jsonNode.toString();
+            return jsonNode.asText().replaceAll("\"", "");
     }
 
     public static String get(String key, String json, String defaultValue) throws IOException {

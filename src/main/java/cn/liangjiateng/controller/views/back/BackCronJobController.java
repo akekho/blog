@@ -1,8 +1,10 @@
 package cn.liangjiateng.controller.views.back;
 
 import cn.liangjiateng.common.ServiceException;
+import cn.liangjiateng.pojo.DO.Article;
 import cn.liangjiateng.pojo.DO.Job;
 import cn.liangjiateng.pojo.VO.JobVO;
+import cn.liangjiateng.service.ArticleService;
 import cn.liangjiateng.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,14 +21,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BackCronJobController {
     @Autowired
     private JobService jobService;
+    @Autowired
+    private ArticleService articleService;
 
     @GetMapping
-    public String cronJobs() {
+    public String cronJobs(ModelMap modelMap) {
+        //草稿数量
+        long cnt = articleService.countArticleByStatus(Article.Status.OFFLINE);
+        modelMap.addAttribute("draft_cnt", cnt);
         return "back_cronjob";
     }
 
     @GetMapping("/new")
-    public String newJob() {
+    public String newJob(ModelMap modelMap) {
+        //草稿数量
+        long cnt = articleService.countArticleByStatus(Article.Status.OFFLINE);
+        modelMap.addAttribute("draft_cnt", cnt);
         return "back_new_cronjob";
     }
 
@@ -35,6 +45,9 @@ public class BackCronJobController {
         Job job = jobService.getJobByJobId(jobId);
         JobVO jobVO = new JobVO(job);
         modelMap.addAttribute("job", jobVO);
+        //草稿数量
+        long cnt = articleService.countArticleByStatus(Article.Status.OFFLINE);
+        modelMap.addAttribute("draft_cnt", cnt);
         return "back_edit_cronjob";
     }
 

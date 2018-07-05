@@ -168,8 +168,7 @@
             </table>
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
-                <li class="page-item">
-                    <a class="page-link">1</a>
+                <li class="page-item" id="page">
                 </li>
             </ul>
 
@@ -180,8 +179,8 @@
 
 </body>
 <script type="text/javascript">
-    page = 1
-    status = 3
+    globalPage = 1
+    globalStatus = 3
     $(function () {
         $('.navbar-toggle').click(function () {
             $('.navbar-nav').toggleClass('slide-in');
@@ -203,9 +202,13 @@
 
         });
         //加载列表数据
-        loadData(page, status)
+        loadData(globalPage, globalStatus)
         loadStatus()
     });
+
+    function changeStatus() {
+        loadData(1, $("#status").val())
+    }
 
     function loadStatus() {
         $.ajax({
@@ -220,13 +223,16 @@
 
                     if (status === 0) {
                         $("#scheduler-status").text("Stopped")
-                        $("#scheduler-status").toggleClass("label label-default");
+                        $("#scheduler-status").removeClass();
+                        $("#scheduler-status").addClass("label label-default");
                     } else if (status === 1) {
                         $("#scheduler-status").text("Running")
-                        $("#scheduler-status").toggleClass("label label-success");
+                        $("#scheduler-status").removeClass();
+                        $("#scheduler-status").addClass("label label-success");
                     } else if (status === 2) {
                         $("#scheduler-status").text("Paused")
-                        $("#scheduler-status").toggleClass("label label-warning");
+                        $("#scheduler-status").removeClass();
+                        $("#scheduler-status").addClass("label label-warning");
                     }
 
                 } else {
@@ -284,6 +290,8 @@
 
 
     function loadData(page, status) {
+        globalPage = page
+        globalStatus = status
         $.ajax({
             type: "GET",
             contentType: "application/json",
@@ -292,11 +300,18 @@
             success: function (result) {
                 let obj = eval(result);
                 if (obj.code === 200) {
-                    var div = document.getElementById("data-list")
-                    while (div.hasChildNodes()) //当div下还存在子节点时 循环继续
-                    {
-                        div.removeChild(div.firstChild);
+                    var dataList = document.getElementById("data-list")
+                    var pageList = document.getElementById("page")
+                    while (dataList.hasChildNodes()) {
+                        dataList.removeChild(dataList.firstChild);
                     }
+                    while (pageList.hasChildNodes()) {
+                        pageList.removeChild(pageList.firstChild)
+                    }
+                    for (var i = 1; i <= obj.data.maxPage; i++) {
+                        $("#page").append("<a style='cursor:pointer' class='page-link' onclick='loadData(" + i + "," + globalStatus + ")'>" + i + "</a>")
+                    }
+
 
                     for (let i = 0; i < obj.data.data.length; i++) {
                         let row = $("<tr></tr>");
@@ -314,11 +329,11 @@
                         row.append("<td>" + obj.data.data[i].instanceCount + "</td>");
                         row.append("<td>" + obj.data.data[i].createTime + "</td>");
                         if (status === 0) {
-                            row.append("<td><a class='btn-sm btn-success' style='margin-right: 10px' onclick='startJob(\"" + obj.data.data[i].jobId + "\")'>Run</a></td>")
+                            row.append("<td><a class='btn-sm btn-success' style='margin-right: 10px;cursor: pointer;' onclick='startJob(\"" + obj.data.data[i].jobId + "\")'>Run</a></td>")
                         } else if (status === 1) {
-                            row.append("<td><a class='btn-sm btn-warning' style='margin-right: 10px' onclick='pauseJob(\"" + obj.data.data[i].jobId + "\")'>Pause</a><a class='btn-sm btn-danger' style='margin-right: 10px' onclick='stopJob(\"" + obj.data.data[i].jobId + "\")'>Stop</a></td>")
+                            row.append("<td><a class='btn-sm btn-warning' style='margin-right: 10px;cursor: pointer;' onclick='pauseJob(\"" + obj.data.data[i].jobId + "\")'>Pause</a><a class='btn-sm btn-danger' style='margin-right: 10px;cursor: pointer;' onclick='stopJob(\"" + obj.data.data[i].jobId + "\")'>Stop</a></td>")
                         } else if (status === 2) {
-                            row.append("<td><a class='btn-sm btn-success' style='margin-right: 10px' onclick='startJob(\"" + obj.data.data[i].jobId + "\")'>Run</a><a class='btn-sm btn-danger' style='margin-right: 10px' onclick='stopJob(\"" + obj.data.data[i].jobId + "\")'>Stop</a></td>")
+                            row.append("<td><a class='btn-sm btn-success' style='margin-right: 10px;cursor: pointer;' onclick='startJob(\"" + obj.data.data[i].jobId + "\")'>Run</a><a class='btn-sm btn-danger' style='margin-right: 10px;cursor: pointer;' onclick='stopJob(\"" + obj.data.data[i].jobId + "\")'>Stop</a></td>")
                         }
                         $("#data-list").append(row)
                     }
