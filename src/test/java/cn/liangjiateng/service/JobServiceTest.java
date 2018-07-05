@@ -28,7 +28,7 @@ public class JobServiceTest {
 
     @After
     public void tearDown() throws Exception {
-        jobService.stop_scheduler();
+//        jobService.stop_scheduler();
     }
 
     @Test

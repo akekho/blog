@@ -49,7 +49,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void stop_job(String job_id) throws JobServiceException, TException {
-        jobClient.start_job(job_id);
+        jobClient.stop_job(job_id);
     }
 
     @Override
@@ -87,10 +87,9 @@ public class JobServiceImpl implements JobService {
         if (page <= 0 || pageSize <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         long count = countJobsByStatus(status);
-        Page<Job> pageHolder = new Page<>(pageSize);
+        Page<Job> pageHolder = new Page<>(page, pageSize,count,null);
         List<Job> list = jobMapper.listJobsByStatus(status.getVal(), pageHolder);
         pageHolder.setData(list);
-        pageHolder.setPage(page);
         pageHolder.setMaxCount(count);
         return pageHolder;
     }
@@ -100,17 +99,15 @@ public class JobServiceImpl implements JobService {
         if (page <= 0 || pageSize <= 0)
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), ErrorCode.PARAM_ERR.getMsg());
         long count = countJobs();
-        Page<Job> pageHolder = new Page<>(pageSize);
+        Page<Job> pageHolder = new Page<>(page, pageSize,count,null);
         List<Job> list = jobMapper.listJobs(pageHolder);
         pageHolder.setData(list);
-        pageHolder.setPage(page);
-        pageHolder.setMaxCount(count);
         return pageHolder;
     }
 
 
     @Override
-    public Job getJobByJobId(int jobId) throws ServiceException {
+    public Job getJobByJobId(String jobId) throws ServiceException {
         Job job = jobMapper.getJobByJobId(jobId);
         if (job == null)
             throw new ServiceException(ErrorCode.FAIL.getCode(), "定时任务" + jobId + "不存在");

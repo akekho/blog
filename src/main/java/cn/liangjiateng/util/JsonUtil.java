@@ -22,15 +22,13 @@ public final class JsonUtil {
     public static <T> List<T> string2List(String jsonStr, Class<?> cls) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JavaType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, cls);
-        List<T> list = objectMapper.readValue(jsonStr, javaType);
-        return list;
+        return objectMapper.readValue(jsonStr, javaType);
     }
 
-    public static <T> String list2Str(List<T> list, Class<?> cla) throws JsonProcessingException {
+    public static <T> String list2Str(List<T> list, Class<?> cls) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        JavaType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, cla);
-        String res = objectMapper.writeValueAsString(list);
-        return res;
+        JavaType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, cls);
+        return objectMapper.writeValueAsString(list);
     }
 
     /**
@@ -43,9 +41,31 @@ public final class JsonUtil {
      */
     public static String get(String key, String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(json);
-        return jsonNode.get(key).toString();
+        JsonNode jsonNode = objectMapper.readTree(json).get(key);
+        if (jsonNode == null)
+            return null;
+        else
+            return jsonNode.toString();
     }
+
+    public static String get(String key, String json, String defaultValue) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(json).get(key);
+        if (jsonNode == null)
+            return defaultValue;
+        else
+            return jsonNode.toString();
+    }
+
+    public static Integer getInteger(String key, String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(json).get(key);
+        if (jsonNode == null)
+            return null;
+        else
+            return Integer.parseInt(jsonNode.toString());
+    }
+
 
     /**
      * 获取json Data的简便方法，会检查结果，结果不正确抛出异常
@@ -60,7 +80,6 @@ public final class JsonUtil {
         JsonNode jsonNode = objectMapper.readTree(json);
         int code = Integer.parseInt(jsonNode.get("code").toString());
         String message = jsonNode.get("message").asText();
-        //Todo: 获取的message有乱码问题
         if (code == 200)
             return jsonNode.get("data").toString();
         else {

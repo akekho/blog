@@ -5,6 +5,7 @@ import cn.liangjiateng.common.JsonResponse;
 import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.config.Config;
 import cn.liangjiateng.pojo.DO.Job;
+import cn.liangjiateng.pojo.VO.JobVO;
 import cn.liangjiateng.service.JobService;
 import cn.liangjiateng.util.JsonUtil;
 import cn.liangjiateng.util.Page;
@@ -13,7 +14,9 @@ import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -81,16 +84,16 @@ public class JobController {
     }
 
     @PostMapping
-    public JsonResponse submitJob(@RequestBody Job job) throws JsonProcessingException, TException {
-        String jsonStr = JsonUtil.bean2String(job);
-        jobService.submit_job(job.getContent(), jsonStr);
+    public JsonResponse submitJob(@RequestBody JobVO job) throws JsonProcessingException, TException {
+        String config = packConfig(job);
+        jobService.submit_job(job.getContent(), config);
         return new JsonResponse(null);
     }
 
     @PutMapping("/{jobId}")
-    public JsonResponse modifyJob(@RequestBody Job job, @PathVariable String jobId) throws JsonProcessingException, TException {
-        String jsonStr = JsonUtil.bean2String(job);
-        jobService.modify_job(jobId, jsonStr);
+    public JsonResponse modifyJob(@RequestBody JobVO job, @PathVariable String jobId) throws JsonProcessingException, TException {
+        String config = packConfig(job);
+        jobService.modify_job(jobId, config);
         return new JsonResponse(null);
     }
 
@@ -101,7 +104,18 @@ public class JobController {
             pageHolder = jobService.listJobsByStatus(Job.getStatusType(status), page, config.getLargePage());
         else
             pageHolder = jobService.listJobs(page, config.getLargePage());
-        return new JsonResponse(pageHolder);
+        List<JobVO> jobVOS = batchTransfer2VO(pageHolder.getData());
+        Page<JobVO> res = new Page<>(page, pageHolder.getPageSize(), pageHolder.getMaxCount(), jobVOS);
+        return new JsonResponse(res);
+    }
+
+    private List<JobVO> batchTransfer2VO(List<Job> list) {
+        List<JobVO> res = new ArrayList<>();
+        for (Job job : list) {
+            JobVO jobVO = new JobVO(job);
+            res.add(jobVO);
+        }
+        return res;
     }
 
     /**
@@ -116,5 +130,48 @@ public class JobController {
         int status = jobService.status();
         map.put("status", status);
         return new JsonResponse(map);
+    }
+
+    private String packConfig(JobVO job) throws JsonProcessingException {
+        Map<String, Object> configMap = new HashMap<>();
+        Map<String, Object> cronMap = new HashMap<>();
+        configMap.put("name", job.getName());
+        configMap.put("job_id", job.getJobId());
+        configMap.put("type", job.getType());
+        configMap.put("instance_cnt", job.getInstanceCount());
+
+        if (job.getType() == Job.Type.INTERVAL.getVal()) {
+            if (job.getYear() != null)
+                cronMap.put("years", job.getYear());
+            if (job.getMonth() != null)
+                cronMap.put("months", job.getMonth());
+            if (job.getDay() != null)
+                cronMap.put("days", job.getDay());
+            if (job.getHour() != null)
+                cronMap.put("hours", job.getHour());
+            if (job.getMinute() != null)
+                cronMap.put("minutes", job.getMinute());
+            if (job.getSecond() != null)
+                cronMap.put("seconds", job.getSecond());
+        } else if (job.getType() == Job.Type.CRON.getVal()) {
+            if (job.getYear() != null)
+                cronMap.put("year", job.getYear());
+            if (job.getMonth() != null)
+                cronMap.put("month", job.getMonth());
+            if (job.getDay() != null)
+                cronMap.put("day", job.getDay());
+            if (job.getHour() != null)
+                cronMap.put("hour", job.getHour());
+            if (job.getMinute() != null)
+                cronMap.put("minute", job.getMinute());
+            if (job.getSecond() != null)
+                cronMap.put("second", job.getSecond());
+        }
+        if (job.getStartDate() != null)
+            cronMap.put("start_date", job.getStartDate());
+        if (job.getEndDate() != null)
+            cronMap.put("end_date", job.getEndDate());
+        configMap.put("cron", JsonUtil.bean2String(cronMap));
+        return JsonUtil.bean2String(configMap);
     }
 }

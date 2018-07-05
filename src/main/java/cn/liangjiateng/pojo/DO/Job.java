@@ -18,6 +18,7 @@ public class Job extends AbstractDO {
     private String cron;
     private Integer instanceCnt;
     private String content;
+    private Integer type;
 
     public Integer getId() {
         return id;
@@ -83,6 +84,14 @@ public class Job extends AbstractDO {
         this.content = content;
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public enum Status {
         STOPPED(0),
         RUNNING(1),
@@ -99,6 +108,35 @@ public class Job extends AbstractDO {
             return val;
         }
     }
+
+    public enum Type {
+        INTERVAL(1),
+        CRON(2);
+
+        private int val;
+
+        Type(int val) {
+            this.val = val;
+        }
+
+        public int getVal() {
+            return val;
+        }
+    }
+
+
+    public static Type getType(int type) throws ServiceException {
+        switch (type) {
+            case 1:
+                return Type.INTERVAL;
+            case 2:
+                return Type.CRON;
+            default:
+                throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "status参数错误");
+        }
+    }
+
+
 
     public static Status getStatusType(int status) throws ServiceException {
         switch (status) {

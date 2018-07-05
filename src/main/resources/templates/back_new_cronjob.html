@@ -136,44 +136,37 @@
             <form role="form">
                 <div class="form-group">
                     <label for="job-name">Name</label>
-                    <input type="text" class="form-control" id="job-name" placeholder="Job Name" th:value="${job.name}">
+                    <input type="text" class="form-control" id="job-name" placeholder="Job Name">
                 </div>
                 <div class="form-group">
                     <label for="job-id">Job Id</label>
                     <input type="text" class="form-control" id="job-id"
-                           placeholder='The unique id for the job, should not contain "."' th:value="${job.jobId}"
-                           readonly="readonly">
+                           placeholder='The unique id for the job, should not contain "."'>
                 </div>
                 <div class="form-group">
                     <label for="job-type">Type</label>
                     <select id="job-type">
-                        <option value="1" th:selected="${job.type == 1} ? selected : null">Interval</option>
-                        <option value="2" th:selected="${job.type == 2} ? selected : null">Cron Rule</option>
+                        <option value="1">Interval</option>
+                        <option value="2">Cron Rule</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="job-year">Year</label>
-                    <input type="number" class="form-control" id="job-year" style="display: inline-block;width: 80px"
-                           th:value="${job.year}">
+                    <input type="number" class="form-control" id="job-year" style="display: inline-block;width: 80px">
                     <label for="job-month">Month</label>
-                    <input type="number" class="form-control" id="job-month" style="display: inline-block;width: 80px"
-                           th:value="${job.month}">
+                    <input type="number" class="form-control" id="job-month" style="display: inline-block;width: 80px">
                     <label for="job-day">Day</label>
-                    <input type="number" class="form-control" id="job-day" style="display: inline-block;width: 80px"
-                           th:value="${job.day}">
+                    <input type="number" class="form-control" id="job-day" style="display: inline-block;width: 80px">
                     <label for="job-hour">Hour</label>
-                    <input type="number" class="form-control" id="job-hour" style="display: inline-block;width: 80px"
-                           th:value="${job.hour}">
+                    <input type="number" class="form-control" id="job-hour" style="display: inline-block;width: 80px">
                     <label for="job-minute">Minute</label>
-                    <input type="number" class="form-control" id="job-minute" style="display: inline-block;width: 80px"
-                           th:value="${job.minute}">
+                    <input type="number" class="form-control" id="job-minute" style="display: inline-block;width: 80px">
                     <label for="job-second">Second</label>
-                    <input type="number" class="form-control" id="job-second" style="display: inline-block;width: 80px"
-                           th:value="${job.second}">
+                    <input type="number" class="form-control" id="job-second" style="display: inline-block;width: 80px">
                 </div>
                 <div class="form-group">
                     <label for="job-instance-cnt">Instance Count</label>
-                    <input th:value="${job.instanceCount}" type="number" class="form-control" id="job-instance-cnt"
+                    <input value="1" type="number" class="form-control" id="job-instance-cnt"
                            placeholder='How many instance running concurrently'>
                 </div>
 
@@ -181,7 +174,7 @@
                     <label for="job-start-date" class="col-md-2 control-label">Start Date</label>
                     <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
                          data-link-field="job-start-date" data-link-format="yyyy-mm-dd">
-                        <input class="form-control" size="16" type="text" th:value="${job.startDate}" readonly>
+                        <input class="form-control" size="16" type="text" value="" readonly>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
@@ -192,7 +185,7 @@
                     <label for="job-end-date" class="col-md-2 control-label">End Date</label>
                     <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
                          data-link-field="job-end-date" data-link-format="yyyy-mm-dd">
-                        <input class="form-control" size="16" type="text" th:value="${job.endDate}" readonly>
+                        <input class="form-control" size="16" type="text" value="" readonly>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
@@ -200,11 +193,9 @@
                 </div>
                 <div class="form-group">
                     <textarea style="height: 400px" class="form-control" id="job-content"
-                              placeholder='Python script. It should contain run() method.'
-                              readonly="readonly"></textarea>
+                              placeholder='Python script. It should contain run() method.'></textarea>
                 </div>
             </form>
-
             <button type="submit" class="btn btn-primary" onclick="submitJob()">Submit</button>
             <button type="submit" class="btn btn-danger" onclick="window.history.back()">Back</button>
         </div>
@@ -291,15 +282,16 @@
         json.second = second;
         json.startDate = startDate;
         json.endDate = endDate;
+        json.content = content;
         json.type = type;
-        var msg = "Are you sure to modify the job？";
+        var msg = "Are you sure to submit the job？";
         if (confirm(msg)) {
             $.ajax({
-                type: "PUT",
+                type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(json),
                 dataType: "json",
-                url: "/api/jobs/" + jobId,
+                url: "/api/jobs",
                 success: function (result) {
                     var obj = eval(result);
                     if (obj.code === 200) {

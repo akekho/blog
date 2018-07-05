@@ -25,10 +25,10 @@ public interface JobMapper {
     List<Job> listJobsByStatus(@Param("status") int status, @Param("page") Page page);
 
     @Select("select * from job where status != -1 order by create_time desc limit #{page.limit}, #{page.pageSize}")
-    List<Job> listJobs(Page page);
+    List<Job> listJobs(@Param("page") Page page);
 
     @Select("select * from job where job_id = #{jobId}")
-    Job getJobByJobId(int jobId);
+    Job getJobByJobId(String jobId);
 
     @Select("select * from job where id = #{id}")
     Job getJobById(int id);
