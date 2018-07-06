@@ -1,7 +1,8 @@
 #!/bin/bash
 build_img(){
+   CURRENT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
    env=$1
-   cd .. && \
+   cd $CURRENT_DIR/.. && \
    mvn clean && \
    mvn compile && \
    mvn package -DskipTests && \
