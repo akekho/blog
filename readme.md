@@ -2,6 +2,8 @@
 
 www.liangjiateng.cn
 
+**This project is for study purpose, please don't operate it shrimp-jbly.**
+
 ## 日志
 
 ### v1.0.0
@@ -17,6 +19,9 @@ www.liangjiateng.cn
 加入定时任务系统，基本任务调度
 
 [定时任务系统](https://github.com/toxicaker/job_shceduler)
+
+
+
 
 
 
