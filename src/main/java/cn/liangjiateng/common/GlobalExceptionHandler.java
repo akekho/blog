@@ -1,6 +1,8 @@
 package cn.liangjiateng.common;
 
+import cn.liangjiateng.thrift_client.job.JobServiceException;
 import org.apache.log4j.Logger;
+import org.apache.thrift.transport.TTransportException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +12,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 
 /**
  * Created by Jiateng on 5/30/18.
@@ -32,6 +35,11 @@ public class GlobalExceptionHandler {
             resp = new JsonResponse(ErrorCode.PARAM_ERR.getCode(), e.getMessage());
         } else if (e instanceof HttpRequestMethodNotSupportedException) {
             resp = new JsonResponse(ErrorCode.PARAM_ERR.getCode(), e.getMessage());
+        } else if (e instanceof JobServiceException) {
+            JobServiceException je = (JobServiceException) e;
+            resp = new JsonResponse(ErrorCode.FAIL.getCode(), je.msg);
+        } else if (e instanceof TTransportException) {
+            resp = new JsonResponse(ErrorCode.INTERNAL_ERR.getCode(), "RPC连接错误");
         } else {
             resp = new JsonResponse(ErrorCode.INTERNAL_ERR.getCode(), ErrorCode.INTERNAL_ERR.getMsg());
         }
@@ -47,7 +55,7 @@ public class GlobalExceptionHandler {
     private void doLog(Throwable ex) {
         if (ex instanceof ServiceException) {
             ServiceException e = (ServiceException) ex;
-            if (e.getErrCode() >= 400 && e.getErrCode() < 500)
+            if (e.getErrCode() >= 400 && e.getErrCode() < 500 || e.getErrCode() == -1)
                 logger.warn(e.getLogMessage());
             else if (e.getErrCode() >= 500) {
                 logger.error(e.getLogMessage());
@@ -55,6 +63,9 @@ public class GlobalExceptionHandler {
             } else {
                 logger.info(e.getLogMessage());
             }
+        } else if (ex instanceof JobServiceException) {
+            JobServiceException jse = (JobServiceException) ex;
+            logger.warn(jse.getMsg());
         } else if (ex instanceof MissingServletRequestParameterException ||
                 ex instanceof MethodArgumentTypeMismatchException ||
                 ex instanceof HttpRequestMethodNotSupportedException) {

@@ -8,16 +8,19 @@
     <meta name="author" content="梁嘉腾">
 
     <title>我的机器能学习</title>
-    <base th:href="@{${host}}" />
+    <base th:href="@{${host}}"/>
     <!-- Bootstrap core CSS -->
     <link rel="shortcut icon " type="images/x-icon" href="/img/avatar.jpg">
     <link href="/vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
+    <link href="/vendor/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link href="/css/simple-sidebar.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
           integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript" src="/vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/vendor/bootstrap/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <style>
         i {
             margin-right: 5px;
@@ -127,70 +130,81 @@
 
     <!-- Main Content -->
     <div class="container-fluid">
-        <div class="side-body">
-            <h1>Article Management</h1>
+        <div class="side-body" style="margin-bottom: 70px">
+            <h1>New Cron Job</h1>
 
-            <div class="col-lg-6" style="padding: 0;margin-bottom: 20px">
-                <div class="input-group">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" onclick="search()">Go!</button>
-                  </span>
-                    <input id="input-title" type="text" class="form-control" placeholder="Search for title..." th:value="${title} == null? null:${title}">
+            <form role="form">
+                <div class="form-group">
+                    <label for="job-name">Name</label>
+                    <input type="text" class="form-control" id="job-name" placeholder="Job Name">
                 </div>
-            </div>
-            <script>
-                
-            </script>
-            <span style="float: right"><code>Category: </code>
-               <select class="combobox" id="categories" onchange="changeCategory()">
-                    <option value="0">All</option>
-                    <option th:each="category: ${categories}" th:text="${category.name}"
-                            th:value="${category.id}" th:selected="${category_id} == ${category.id} ? selected : null"></option>
-                </select></span>
+                <div class="form-group">
+                    <label for="job-id">Job Id</label>
+                    <input type="text" class="form-control" id="job-id"
+                           placeholder='The unique id for the job, should not contain "."'>
+                </div>
+                <div class="form-group">
+                    <label for="job-type">Type</label>
+                    <select id="job-type">
+                        <option value="1">Interval</option>
+                        <option value="2">Cron Rule</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="job-year">Year</label>
+                    <input type="number" class="form-control" id="job-year" style="display: inline-block;width: 80px">
+                    <label for="job-month">Month</label>
+                    <input type="number" class="form-control" id="job-month" style="display: inline-block;width: 80px">
+                    <label for="job-day">Day</label>
+                    <input type="number" class="form-control" id="job-day" style="display: inline-block;width: 80px">
+                    <label for="job-hour">Hour</label>
+                    <input type="number" class="form-control" id="job-hour" style="display: inline-block;width: 80px">
+                    <label for="job-minute">Minute</label>
+                    <input type="number" class="form-control" id="job-minute" style="display: inline-block;width: 80px">
+                    <label for="job-second">Second</label>
+                    <input type="number" class="form-control" id="job-second" style="display: inline-block;width: 80px">
+                </div>
+                <div class="form-group">
+                    <label for="job-instance-cnt">Instance Count</label>
+                    <input value="1" type="number" class="form-control" id="job-instance-cnt"
+                           placeholder='How many instance running concurrently'>
+                </div>
 
-            <table class="table table-bordered" style="margin-top: 20px">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Preface</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Create Time</th>
-                    <th>Update Time</th>
-                    <th>Operation</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="article :${articles}">
-                    <td th:text=" ${article.id}">2131</td>
-                    <td><img th:remove="${article.preface == null}? tag : none"
-                             th:src="${article.preface}" style="width: 100px;height: auto;"></td>
-                    <td><a th:href="@{'/blog/posts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
-                    <td th:text="${article.categoryName}">HTML</td>
-                    <td th:text="${article.createTime}">2017-01-23 21:22:11</td>
-                    <td th:text="${article.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a class="btn-sm btn-primary" style="margin-right: 10px" th:href="@{'/back/articles/drafts/' + ${article.id}}">Edit</a>
-                        <a class="btn-sm btn-danger" style="margin-right: 10px"
-                           th:onclick="${'deleteArticle('+article.id+')'}">Delete</a>
-                        <a class="btn-sm btn-warning" th:onclick="${'offline('+article.id+')'}">Offline</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- Pagination -->
-            <ul class="pagination justify-content-center mb-4">
-                <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
-                    <a class="page-link" th:href="${title == null} ? @{'/back/articles?page=' + ${page} + '&categoryId='+${category_id}} : @{'/back/articles/'+ ${title} +'?page=' + ${page}}" th:text="${pageNo}"></a>
-                </li>
-            </ul>
+                <div class="form-group">
+                    <label for="job-start-date" class="col-md-2 control-label">Start Date</label>
+                    <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                         data-link-field="job-start-date" data-link-format="yyyy-mm-dd">
+                        <input class="form-control" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                    <input type="hidden" id="job-start-date" value=""/><br/>
+                </div>
 
+                <div class="form-group">
+                    <label for="job-end-date" class="col-md-2 control-label">End Date</label>
+                    <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                         data-link-field="job-end-date" data-link-format="yyyy-mm-dd">
+                        <input class="form-control" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                    <input type="hidden" id="job-end-date" value=""/><br/>
+                </div>
+                <div class="form-group">
+                    <textarea style="height: 400px" class="form-control" id="job-content"
+                              placeholder='Python script. It should contain run() method.'></textarea>
+                </div>
+            </form>
+            <button type="submit" class="btn btn-primary" onclick="submitJob()">Submit</button>
+            <button type="submit" class="btn btn-danger" onclick="window.history.back()">Back</button>
         </div>
     </div>
 </div>
 
 
 </body>
-<script>
+<script type="text/javascript">
     $(function () {
         $('.navbar-toggle').click(function () {
             $('.navbar-nav').toggleClass('slide-in');
@@ -211,19 +225,78 @@
             //$('.absolute-wrapper').removeClass('slide-in');
 
         });
+
     });
-    function deleteArticle(id) {
-        var msg = "Are you sure to delete？";
+    $('.form_date').datetimepicker({
+        weekStart: 1,
+        setDate: new Date(),
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+    function submitJob() {
+        let name = $("#job-name").val();
+        let jobId = $("#job-id").val();
+        let type = $("#job-type option:selected").val();
+        let year = $("#job-year").val();
+        let month = $("#job-month").val();
+        let day = $("#job-day").val();
+        let hour = $("#job-hour").val();
+        let minute = $("#job-minute").val();
+        let second = $("#job-second").val();
+        let instanceCount = $("#job-instance-cnt").val();
+        let startDate = $("#job-start-date").val();
+        let endDate = $("#job-end-date").val();
+        let content = $("#job-content").val();
+
+        if (name === '' || name == null) {
+            alert('Job Name should not be null');
+            return;
+        }
+        if (jobId === '' || jobId == null) {
+            alert('Job Id should not be null');
+            return;
+        }
+        if (instanceCount === '' || instanceCount == null || instanceCount <= 0 || instanceCount > 5) {
+            alert('Invalid instance count');
+            return;
+        }
+        if (content === '' || content == null) {
+            alert('Script should not be null');
+            return;
+        }
+
+        let json = {};
+        json.name = name;
+        json.jobId = jobId;
+        json.instanceCount = instanceCount;
+        json.year = year;
+        json.month = month;
+        json.day = day;
+        json.hour = hour;
+        json.minute = minute;
+        json.second = second;
+        json.startDate = startDate;
+        json.endDate = endDate;
+        json.content = content;
+        json.type = type;
+        var msg = "Are you sure to submit the job？";
         if (confirm(msg)) {
             $.ajax({
-                type: "DELETE",
+                type: "POST",
                 contentType: "application/json",
+                data: JSON.stringify(json),
                 dataType: "json",
-                url: "/api/articles/" + id,
+                url: "/api/jobs",
                 success: function (result) {
                     var obj = eval(result);
-                    if (obj.code == 200) {
-                        location.reload()
+                    if (obj.code === 200) {
+                        alert("success！");
+                        window.location.href = '/back/cronjobs'
                     } else {
                         alert("Failure：" + obj.message)
                     }
@@ -233,31 +306,6 @@
         } else {
             return false;
         }
-    }
-
-    function offline(id) {
-        $.ajax({
-            type: "PUT",
-            contentType: "application/json",
-            dataType: "json",
-            url: "/api/articles/offline/" + id,
-            success: function (result) {
-                var obj = eval(result);
-                if (obj.code == 200) {
-                    location.reload()
-                } else {
-                    alert("Failure：" + obj.message)
-                }
-            }
-        });
-    }
-    function search() {
-        var title = $("#input-title").val();
-        window.location.href="/back/articles/" + title;
-    }
-    function changeCategory(){
-        var id = $("#categories").val();
-        window.location.href="/back/articles?categoryId=" + id;
     }
 
 </script>

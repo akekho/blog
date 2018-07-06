@@ -8,14 +8,14 @@
     <meta name="author" content="梁嘉腾">
 
     <title>我的机器能学习</title>
-    <base th:href="@{${host}}" />
+    <base th:href="@{${host}}"/>
     <!-- Bootstrap core CSS -->
     <link rel="shortcut icon " type="images/x-icon" href="/img/avatar.jpg">
     <link href="/vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/css/simple-sidebar.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <style>
@@ -23,7 +23,6 @@
             margin-right: 5px;
         }
     </style>
-
 </head>
 
 <body>
@@ -129,41 +128,46 @@
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body">
-            <h1>Drafts</h1>
+            <h1>Cron Job</h1>
+
+            <div>
+                <h5 style="display: inline;margin-right: 20px">Scheduler Status:</h5><span class="label label-default"
+                                                                                           id="scheduler-status">Stopped</span>
+                <div class="btn-group" role="group" aria-label="..." style="margin-left: 100px">
+                    <button type="button" class="btn btn-success" onclick="operate('start')">Start</button>
+                    <button type="button" class="btn btn-warning" onclick="operate('pause')">Pause</button>
+                    <button type="button" class="btn btn-primary" onclick="operate('resume')">Resume</button>
+                </div>
+            </div>
+
+            <span style="float: right"><code>Status: </code>
+               <select class="combobox" id="status" onchange="changeStatus()">
+                    <option value="3">All</option>
+                    <option value="1">Running</option>
+                    <option value="0">Stopped</option>
+                    <option value="2">Paused</option>
+                </select>
+            </span>
 
             <table class="table table-bordered" style="margin-top: 20px">
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Preface</th>
+                    <th>Job Id</th>
                     <th>Name</th>
-                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Executed Times</th>
+                    <th>Instance Count</th>
                     <th>Create Time</th>
-                    <th>Update Time</th>
                     <th>Operation</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr th:each="article :${articles}">
-                    <td th:text=" ${article.id}">2131</td>
-                    <td><img th:remove="${article.preface == null}? tag : none"
-                             th:src="${article.preface}" style="width: 100px;height: auto;"></td>
-                    <td><a th:href="@{'/back/articles/drafts/' + ${article.id}}" th:text="${article.title}">Synchronizer</a></td>
-                    <td th:text="${article.categoryName}">HTML</td>
-                    <td th:text="${article.createTime}">2017-01-23 21:22:11</td>
-                    <td th:text="${article.updateTime}">2017-01-23 21:22:11</td>
-                    <td><a th:href="@{'/back/articles/drafts/' + ${article.id}}" class="btn-sm btn-primary" style="margin-right: 10px">Edit</a>
-                        <a class="btn-sm btn-danger" style="margin-right: 10px"
-                           th:onclick="${'deleteArticle('+article.id+')'}">Delete</a>
-                        <a class="btn-sm btn-success" th:onclick="${'post('+article.id+')'}">Post</a>
-                    </td>
-                </tr>
+                <tbody id="data-list">
+
                 </tbody>
             </table>
             <!-- Pagination -->
             <ul class="pagination justify-content-center mb-4">
-                <li class="page-item" th:each="pageNo : ${#numbers.sequence(1, maxPage)}">
-                    <a class="page-link" th:href="@{'/back/articles/drafts?page=' + ${page}}" th:text="${pageNo}"></a>
+                <li class="page-item" id="page">
                 </li>
             </ul>
 
@@ -173,7 +177,9 @@
 
 
 </body>
-<script>
+<script type="text/javascript">
+    globalPage = 1
+    globalStatus = 3
     $(function () {
         $('.navbar-toggle').click(function () {
             $('.navbar-nav').toggleClass('slide-in');
@@ -194,46 +200,151 @@
             //$('.absolute-wrapper').removeClass('slide-in');
 
         });
+        //加载列表数据
+        loadData(globalPage, globalStatus)
+        loadStatus()
     });
-    function deleteArticle(id) {
-        var msg = "Are you sure to delete？";
-        if (confirm(msg)) {
-            $.ajax({
-                type: "DELETE",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/api/articles/" + id,
-                success: function (result) {
-                    var obj = eval(result);
-                    if (obj.code == 200) {
-                        location.reload()
-                    } else {
-                        alert("Failure：" + obj.message)
-                    }
-                }
-            });
-            return true;
-        } else {
-            return false;
-        }
+
+    function changeStatus() {
+        loadData(1, $("#status").val())
     }
 
-    function post(id) {
+    function loadStatus() {
         $.ajax({
-            type: "PUT",
+            type: "GET",
             contentType: "application/json",
             dataType: "json",
-            url: "/api/articles/post/" + id,
+            url: "/api/jobs/scheduler/status",
             success: function (result) {
-                var obj = eval(result);
-                if (obj.code == 200) {
-                    location.reload()
+                let obj = eval(result);
+                if (obj.code === 200) {
+                    let status = eval(obj.data).status
+
+                    if (status === 0) {
+                        $("#scheduler-status").text("Stopped")
+                        $("#scheduler-status").removeClass();
+                        $("#scheduler-status").addClass("label label-default");
+                    } else if (status === 1) {
+                        $("#scheduler-status").text("Running")
+                        $("#scheduler-status").removeClass();
+                        $("#scheduler-status").addClass("label label-success");
+                    } else if (status === 2) {
+                        $("#scheduler-status").text("Paused")
+                        $("#scheduler-status").removeClass();
+                        $("#scheduler-status").addClass("label label-warning");
+                    }
+
                 } else {
                     alert("Failure：" + obj.message)
                 }
             }
         });
     }
+
+    function operate(op) {
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json",
+            dataType: "json",
+            url: "/api/jobs/scheduler/" + op,
+            success: function (result) {
+                let obj = eval(result);
+                if (obj.code === 200) {
+                    loadStatus()
+                    loadData(globalPage, globalStatus)
+                } else {
+                    alert("Failure：" + obj.message)
+                }
+            }
+        });
+    }
+
+    function operateJob(jobId, op) {
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json",
+            dataType: "json",
+            url: "/api/jobs/" + jobId + "/" + op,
+            success: function (result) {
+                let obj = eval(result);
+                if (obj.code === 200) {
+                    loadData(globalPage, globalStatus)
+                } else {
+                    alert("Failure：" + obj.message)
+                }
+            }
+        });
+    }
+
+    function startJob(jobId) {
+        operateJob(jobId, 'start')
+    }
+
+    function stopJob(jobId) {
+        operateJob(jobId, 'stop')
+    }
+
+    function pauseJob(jobId) {
+        operateJob(jobId, 'pause')
+    }
+
+
+    function loadData(page, status) {
+        globalPage = page
+        globalStatus = status
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            url: "/api/jobs?page=" + page + "&status=" + status,
+            success: function (result) {
+                let obj = eval(result);
+                if (obj.code === 200) {
+                    var dataList = document.getElementById("data-list")
+                    var pageList = document.getElementById("page")
+                    while (dataList.hasChildNodes()) {
+                        dataList.removeChild(dataList.firstChild);
+                    }
+                    while (pageList.hasChildNodes()) {
+                        pageList.removeChild(pageList.firstChild)
+                    }
+                    for (var i = 1; i <= obj.data.maxPage; i++) {
+                        $("#page").append("<a style='cursor:pointer' class='page-link' onclick='loadData(" + i + "," + globalStatus + ")'>" + i + "</a>")
+                    }
+
+
+                    for (let i = 0; i < obj.data.data.length; i++) {
+                        let row = $("<tr></tr>");
+                        row.append("<td>" + obj.data.data[i].jobId + "</td>");
+                        row.append("<td><a href='/back/cronjobs/config/" + obj.data.data[i].jobId + "'>" + obj.data.data[i].name + "</a></td>");
+                        let status = obj.data.data[i].status;
+                        if (status === 0)
+                            row.append("<td><span class='label label-danger'>Stopped</span></td>");
+                        else if (status === 1)
+                            row.append("<td><span class='label label-success'>Running</span></td>");
+                        else if (status === 2)
+                            row.append("<td><span class='label label-warning'>Paused</span></td>");
+
+                        row.append("<td>" + obj.data.data[i].executedTimes + "</td>");
+                        row.append("<td>" + obj.data.data[i].instanceCount + "</td>");
+                        row.append("<td>" + obj.data.data[i].createTime + "</td>");
+                        if (status === 0) {
+                            row.append("<td><a class='btn-sm btn-success' style='margin-right: 10px;cursor: pointer;' onclick='startJob(\"" + obj.data.data[i].jobId + "\")'>Run</a></td>")
+                        } else if (status === 1) {
+                            row.append("<td><a class='btn-sm btn-warning' style='margin-right: 10px;cursor: pointer;' onclick='pauseJob(\"" + obj.data.data[i].jobId + "\")'>Pause</a><a class='btn-sm btn-danger' style='margin-right: 10px;cursor: pointer;' onclick='stopJob(\"" + obj.data.data[i].jobId + "\")'>Stop</a></td>")
+                        } else if (status === 2) {
+                            row.append("<td><a class='btn-sm btn-success' style='margin-right: 10px;cursor: pointer;' onclick='startJob(\"" + obj.data.data[i].jobId + "\")'>Run</a><a class='btn-sm btn-danger' style='margin-right: 10px;cursor: pointer;' onclick='stopJob(\"" + obj.data.data[i].jobId + "\")'>Stop</a></td>")
+                        }
+                        $("#data-list").append(row)
+                    }
+                } else {
+                    alert("Failure：" + obj.message)
+                }
+            }
+        });
+    }
+
+
 </script>
 
 </html>

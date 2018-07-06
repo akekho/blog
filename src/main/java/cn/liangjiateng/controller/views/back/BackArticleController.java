@@ -1,4 +1,4 @@
-package cn.liangjiateng.controller.views;
+package cn.liangjiateng.controller.views.back;
 
 import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.config.Config;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/back/articles")
-public class BlogBackController {
+public class BackArticleController {
 
     @Autowired
     private Config config;
@@ -192,5 +192,6 @@ public class BlogBackController {
         modelMap.addAttribute("draft_cnt", json);
         return "back_categories";
     }
+
 
 }

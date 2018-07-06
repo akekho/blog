@@ -1,4 +1,4 @@
-package cn.liangjiateng.controller.views;
+package cn.liangjiateng.controller.views.front;
 
 import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.config.Config;
@@ -21,11 +21,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/blog")
-public class BlogFrontController {
+public class FrontArticleController {
 
     @Autowired
     private Config config;
 
+
+    //Todo: 重构一下
     @GetMapping("/home")
     public String main(ModelMap modelMap, @RequestParam(defaultValue = "1") int page,
                        @RequestParam(defaultValue = "0") int sortType,
@@ -76,4 +78,6 @@ public class BlogFrontController {
         modelMap.addAttribute("category_data", categoryVOS);
         return "post";
     }
+
+
 }

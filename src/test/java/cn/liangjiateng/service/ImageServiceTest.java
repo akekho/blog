@@ -65,6 +65,17 @@ public class ImageServiceTest {
     }
 
     @Test
+    public void insertImage(){
+        Image image = new Image();
+        image.setName("ssss");
+        image.setSlimUrl("/dasda/dasd");
+        image.setThumbUrl("/dasda/dasd");
+        image.setUrl("/dasda/dasd");
+        imageMapper.insertImage(image);
+        System.out.println(image.getId());
+    }
+
+    @Test
     public void getImageById() throws ServiceException {
         Image image = imageMapper.getImageByName("sanch");
         Assert.assertEquals(image.getName(), imageService.getImageById(image.getId()).getName());
