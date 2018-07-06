@@ -137,7 +137,6 @@
                     <button type="button" class="btn btn-success" onclick="operate('start')">Start</button>
                     <button type="button" class="btn btn-warning" onclick="operate('pause')">Pause</button>
                     <button type="button" class="btn btn-primary" onclick="operate('resume')">Resume</button>
-                    <button type="button" class="btn btn-danger" onclick="operate('stop')">Stop</button>
                 </div>
             </div>
 
@@ -252,6 +251,7 @@
                 let obj = eval(result);
                 if (obj.code === 200) {
                     loadStatus()
+                    loadData(globalPage, globalStatus)
                 } else {
                     alert("Failure：" + obj.message)
                 }
@@ -268,7 +268,7 @@
             success: function (result) {
                 let obj = eval(result);
                 if (obj.code === 200) {
-                    loadData(page, status)
+                    loadData(globalPage, globalStatus)
                 } else {
                     alert("Failure：" + obj.message)
                 }

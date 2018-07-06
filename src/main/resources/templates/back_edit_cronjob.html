@@ -131,7 +131,7 @@
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="side-body" style="margin-bottom: 70px">
-            <h1>New Cron Job</h1>
+            <h1 th:text="${jobName}">New Cron Job</h1>
 
             <form role="form">
                 <div class="form-group">
@@ -260,7 +260,6 @@
         let instanceCount = $("#job-instance-cnt").val();
         let startDate = $("#job-start-date").val();
         let endDate = $("#job-end-date").val();
-        let content = $("#job-content").val();
 
         if (name === '' || name == null) {
             alert('Job Name should not be null');
@@ -272,10 +271,6 @@
         }
         if (instanceCount === '' || instanceCount == null || instanceCount <= 0 || instanceCount > 5) {
             alert('Invalid instance count');
-            return;
-        }
-        if (content === '' || content == null) {
-            alert('Script should not be null');
             return;
         }
 

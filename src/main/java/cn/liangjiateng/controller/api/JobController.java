@@ -167,9 +167,9 @@ public class JobController {
             if (job.getSecond() != null)
                 cronMap.put("second", job.getSecond());
         }
-        if (job.getStartDate() != null)
+        if (job.getStartDate() != null && !"".equals(job.getStartDate()))
             cronMap.put("start_date", job.getStartDate());
-        if (job.getEndDate() != null)
+        if (job.getEndDate() != null && !"".equals(job.getEndDate()))
             cronMap.put("end_date", job.getEndDate());
         configMap.put("cron", JsonUtil.bean2String(cronMap));
         return JsonUtil.bean2String(configMap);

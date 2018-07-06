@@ -48,6 +48,7 @@ public class BackCronJobController {
         //草稿数量
         long cnt = articleService.countArticleByStatus(Article.Status.OFFLINE);
         modelMap.addAttribute("draft_cnt", cnt);
+        modelMap.addAttribute("jobName", job.getName());
         return "back_edit_cronjob";
     }
 
