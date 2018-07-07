@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="我的机器能学习">
+    <meta name="author" content="梁嘉腾">
+    <meta name="google-site-verification" content="rog5IqIR7qCIVRb6Toa7rjqac7R2R3aVb_un04RLG4M"/>
+    <title>我的机器能学习</title>
+    <base th:href="@{${host}}"/>
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/sweetalert.css" rel="stylesheet">
+    <link rel="shortcut icon " type="images/x-icon" href="/img/avatar.jpg">
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/js/sweetalert.js"></script>
+</head>
+<style>
+    header {
+        padding: 154px 0 100px;
+    }
+
+    @media (min-width: 992px) {
+        header {
+            padding: 156px 0 100px;
+        }
+    }
+
+    section {
+        padding: 150px 0;
+    }
+
+</style>
+<body id="page-top">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <img class="d-flex mr-3 rounded-circle" src="/img/avatar.jpg" alt="" style="width: 40px; height:40px;">
+        <a class="navbar-brand" href="/blog/home">我的机器能学习</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <!--<li class="nav-item" style="margin-right: 20px">-->
+                <!--<div class="input-group">-->
+                <!--<input type="text" class="form-control" placeholder="Search for...">-->
+                <!--<span class="input-group-btn">-->
+                <!--<button class="btn btn-secondary" type="button">Go!</button>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</li>-->
+                <li class="nav-item">
+                    <a class="nav-link" href="/blog/home">Home
+                    </a>
+                </li>
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">Gallery</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">Video</a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">Projects</a>-->
+                <!--</li>-->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/blog/services/leetcode">Services</a>
+                </li>
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">About</a>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="bg-primary text-white" style="height: 400px">
+    <div class="container text-center">
+        <h1>Leetcode Auto Sign in Service</h1>
+        <p class="lead">Get bonus every day!</p>
+        <p>Current user count: <span class="label label-warning" th:text="${count}">0</span></p>
+    </div>
+</header>
+
+<section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Attention</h2>
+                <p class="lead">This service can help you sign in to Leetcode automatically.</p>
+                <ul>
+                    <li>The execution time is 10:00 AM UTC.</li>
+                    <li>Because SSO limitation of Leetcode, you will input username and password when sign in to
+                        Leetcode manually(cookie expired).
+                    </li>
+                    <li>You can cancel or resume your account at any time.</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="username" class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="username" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="password" id="password" placeholder="Password">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success" style="width: 100%;margin-top: 40px" onclick="submit()">
+                    Start!
+                </button>
+            </div>
+
+            <div class="col-md-4">
+                <h2>Search</h2>
+                <div class="input-group" style="margin-bottom: 30px">
+                    <input type="text" class="form-control" placeholder="Leetcode Username..." id="search-username">
+                    <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" onclick="search()">Search!</button>
+                  </span>
+                </div>
+                <div style="display: none" id="info">
+                    <p>Username: <span class="label label-info" id="usename-info">702132131@qq.com</span></p>
+                    <p>Status: <span class="label label-info" id="status-info">Stopped</span></p>
+                    <p>This service have helped you sign in <span class="label label-success" id="times-info">20</span>
+                        times.</p>
+                    <p>Current points: <span class="label label-success" id="points-info">20</span></p>
+
+                    <button class="btn btn-success" type="button" style="display: none" id="btn-resume"
+                            onclick="operate('resume')">Resume Service
+                    </button>
+                    <button class="btn btn-danger" type="button" style="display: none" id="btn-stop"
+                            onclick="operate('stop')">Stop Service
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Jiateng Liang's Blog 2018</p>
+    </div>
+</footer>
+
+<script type="text/javascript">
+    function search() {
+        let username = $("#search-username").val();
+        load(username)
+    }
+
+    function load(username) {
+        $("#info").hide()
+        $("#btn-resume").hide()
+        $("#btn-stop").hide()
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            url: "/api/services/leetcode/" + username,
+            success: function (result) {
+                var obj = eval(result);
+                if (obj.code === 200) {
+                    if (obj.data != null) {
+                        $("#info").show()
+                        $("#usename-info").text(obj.data.username)
+
+                        $("#times-info").text(obj.data.executedTimes)
+                        $("#points-info").text(obj.data.points)
+                        if (obj.data.status === 1) {
+                            $("#btn-stop").show()
+                            $("#status-info").text("Running")
+                        } else {
+                            $("#btn-resume").show()
+                            $("#status-info").text("Stopped")
+                        }
+
+                    } else {
+                        alert("Username=" + username + "not found")
+                    }
+
+                } else {
+                    alert("Failure：" + obj.message)
+                }
+            }
+        });
+    }
+
+    function submit() {
+        swal({
+                title: "Are you sure to submit your account?",
+                text: "It takes a moment to check your account",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            },
+            function () {
+                let username = $("#username").val();
+                let password = $("#password").val();
+                let json = {}
+                json.username = username
+                json.password = password
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(json),
+                    url: "/api/services/leetcode/",
+                    success: function (result) {
+                        var obj = eval(result);
+                        if (obj.code === 200) {
+                            load(username);
+                            swal("Success!", "", "success")
+                        } else {
+                            swal("Failure!", obj.message, "error")
+                        }
+                    }
+                });
+            });
+    }
+
+    function operate(op) {
+        let username = $("#usename-info").text();
+        swal({
+                title: "Input your Leetcode password:",
+                type: "input",
+                inputType: "password",
+                showCancelButton: true,
+                closeOnConfirm: true,
+                animation: "slide-from-top"
+            },
+            function (password) {
+                if (password === false) return false;
+                $.ajax({
+                    type: "PUT",
+                    contentType: "application/json",
+                    dataType: "json",
+                    url: "/api/services/leetcode/" + username + "/" + password + "/" + op,
+                    success: function (result) {
+                        var obj = eval(result);
+                        if (obj.code === 200) {
+                            load(username)
+                        } else {
+                            alert("Failure：" + obj.message)
+                        }
+                    }
+                });
+            });
+    }
+</script>
+
+</body>
+
+</html>

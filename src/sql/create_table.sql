@@ -73,3 +73,43 @@ CREATE TABLE job
   comment '定时任务'
   engine = InnoDB default charset=utf8;
 CREATE UNIQUE INDEX job_job_id_uindex ON job (job_id);
+
+CREATE TABLE leetcode_info
+(
+  id                  BIGINT AUTO_INCREMENT
+    PRIMARY KEY,
+  username            VARCHAR(255)                           NOT NULL
+  COMMENT '用户名',
+  user_slag           VARCHAR(255)                           NULL
+  COMMENT '用户别名(用于url)',
+  password            VARCHAR(255)                           NOT NULL
+  COMMENT '密码',
+  real_name           VARCHAR(50)                            NULL
+  COMMENT '姓名',
+  avatar              VARCHAR(255)                           NULL
+  COMMENT '头像url',
+  location            VARCHAR(255)                           NULL
+  COMMENT '地址',
+  school              VARCHAR(50)                            NULL
+  COMMENT '学校',
+  finished_contests   INT                                    NULL
+  COMMENT '完场比赛数',
+  rating              INT                                    NULL
+  COMMENT '排名',
+  global_rank         VARCHAR(50)                            NULL
+  COMMENT '总排名',
+  solved_question     VARCHAR(50)                            NULL
+  COMMENT '解决问题数',
+  accepted_submission VARCHAR(50)                            NULL
+  COMMENT '解决问题数',
+  points              INT                                    NULL
+  COMMENT '金币数',
+  status              INT DEFAULT 1                          NOT NULL
+  COMMENT '0不运行，1运行，-1删除',
+  executed_times      INT DEFAULT 0                          NOT NULL
+  COMMENT '签到次数',
+  create_time         TIMESTAMP DEFAULT CURRENT_TIMESTAMP    NOT NULL,
+  update_time         TIMESTAMP DEFAULT CURRENT_TIMESTAMP    NOT NULL,
+  CONSTRAINT username
+  UNIQUE (username)
+) engine = InnoDB default charset=utf8;
