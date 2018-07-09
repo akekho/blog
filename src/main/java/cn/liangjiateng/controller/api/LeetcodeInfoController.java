@@ -47,7 +47,7 @@ public class LeetcodeInfoController {
         }
         LeetcodeInfo leetcodeInfo = new LeetcodeInfo();
         leetcodeInfo.setUsername(username);
-//        leetcodeInfo.setPassword(EncryUtil.encryptBASE64(password));
+        leetcodeInfo.setPassword(EncryUtil.encryptBASE64(password));
         long id = leetcodeInfoService.insertLeetcodeInfo(leetcodeInfo);
         return new JsonResponse(id);
     }
@@ -67,8 +67,8 @@ public class LeetcodeInfoController {
     public JsonResponse operateStatus(@PathVariable String username, @PathVariable String password, @PathVariable String operation) throws ServiceException {
         long id;
         LeetcodeInfo check = leetcodeInfoService.getLeetcodeInfoByUsername(username);
-//        if (!check.getPassword().equals(EncryUtil.encryptBASE64(password)))
-//            throw new ServiceException(ErrorCode.FAIL.getCode(), "Invalid Leetcode password");
+        if (!check.getPassword().equals(EncryUtil.encryptBASE64(password)))
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "Invalid Leetcode password");
         switch (operation) {
             case "resume":
                 id = leetcodeInfoService.updateStatusByUsername(username, LeetcodeInfo.Status.RUNNING);

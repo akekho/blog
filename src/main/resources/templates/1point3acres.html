@@ -80,9 +80,9 @@
 
 <header class="bg-primary text-white" style="height: 400px">
     <div class="container text-center">
-        <h1>Leetcode Auto Sign in Service</h1>
-        <p class="lead">Get bonus every day!</p>
-        <p>Current user count: <span class="label label-warning" th:text="${count}">0</span></p>
+        <h1>一亩三分地自动登录脚本</h1>
+        <p class="lead">帮您每天获取2积分!</p>
+        <p>当前用户数量: <span class="label label-warning" th:text="${count}">0</span></p>
     </div>
 </header>
 
@@ -90,41 +90,40 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <h2>Attention</h2>
-                <p class="lead">This service can help you sign in to Leetcode automatically.</p>
+                <h2>说明</h2>
+                <p class="lead">因为一亩三分地每天签到可以获取大米，这个脚本可以帮您每天登录一次。</p>
                 <ul>
-                    <li>The execution time is 10:00 AM UTC.</li>
-                    <li>Because SSO limitation of Leetcode, you will input username and password when sign in to
-                        Leetcode manually(cookie expired).
-                    </li>
-                    <li>You can cancel or resume your account at any time.</li>
-                    <li>Contact jiateng.liang@nyu.edu if you have any problem.</li>
+                    <li>脚本执行时间为 05:00 AM UTC。</li>
+                    <li>密码是单向加密存入数据库中。</li>
+                    <li>您的一亩三分地密码最好不要跟您的其他密码相同。</li>
+                    <li>您可以随时取消或者重启该服务。</li>
+                    <li>有任何问题请联系：jiateng.liang@nyu.edu。</li>
                 </ul>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="username" class="col-sm-2 control-label">Username</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="username" placeholder="Username">
+                        <input type="text" class="form-control" id="username" placeholder="一亩三分地用户名">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="col-sm-2 control-label">Password</label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="password" id="password" placeholder="Password">
+                        <input class="form-control" type="password" id="password" placeholder="一亩三分地密码">
                     </div>
                 </div>
                 <button type="button" class="btn btn-success" style="width: 100%;margin-top: 40px" onclick="submit()">
-                    Start!
+                    托管账号!
                 </button>
             </div>
 
             <div class="col-md-4">
                 <h2>Search</h2>
                 <div class="input-group" style="margin-bottom: 30px">
-                    <input type="text" class="form-control" placeholder="Leetcode Username..." id="search-username">
+                    <input type="text" class="form-control" placeholder="一亩三分地用户名..." id="search-username">
                     <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button" onclick="search()">Search!</button>
+                    <button class="btn btn-primary" type="button" onclick="search()">搜索</button>
                   </span>
                 </div>
                 <div style="display: none" id="info">
@@ -135,10 +134,10 @@
                     <p>Current points: <span class="label label-success" id="points-info"></span></p>
 
                     <button class="btn btn-success" type="button" style="display: none" id="btn-resume"
-                            onclick="operate('resume')">Resume Service
+                            onclick="operate('resume')">重启托管
                     </button>
                     <button class="btn btn-danger" type="button" style="display: none" id="btn-stop"
-                            onclick="operate('stop')">Stop Service
+                            onclick="operate('stop')">停止托管
                     </button>
                 </div>
             </div>
@@ -168,7 +167,7 @@
             type: "GET",
             contentType: "application/json",
             dataType: "json",
-            url: "/api/services/leetcode/" + username,
+            url: "/api/services/1point3acres/" + username,
             success: function (result) {
                 var obj = eval(result);
                 if (obj.code === 200) {
@@ -177,7 +176,7 @@
                         $("#usename-info").text(obj.data.username)
 
                         $("#times-info").text(obj.data.executedTimes)
-                        $("#points-info").text(obj.data.points)
+                        $("#points-info").text(obj.data.point)
                         if (obj.data.status === 1) {
                             $("#btn-stop").show()
                             $("#status-info").text("Running")
@@ -199,8 +198,8 @@
 
     function submit() {
         swal({
-                title: "Are you sure to submit your account?",
-                text: "It takes a moment to check your account",
+                title: "确定提交该账号吗?",
+                text: "需要一定时间核查该一亩三分地账号",
                 type: "info",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -217,7 +216,7 @@
                     contentType: "application/json",
                     dataType: "json",
                     data: JSON.stringify(json),
-                    url: "/api/services/leetcode/",
+                    url: "/api/services/1point3acres/",
                     success: function (result) {
                         var obj = eval(result);
                         if (obj.code === 200) {
@@ -234,7 +233,7 @@
     function operate(op) {
         let username = $("#usename-info").text();
         swal({
-                title: "Input your Leetcode password:",
+                title: "输入您的一亩三分地账号的密码:",
                 type: "input",
                 inputType: "password",
                 showCancelButton: true,
@@ -247,7 +246,7 @@
                     type: "PUT",
                     contentType: "application/json",
                     dataType: "json",
-                    url: "/api/services/leetcode/" + username + "/" + password + "/" + op,
+                    url: "/api/services/1point3acres/" + username + "/" + password + "/" + op,
                     success: function (result) {
                         var obj = eval(result);
                         if (obj.code === 200) {

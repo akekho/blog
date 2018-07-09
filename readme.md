@@ -22,7 +22,12 @@ www.liangjiateng.cn
 
 #### v2.1.0
 
-加入Leetcode自动登录服务
+加入Leetcode自动签到服务
+
+#### v2.2.0
+
+- 加入一亩三分地自动签到服务
+- 修复Java Base64 版本问题
 
 
 
