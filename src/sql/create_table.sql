@@ -113,3 +113,25 @@ CREATE TABLE leetcode_info
   CONSTRAINT username
   UNIQUE (username)
 ) engine = InnoDB default charset=utf8;
+
+create table `1point3acres_info`
+(
+  id             bigint auto_increment
+    primary key,
+  username       varchar(255) not null
+  comment '用户名',
+  password       varchar(255) not null
+  comment '密码',
+  real_name      varchar(50)  null
+  comment '真实用户名',
+  point          int          null
+  comment '积分',
+  status         int   default 1       not null
+  comment '0不运行，1运行，-1删除',
+  executed_times int   default 1      not null
+  comment '签到次数',
+  create_time    TIMESTAMP DEFAULT CURRENT_TIMESTAMP      not null,
+  update_time    TIMESTAMP DEFAULT CURRENT_TIMESTAMP      not null,
+  constraint username
+  unique (username)
+) engine = InnoDB default charset=utf8;
