@@ -31,8 +31,7 @@ public class EncryUtilTest {
     }
 
     @Test
-    public void encryptBASE64() {
-
+    public void encryptBASE64() throws IOException {
 
     }
 }

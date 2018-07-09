@@ -1,7 +1,7 @@
 package cn.liangjiateng.util;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+
+import java.util.Base64;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -41,8 +41,8 @@ public final class EncryUtil {
      */
     public static String decryptBASE64(String key) throws IOException {
         byte[] bt;
-        bt = (new BASE64Decoder()).decodeBuffer(key);
-        return new String(bt, "utf-8");//如果出现乱码可以改成： String(bt, "utf-8")或 gbk
+        bt = Base64.getDecoder().decode(key);
+        return new String(bt, "utf-8");
     }
 
     /**
@@ -54,6 +54,6 @@ public final class EncryUtil {
      */
     public static String encryptBASE64(String key) {
         byte[] bt = key.getBytes();
-        return (new BASE64Encoder()).encodeBuffer(bt).replaceAll("\n", "");
+        return Base64.getEncoder().encodeToString(bt).replaceAll("\n", "");
     }
 }
