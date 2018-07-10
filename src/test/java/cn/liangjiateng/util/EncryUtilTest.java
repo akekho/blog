@@ -1,5 +1,6 @@
 package cn.liangjiateng.util;
 
+import cn.liangjiateng.common.ServiceException;
 import cn.liangjiateng.service.Point3AcreService;
 import cn.liangjiateng.service.impl.Point3AcreServiceImpl;
 import org.junit.After;
@@ -35,8 +36,8 @@ public class EncryUtilTest {
     }
 
     @Test
-    public void encryptBASE64() throws IOException, NoSuchAlgorithmException {
+    public void encryptBASE64() throws IOException, NoSuchAlgorithmException, ServiceException {
         Point3AcreService point3AcreService = new Point3AcreServiceImpl();
-        point3AcreService.login("toxicaker", "!LJT5902879zz");
+        point3AcreService.login("toxicaker", "!LJT59879zz");
     }
 }

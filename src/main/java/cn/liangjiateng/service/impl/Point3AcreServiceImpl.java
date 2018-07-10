@@ -65,7 +65,7 @@ public class Point3AcreServiceImpl implements Point3AcreService {
     }
 
     @Override
-    public boolean login(String username, String password) throws IOException {
+    public boolean login(String username, String password) throws IOException, ServiceException {
         HttpClient client = HttpClientBuilder.create().build();
         Map<String, String> data = new HashMap<>();
         data.put("username", username);
@@ -92,7 +92,8 @@ public class Point3AcreServiceImpl implements Point3AcreService {
         post.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
         HttpResponse loginResp = client.execute(post);
         String resStr = EntityUtils.toString(loginResp.getEntity());
-        System.out.println(resStr);
+        if (resStr.contains("密码错误次数过多"))
+            throw new ServiceException(ErrorCode.FAIL.getCode(), "密码错误次数过多，请15分钟后重新登录");
         return !resStr.contains("登录失败");
     }
 }

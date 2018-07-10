@@ -22,10 +22,6 @@ public class ServiceException extends Exception {
         this.message = message;
     }
 
-    public ServiceException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public int getErrCode() {
         return code;
     }

@@ -28,5 +28,5 @@ public interface Point3AcreService {
      * @param password
      * @return
      */
-    boolean login(String username, String password) throws IOException;
+    boolean login(String username, String password) throws IOException, ServiceException;
 }
