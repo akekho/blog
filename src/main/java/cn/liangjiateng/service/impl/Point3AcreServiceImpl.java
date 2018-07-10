@@ -92,6 +92,7 @@ public class Point3AcreServiceImpl implements Point3AcreService {
         post.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
         HttpResponse loginResp = client.execute(post);
         String resStr = EntityUtils.toString(loginResp.getEntity());
-        return resStr.contains("欢迎您回来");
+        System.out.println(resStr);
+        return !resStr.contains("登录失败");
     }
 }
