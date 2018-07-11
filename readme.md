@@ -16,7 +16,7 @@ www.liangjiateng.cn
 
 ### v2.0.0
 
-- 加入[定时任务系统]((https://github.com/toxicaker/job_shceduler))，基本任务调度
+- 加入[定时任务系统](https://github.com/toxicaker/job_shceduler)，基本任务调度
 
 
 #### v2.1.0
