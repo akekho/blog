@@ -38,7 +38,9 @@ www.liangjiateng.cn
 - 加入Gallery
 - 修复一亩三分地登录限制问题
 
+#### v2.2.2
 
+- 修改一亩三分地说明文案
 
 
 
