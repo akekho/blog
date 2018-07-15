@@ -3,12 +3,15 @@ package cn.liangjiateng.controller.api;
 import cn.liangjiateng.common.ErrorCode;
 import cn.liangjiateng.common.JsonResponse;
 import cn.liangjiateng.common.ServiceException;
+import cn.liangjiateng.config.Config;
 import cn.liangjiateng.pojo.DO.Account;
 import cn.liangjiateng.service.AccountService;
 import cn.liangjiateng.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -20,9 +23,11 @@ public class AuthController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private Config config;
 
     @PostMapping("/login")
-    public JsonResponse login(@RequestBody String form) throws ServiceException, NoSuchAlgorithmException {
+    public JsonResponse login(@RequestBody String form, HttpServletResponse response) throws ServiceException, NoSuchAlgorithmException {
         String username;
         String password;
         try {
@@ -32,11 +37,16 @@ public class AuthController {
             throw new ServiceException(ErrorCode.PARAM_ERR.getCode(), "参数错误，详情：" + e.getMessage());
         }
         Account account = accountService.login(username, password);
+        Cookie cookie = new Cookie("token", account.getToken());
+        cookie.setPath("/");
+        cookie.setDomain(config.getDomain());
+        cookie.setMaxAge(-1);
+        response.addCookie(cookie);
         return new JsonResponse(account.getToken());
     }
 
     @PostMapping("/signup")
-    public JsonResponse signUp(@RequestBody String form) throws ServiceException, NoSuchAlgorithmException {
+    public JsonResponse signUp(@RequestBody String form, HttpServletResponse response) throws ServiceException, NoSuchAlgorithmException {
         String username;
         String password1;
         String password2;
@@ -55,6 +65,11 @@ public class AuthController {
         account.setUsername(username);
         account.setPassword(password1);
         account = accountService.signUp(account);
+        Cookie cookie = new Cookie("token", account.getToken());
+        cookie.setPath("/");
+        cookie.setDomain(config.getDomain());
+        cookie.setMaxAge(-1);
+        response.addCookie(cookie);
         return new JsonResponse(account.getToken());
     }
 }

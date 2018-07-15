@@ -1,6 +1,8 @@
 package cn.liangjiateng.common;
 
 import cn.liangjiateng.config.Config;
+import cn.liangjiateng.service.AccountService;
+
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -10,8 +12,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -26,6 +31,9 @@ public class AspectHandler {
 
     @Autowired
     private Config config;
+
+    @Autowired
+    private AccountService accountService;
 
     /**
      * http接口切面
@@ -48,6 +56,30 @@ public class AspectHandler {
     @Pointcut("execution(public * cn.liangjiateng.controller.views..*.*(..))")
     public void viewOutput() {
 
+    }
+
+    /**
+     * 后台权限控制
+     */
+    @Pointcut("execution(public * cn.liangjiateng.controller.views.back..*.*(..))")
+    public void auth() {
+
+    }
+
+    @Before("auth()")
+    public void authCheck(JoinPoint joinPoint) throws IOException {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        String token = null;
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("token")) {
+                token = cookie.getValue();
+            }
+        }
+        if (token == null || !accountService.verifyToken(token)){
+            HttpServletResponse response = attributes.getResponse();
+            response.sendRedirect("/auth/login");
+        }
     }
 
 

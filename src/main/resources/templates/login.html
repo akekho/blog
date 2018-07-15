@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="我的机器能学习">
+    <meta name="author" content="梁嘉腾">
+
+    <title>我的机器能学习</title>
+    <base th:href="@{${host}}"/>
+    <!-- Bootstrap core CSS -->
+    <link rel="shortcut icon " type="images/x-icon" href="/img/avatar.jpg">
+    <link href="/vendor/bootstrap/css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/login.css" rel="stylesheet">
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/ajaxfileupload.js"></script>
+    <style>
+        i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <h1 class="text-center login-title">Sign in</h1>
+            <div class="account-wall">
+                <img class="profile-img" src="/img/avatar.jpg"
+                     alt="">
+                <form class="form-signin">
+                    <input id="username" type="text" class="form-control" placeholder="Username" required autofocus>
+                    <input id="password" type="password" class="form-control" placeholder="Password" required>
+
+                </form>
+                <button class="btn btn-lg btn-primary btn-block" style="width: 60%;margin:0 auto;"
+                        onclick="login()">
+                    Sign in
+                </button>
+                <script>
+                    function login() {
+                        let json = {};
+                        json.username = $("#username").val();
+                        json.password = $("#password").val();
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(json),
+                            dataType: "json",
+                            url: "/api/auth/login",
+                            success: function (result) {
+                                var obj = eval(result);
+                                if (obj.code === 200) {
+                                    window.location.href = '/back/articles'
+                                } else {
+                                    alert("Failure：" + obj.message)
+                                }
+                            }
+                        });
+                    }
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

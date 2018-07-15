@@ -135,3 +135,20 @@ create table `1point3acres_info`
   constraint username
   unique (username)
 ) engine = InnoDB default charset=utf8;
+
+create table `account`
+(
+  id             bigint auto_increment
+    primary key,
+  username       varchar(255) not null
+  comment '用户名',
+  password       varchar(255) not null
+  comment '密码',
+  real_name      varchar(50)  not null
+  comment '真实用户名',
+  token         varchar(255)       null,
+  create_time    TIMESTAMP DEFAULT CURRENT_TIMESTAMP      not null,
+  update_time    TIMESTAMP DEFAULT CURRENT_TIMESTAMP      not null,
+  constraint username
+  unique (username)
+) engine = InnoDB default charset=utf8;

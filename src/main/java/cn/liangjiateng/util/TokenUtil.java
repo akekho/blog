@@ -52,7 +52,7 @@ public final class TokenUtil {
     public static boolean isExpire(String token) {
         Map<String, Object> map = decodeToken(token);
         long time = (long) map.get("date");
-        return System.currentTimeMillis() <= time;
+        return System.currentTimeMillis() > time;
     }
 
     /**

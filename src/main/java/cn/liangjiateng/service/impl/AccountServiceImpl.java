@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 /**
  * Created by Jiateng on 7/15/18.
@@ -49,5 +50,17 @@ public class AccountServiceImpl implements AccountService {
         account.setToken(token);
         account.setId(accountMapper.insertAccount(account));
         return account;
+    }
+
+    @Override
+    public boolean verifyToken(String token) {
+        if (token == null || TokenUtil.isExpire(token))
+            return false;
+        Map<String, Object> map = TokenUtil.decodeToken(token);
+        String username = (String) map.get("username");
+        String password = (String) map.get("password");
+        if (accountMapper.getAccountByUsernameAndPassword(username, password) == null)
+            return false;
+        return true;
     }
 }

@@ -29,4 +29,11 @@ public interface AccountService {
     Account signUp(Account account) throws ServiceException, NoSuchAlgorithmException;
 
 
+    /**
+     * 检查token
+     *
+     * @param token
+     * @return
+     */
+    boolean verifyToken(String token);
 }
