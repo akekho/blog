@@ -5,7 +5,7 @@
 
     <insert id="insertAccount" parameterType="cn.liangjiateng.pojo.DO.Account" keyProperty="id"
             useGeneratedKeys="true">
-      insert into account set username = #{username}, password = #{password}, real_name = #{realName}, create_time = now(), update_time = now()
+      insert into account set username = #{username}, password = #{password}, real_name = #{realName}, token = #{token}, create_time = now(), update_time = now()
     </insert>
 
 
