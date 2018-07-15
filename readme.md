@@ -41,6 +41,7 @@ www.liangjiateng.cn
 #### v2.2.2
 
 - 修改一亩三分地说明文案
+- 加入contact
 
 
 
