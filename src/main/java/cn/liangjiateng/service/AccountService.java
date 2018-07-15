@@ -33,7 +33,7 @@ public interface AccountService {
      * 检查token
      *
      * @param token
-     * @return
+     * @return 成功返回用户名，失败返回Null
      */
-    boolean verifyToken(String token);
+    String verifyToken(String token);
 }

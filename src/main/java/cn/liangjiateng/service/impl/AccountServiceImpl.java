@@ -53,14 +53,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean verifyToken(String token) {
+    public String verifyToken(String token) {
         if (token == null || TokenUtil.isExpire(token))
-            return false;
+            return null;
         Map<String, Object> map = TokenUtil.decodeToken(token);
         String username = (String) map.get("username");
         String password = (String) map.get("password");
         if (accountMapper.getAccountByUsernameAndPassword(username, password) == null)
-            return false;
-        return true;
+            return null;
+        return username;
     }
 }

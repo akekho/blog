@@ -76,9 +76,12 @@ public class AspectHandler {
                 token = cookie.getValue();
             }
         }
-        if (token == null || !accountService.verifyToken(token)){
+        String username;
+        if (token == null || (username = accountService.verifyToken(token)) == null) {
             HttpServletResponse response = attributes.getResponse();
             response.sendRedirect("/auth/login");
+        } else {
+            request.setAttribute("username", username);
         }
     }
 
