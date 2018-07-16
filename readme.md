@@ -43,6 +43,10 @@ www.liangjiateng.cn
 - 修改一亩三分地说明文案
 - 加入contact
 
+#### v2.3.0
+
+- 新增admin
+- 权限系统
 
 
 

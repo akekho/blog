@@ -71,18 +71,23 @@ public class AspectHandler {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         String token = null;
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("token")) {
-                token = cookie.getValue();
-            }
-        }
-        String username;
-        if (token == null || (username = accountService.verifyToken(token)) == null) {
-            HttpServletResponse response = attributes.getResponse();
+        HttpServletResponse response = attributes.getResponse();
+        if (request.getCookies() == null) {
             response.sendRedirect("/auth/login");
         } else {
-            request.setAttribute("username", username);
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("token")) {
+                    token = cookie.getValue();
+                }
+            }
+            String username;
+            if (token == null || (username = accountService.verifyToken(token)) == null) {
+                response.sendRedirect("/auth/login");
+            } else {
+                request.setAttribute("username", username);
+            }
         }
+
     }
 
 
