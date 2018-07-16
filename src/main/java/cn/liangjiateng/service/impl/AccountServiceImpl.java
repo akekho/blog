@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountMapper.getAccountByUsernameAndPassword(username, EncryUtil.getMd5(password));
         if (account == null)
             throw new ServiceException(ErrorCode.FAIL.getCode(), "用户名或者密码不正确");
-        String token = TokenUtil.createToken(account.getUsername(), account.getPassword(), TokenUtil.THREE_DAY);
+        String token = TokenUtil.createToken(account.getUsername(), account.getPassword(), TokenUtil.ONE_DAY);
         account.setToken(token);
         accountMapper.updateAccountTokenById(account.getId(), token);
         return account;
@@ -46,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
         if (account.getRealName() == null)
             account.setRealName(account.getUsername());
         account.setPassword(EncryUtil.getMd5(account.getPassword()));
-        String token = TokenUtil.createToken(account.getUsername(), account.getPassword(), TokenUtil.THREE_DAY);
+        String token = TokenUtil.createToken(account.getUsername(), account.getPassword(), TokenUtil.ONE_DAY);
         account.setToken(token);
         account.setId(accountMapper.insertAccount(account));
         return account;

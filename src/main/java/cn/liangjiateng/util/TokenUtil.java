@@ -17,15 +17,15 @@ public final class TokenUtil {
 
     private static final String SECURITY_KEY = "ef04dab823ae246f35535e5276ced886";
 
-    public static final long ONE_HOUR = 60;
+    public static final long ONE_HOUR = 60 * 60;
 
-    public static final long YWO_HOUR = 120;
+    public static final long YWO_HOUR = 2 * 60 * 60;
 
-    public static final long ONE_DAY = 1440;
+    public static final long ONE_DAY = 24 * 60 * 60;
 
-    public static final long THREE_DAY = 4320;
+    public static final long THREE_DAY = 3 * 24 * 60 * 60;
 
-    public static final long ONE_WEEK = 10080;
+    public static final long ONE_WEEK = 7 * 24 * 60 * 60;
 
     /**
      * 生成token
