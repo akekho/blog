@@ -1,8 +1,9 @@
 package cn.liangjiateng.common;
 
 import cn.liangjiateng.thrift_client.job.JobServiceException;
-import org.apache.log4j.Logger;
+import cn.liangjiateng.util.LogUtil;
 import org.apache.thrift.transport.TTransportException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +21,8 @@ import java.io.StringWriter;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private Logger logger = Logger.getLogger(getClass());
+    @Autowired
+    private LogUtil logUtil;
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
@@ -56,25 +58,25 @@ public class GlobalExceptionHandler {
         if (ex instanceof ServiceException) {
             ServiceException e = (ServiceException) ex;
             if (e.getErrCode() >= 400 && e.getErrCode() < 500 || e.getErrCode() == -1)
-                logger.warn(e.getLogMessage());
+                logUtil.warn(e.getErrCode(), e.getLogMessage());
             else if (e.getErrCode() >= 500) {
-                logger.error(e.getLogMessage());
-                logger.error(e.getCallStack());
+                logUtil.fatal(e.getErrCode(), e.getLogMessage());
             } else {
-                logger.info(e.getLogMessage());
+                logUtil.info(e.getErrCode(), e.getMsg());
             }
         } else if (ex instanceof JobServiceException) {
             JobServiceException jse = (JobServiceException) ex;
-            logger.warn(jse.getMsg());
+            logUtil.warn(jse.code, jse.getMsg());
         } else if (ex instanceof MissingServletRequestParameterException ||
                 ex instanceof MethodArgumentTypeMismatchException ||
                 ex instanceof HttpRequestMethodNotSupportedException) {
-            logger.warn(ex.getMessage());
+            logUtil.warn(ErrorCode.FAIL.getCode(), ex.getMessage());
         } else if (ex instanceof Exception) {
             StringWriter sw = new StringWriter();
             ex.printStackTrace(new PrintWriter(sw));
-            logger.error("未知错误：" + sw.toString());
+            logUtil.fatal(ErrorCode.INTERNAL_ERR.getCode(), "Unknown error：" + sw.toString());
         }
+        logUtil.flush();
     }
 
 }

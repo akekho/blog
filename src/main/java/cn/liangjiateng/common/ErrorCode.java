@@ -11,7 +11,9 @@ public enum ErrorCode {
 
     PARAM_ERR(400, "parameter error"),
 
-    INTERNAL_ERR(500, "internal error");
+    INTERNAL_ERR(500, "internal error"),
+
+    TIME_OUT(408, "time out");
 
     private int code;
     private String msg;

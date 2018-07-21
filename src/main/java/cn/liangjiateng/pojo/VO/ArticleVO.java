@@ -182,10 +182,10 @@ public class ArticleVO {
         return "ArticleVO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", desc='" + desc + '\'' +
-                ", shortDesc='" + shortDesc + '\'' +
-                ", contentMd='" + contentMd + '\'' +
+                ", content='" + "..." + '\'' +
+                ", desc='" + "..." + '\'' +
+                ", shortDesc='" + "..." + '\'' +
+                ", contentMd='" + "..." + '\'' +
                 ", preface='" + preface + '\'' +
                 ", status=" + status +
                 ", pv=" + pv +

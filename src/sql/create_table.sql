@@ -152,3 +152,19 @@ create table `account`
   constraint username
   unique (username)
 ) engine = InnoDB default charset=utf8;
+
+
+create table log
+(
+  id          bigint auto_increment
+    primary key,
+  pid         varchar(50)                         not null
+  comment '项目id',
+  content     text                                null,
+  level       int default '0'                     not null
+  comment '日志级别，0info 1warning 2error 3fatal',
+  err_code    int                                 not null,
+  datetime    date                    not null,
+  create_time timestamp default CURRENT_TIMESTAMP not null,
+  update_time timestamp default CURRENT_TIMESTAMP not null
+) engine = InnoDB default charset=utf8;

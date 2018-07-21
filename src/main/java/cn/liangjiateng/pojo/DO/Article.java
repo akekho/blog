@@ -146,8 +146,8 @@ public class Article extends AbstractDO{
         return "Article{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", contentMd='" + contentMd + '\'' +
+                ", content='" + "..." + '\'' +
+                ", contentMd='" + "..." + '\'' +
                 ", preface='" + preface + '\'' +
                 ", status=" + status +
                 ", pv=" + pv +

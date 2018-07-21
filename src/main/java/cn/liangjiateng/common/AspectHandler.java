@@ -3,7 +3,7 @@ package cn.liangjiateng.common;
 import cn.liangjiateng.config.Config;
 import cn.liangjiateng.service.AccountService;
 
-import org.apache.log4j.Logger;
+import cn.liangjiateng.util.LogUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +27,17 @@ import java.util.Arrays;
 @Component
 public class AspectHandler {
 
-    private Logger logger = Logger.getLogger(getClass());
+    @Autowired
+    private LogUtil logUtil;
 
     @Autowired
     private Config config;
 
     @Autowired
     private AccountService accountService;
+
+    private long APIstartTime;
+
 
     /**
      * http接口切面
@@ -42,13 +46,6 @@ public class AspectHandler {
     public void webLog() {
     }
 
-    /**
-     * 数据库接口log
-     */
-    @Pointcut("execution(public * cn.liangjiateng.mapper..*.*(..))")
-    public void sqlLog() {
-
-    }
 
     /**
      * 视图层
@@ -90,25 +87,38 @@ public class AspectHandler {
 
     }
 
-
     @Before("webLog()")
     public void webBefore(JoinPoint joinPoint) throws Throwable {
-        // 接收到请求，记录请求内容
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        // 记录下请求内容
-        logger.info("URL : " + request.getRequestURL().toString() +
-                " HTTP_METHOD : " + request.getMethod() +
-                " IP : " + request.getRemoteAddr() +
-                " CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() +
-                " ARGS : " + Arrays.toString(joinPoint.getArgs()));
+        this.APIstartTime = System.currentTimeMillis();
     }
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")
-    public void webAfterReturning(Object ret) throws Throwable {
+    public void webAfterReturning(JoinPoint joinPoint, Object ret) throws Throwable {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        long endTime = System.currentTimeMillis();
+        long interval = endTime - APIstartTime;
         // 处理完请求，返回内容
         if (ret != null)
-            logger.info("RESPONSE : " + ret.toString());
+            if (interval < 500)
+                logUtil.info(ErrorCode.SUCCESS.getCode(), "URL : " + request.getRequestURL().toString() +
+                        "\nHTTP_METHOD : " + request.getMethod() +
+                        "\nIP : " + request.getRemoteAddr() +
+                        "\nCLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() +
+                        "\nARGS : " + Arrays.toString(joinPoint.getArgs()) + "\nTime: " + interval + "ms");
+            else if (interval < 1000)
+                logUtil.warn(ErrorCode.TIME_OUT.getCode(), "URL : " + request.getRequestURL().toString() +
+                        "\nHTTP_METHOD : " + request.getMethod() +
+                        "\nIP : " + request.getRemoteAddr() +
+                        "\nCLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() +
+                        "\nARGS : " + Arrays.toString(joinPoint.getArgs()) + "\nTime: " + interval + "ms");
+            else
+                logUtil.error(ErrorCode.TIME_OUT.getCode(), "URL : " + request.getRequestURL().toString() +
+                        "\nHTTP_METHOD : " + request.getMethod() +
+                        "\nIP : " + request.getRemoteAddr() +
+                        "\nCLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() +
+                        "\nARGS : " + Arrays.toString(joinPoint.getArgs()) + "\nTime: " + interval + "ms");
+        logUtil.flush();
     }
 
     @Before("viewOutput()")
