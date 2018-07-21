@@ -26,16 +26,16 @@ public class ServiceException extends Exception {
         return code;
     }
 
-    public String getMsg(){
+    public String getMsg() {
         return this.message;
     }
 
     public String getLogMessage() {
-        return "[Error code]: " + code + "[Message]: " + super.getMessage() +
-                "[Time]: " + date;
+        return "[Error code]: " + code + "\n[Message]: " + super.getMessage() +
+                "\n[Time]: " + date + "\n[Detail]: " + getCallStack();
     }
 
-    public String getCallStack(){
+    private String getCallStack() {
         StringWriter sw = new StringWriter();
         this.printStackTrace(new PrintWriter(sw));
         return sw.toString();

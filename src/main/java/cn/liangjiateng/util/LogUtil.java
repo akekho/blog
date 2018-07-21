@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,7 +23,7 @@ public final class LogUtil {
 
     private Logger logger;
 
-    private Set<Log> cache;
+    private List<Log> cache;
 
     private ExecutorService executorService;
 
@@ -32,7 +32,7 @@ public final class LogUtil {
 
     public LogUtil() {
         logger = Logger.getLogger("Blog");
-        cache = new HashSet<>();
+        cache = new LinkedList<>();
         executorService = Executors.newCachedThreadPool();
     }
 
@@ -79,9 +79,9 @@ public final class LogUtil {
                         break;
                 }
             }
+            cache.clear();
         };
-        executorService.submit(task);
-        cache.clear();
+        executorService.execute(task);
     }
 
     private Log createLog(int errCode, String msg, int level) {
