@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.liangjiateng.mapper.LogMapper">
+
+
+    <insert id="insertLog" parameterType="cn.liangjiateng.pojo.DO.Log" keyProperty="id"
+            useGeneratedKeys="true">
+      insert into log (pid, content, level, err_code, datetime, create_time, update_time)
+      values (#{pid}, #{content}, #{level}, #{errCode}, #{datetime}, now(), now())
+    </insert>
+
+
+
+</mapper>
