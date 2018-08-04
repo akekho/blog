@@ -48,6 +48,12 @@ www.liangjiateng.cn
 - 新增admin
 - 权限系统
 
+#### v2.4.0
+
+- 加入LeetCode全部题目服务
+
+
+
 
 
  
